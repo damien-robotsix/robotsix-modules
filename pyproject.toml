@@ -12,7 +12,7 @@ authors = [{ name = "Damien Robotsix" }]
 dependencies = ["pyyaml>=6", "jsonschema>=4"]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.11", "mypy>=1.15", "deptry>=0.20"]
+dev = ["pytest>=8", "pytest-cov>=5", "ruff>=0.11", "mypy>=1.15", "deptry>=0.20"]
 
 [project.scripts]
 robotsix-modules = "robotsix_modules.cli:main"
@@ -39,4 +39,9 @@ module = ["yaml", "jsonschema", "jsonschema.*"]
 ignore_missing_imports = true
 
 [tool.deptry.per_rule_ignores]
-DEP002 = ["pytest", "ruff", "mypy", "deptry"]
+DEP002 = ["pytest", "pytest-cov", "ruff", "mypy", "deptry"]
+
+[tool.coverage.run]
+branch = true
+relative_files = true
+source = ["robotsix_modules"]
