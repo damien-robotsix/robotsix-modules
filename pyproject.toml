@@ -12,7 +12,7 @@ authors = [{ name = "Damien Robotsix" }]
 dependencies = ["pyyaml>=6", "jsonschema>=4"]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.11", "mypy>=1.15"]
+dev = ["pytest>=8", "ruff>=0.11", "mypy>=1.15", "deptry>=0.20"]
 
 [project.scripts]
 robotsix-modules = "robotsix_modules.cli:main"
@@ -23,3 +23,20 @@ packages = ["src/robotsix_modules"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py314"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.14"
+
+[[tool.mypy.overrides]]
+module = ["yaml", "jsonschema", "jsonschema.*"]
+ignore_missing_imports = true
+
+[tool.deptry.per_rule_ignores]
+DEP002 = ["pytest", "ruff", "mypy", "deptry"]
