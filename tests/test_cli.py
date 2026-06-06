@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from robotsix_modules import SCHEMA_PATH
+from robotsix_modules import SCHEMA_PATH, validate_file
 from robotsix_modules.cli import main, validate_main
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -68,3 +68,62 @@ def test_validate_main_single_valid(capsys) -> None:
     captured = capsys.readouterr()
     assert code == 0
     assert captured.err == ""
+
+
+def test_invalid_taxonomy_yaml_exit_two(capsys, tmp_path) -> None:
+    bad = tmp_path / "broken.yaml"
+    bad.write_text("key: [unclosed", encoding="utf-8")
+    code = main(["validate", str(bad)])
+    captured = capsys.readouterr()
+    assert code == 2
+    assert "invalid YAML" in captured.err
+    assert str(bad) in captured.err
+
+
+def test_missing_schema_file_exit_two(capsys, tmp_path) -> None:
+    missing = tmp_path / "no-such-schema.yaml"
+    code = main(["validate", VALID, "--schema", str(missing)])
+    captured = capsys.readouterr()
+    assert code == 2
+    assert "schema file not found" in captured.err
+    assert str(missing) in captured.err
+
+
+def test_invalid_schema_yaml_exit_two(capsys, tmp_path) -> None:
+    bad_schema = tmp_path / "broken-schema.yaml"
+    bad_schema.write_text("key: [unclosed", encoding="utf-8")
+    code = main(["validate", VALID, "--schema", str(bad_schema)])
+    captured = capsys.readouterr()
+    assert code == 2
+    assert "invalid YAML in schema" in captured.err
+    assert str(bad_schema) in captured.err
+
+
+def test_validate_main_schema_override_valid(capsys) -> None:
+    code = validate_main([VALID, "--schema", str(SCHEMA_PATH)])
+    captured = capsys.readouterr()
+    assert code == 0
+    assert captured.err == ""
+
+
+def test_validate_main_schema_override_missing(capsys, tmp_path) -> None:
+    missing = tmp_path / "no-such-schema.yaml"
+    code = validate_main([VALID, "--schema", str(missing)])
+    captured = capsys.readouterr()
+    assert code == 2
+    assert "schema file not found" in captured.err
+    assert str(missing) in captured.err
+
+
+def test_validate_file_valid_no_schema() -> None:
+    assert validate_file(VALID) == []
+
+
+def test_validate_file_valid_schema_override() -> None:
+    assert validate_file(VALID, schema_path=str(SCHEMA_PATH)) == []
+
+
+def test_validate_file_invalid_names_pointer() -> None:
+    errors = validate_file(INVALID)
+    assert errors
+    assert any("modules[0]" in message for message in errors)
