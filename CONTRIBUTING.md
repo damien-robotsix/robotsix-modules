@@ -58,7 +58,7 @@ your change passes before pushing:
 
 ```console
 uv run ruff check .
-uv run ruff format .          # CI runs `ruff format --check .`
+uv run ruff format --check .
 uv run mypy src tests
 uv run deptry .
 uv run bandit -c pyproject.toml -r src/
