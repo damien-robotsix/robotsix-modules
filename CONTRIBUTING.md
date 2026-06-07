@@ -45,7 +45,7 @@ uv run pytest
 CI enforces coverage with:
 
 ```console
-uv run pytest --cov --cov-branch --cov-report=term-missing --cov-fail-under=80
+uv run pytest --cov --cov-branch --cov-report=xml --cov-report=term-missing --cov-fail-under=80
 ```
 
 New code should keep coverage at or above the 80% threshold, so please add
