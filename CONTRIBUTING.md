@@ -83,6 +83,20 @@ uv run pre-commit run --all-files
 - Open your pull request against the `main` branch. CI runs on every pull
   request, so all checks must pass before a change can be merged.
 
+## Dependabot
+
+Dependabot is configured to open automated dependency-update PRs for both
+Python packages (via `uv`) and GitHub Actions.  Dependabot updates the
+constraints in `pyproject.toml` but does **not** regenerate `uv.lock`.
+Before merging a Dependabot PR that touches Python dependencies, run:
+
+```console
+uv lock
+```
+
+and commit the updated `uv.lock` to the PR branch.  For GitHub Actions
+updates no lockfile regeneration is needed.
+
 ## License & conduct
 
 By contributing, you agree that your contributions are accepted under the
