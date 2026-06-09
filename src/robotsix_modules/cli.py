@@ -5,41 +5,45 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import yaml
 
-from . import __version__, load_taxonomy, validate
+from . import __version__, validate
 
 PROG = "robotsix-modules"
 
 
+def _safe_load_yaml(path: str | Path, label: str = "") -> dict[str, Any] | None:
+    """Load a YAML file, printing a user-friendly error on failure.
+
+    Returns the parsed dict on success, or None on failure (error already printed).
+    """
+    try:
+        return cast(
+            dict[str, Any],
+            yaml.safe_load(Path(path).read_text(encoding="utf-8")),
+        )
+    except FileNotFoundError:
+        prefix = f" {label}" if label else ""
+        print(f"{PROG}: error:{prefix} file not found: {path}", file=sys.stderr)
+        return None
+    except yaml.YAMLError as exc:
+        prefix = f" {label}" if label else ""
+        print(f"{PROG}: error: invalid YAML in{prefix} {path}: {exc}", file=sys.stderr)
+        return None
+
+
 def _validate_one(path: str, schema_path: str | None) -> int:
     """Validate a single taxonomy file. Return the process exit code."""
-    try:
-        taxonomy = load_taxonomy(path)
-    except FileNotFoundError:
-        print(f"{PROG}: error: file not found: {path}", file=sys.stderr)
-        return 2
-    except yaml.YAMLError as exc:
-        print(f"{PROG}: error: invalid YAML in {path}: {exc}", file=sys.stderr)
+    taxonomy = _safe_load_yaml(path)
+    if taxonomy is None:
         return 2
 
     schema: dict[str, Any] | None = None
     if schema_path is not None:
-        try:
-            schema = yaml.safe_load(Path(schema_path).read_text(encoding="utf-8"))
-        except FileNotFoundError:
-            print(
-                f"{PROG}: error: schema file not found: {schema_path}",
-                file=sys.stderr,
-            )
-            return 2
-        except yaml.YAMLError as exc:
-            print(
-                f"{PROG}: error: invalid YAML in schema {schema_path}: {exc}",
-                file=sys.stderr,
-            )
+        schema = _safe_load_yaml(schema_path, label="schema")
+        if schema is None:
             return 2
 
     errors = validate(taxonomy, schema=schema)
