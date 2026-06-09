@@ -8,7 +8,7 @@ modules accidentally claim the same file.
 
 from __future__ import annotations
 
-import subprocess
+import subprocess  # nosec B404
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
@@ -153,7 +153,7 @@ def check_registration(
     """
     # ---- resolve tracked files --------------------------------------------------
     if tracked_files is None:
-        result = subprocess.run(
+        result = subprocess.run(  # nosec B603, B607
             ["git", "ls-files"],  # noqa: S607
             cwd=repo_root,
             capture_output=True,
