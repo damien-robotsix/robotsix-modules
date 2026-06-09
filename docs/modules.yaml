@@ -1,0 +1,29 @@
+# Module taxonomy for robotsix-modules itself.
+# Validate with:  robotsix-modules validate docs/modules.yaml
+modules:
+  - id: validation
+    description: >
+      Core module-taxonomy validation logic. Provides the public API
+      (load_taxonomy, validate, validate_file), the bundled JSON Schema
+      (modules.schema.yaml), and schema-loading utilities.
+    paths:
+      - src/robotsix_modules/__init__.py
+      - src/robotsix_modules/schema.py
+      - src/robotsix_modules/schemas/**
+      - src/robotsix_modules/py.typed
+
+  - id: cli
+    description: >
+      Command-line interface for robotsix-modules. Provides the
+      `robotsix-modules` and `robotsix-modules-validate` entry points.
+    paths:
+      - src/robotsix_modules/cli.py
+    dependencies:
+      - validation
+
+  - id: tests
+    description: >
+      Test suite covering the validation API, schema, CLI behaviour,
+      and shared test fixtures.
+    paths:
+      - tests/**
