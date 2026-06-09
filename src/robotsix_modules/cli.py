@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
+from typing import Any
 
 import yaml
 
@@ -24,7 +25,7 @@ def _validate_one(path: str, schema_path: str | None) -> int:
         print(f"{PROG}: error: invalid YAML in {path}: {exc}", file=sys.stderr)
         return 2
 
-    schema: dict | None = None
+    schema: dict[str, Any] | None = None
     if schema_path is not None:
         try:
             schema = yaml.safe_load(Path(schema_path).read_text(encoding="utf-8"))

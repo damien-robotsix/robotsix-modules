@@ -14,7 +14,9 @@ VALID = str(FIXTURES / "valid_modules.yaml")
 INVALID = str(FIXTURES / "invalid_modules.yaml")
 
 
-def test_valid_fixture_exit_zero_empty_output(capsys) -> None:
+def test_valid_fixture_exit_zero_empty_output(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
     code = main(["validate", VALID])
     captured = capsys.readouterr()
     assert code == 0
@@ -22,7 +24,9 @@ def test_valid_fixture_exit_zero_empty_output(capsys) -> None:
     assert captured.err == ""
 
 
-def test_invalid_fixture_exit_one_names_pointer(capsys) -> None:
+def test_invalid_fixture_exit_one_names_pointer(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
     code = main(["validate", INVALID])
     captured = capsys.readouterr()
     assert code == 1
@@ -32,7 +36,7 @@ def test_invalid_fixture_exit_one_names_pointer(capsys) -> None:
     assert captured.out == ""
 
 
-def test_missing_path_exit_two_names_file(capsys) -> None:
+def test_missing_path_exit_two_names_file(capsys: pytest.CaptureFixture[str]) -> None:
     code = main(["validate", "does-not-exist.yaml"])
     captured = capsys.readouterr()
     assert code == 2
@@ -40,7 +44,7 @@ def test_missing_path_exit_two_names_file(capsys) -> None:
     assert "does-not-exist.yaml" in captured.err
 
 
-def test_version_exit_zero_stdout(capsys) -> None:
+def test_version_exit_zero_stdout(capsys: pytest.CaptureFixture[str]) -> None:
     with pytest.raises(SystemExit) as exc:
         main(["--version"])
     assert exc.value.code == 0
@@ -48,14 +52,14 @@ def test_version_exit_zero_stdout(capsys) -> None:
     assert captured.out.strip() == "robotsix-modules 0.1.0"
 
 
-def test_schema_override_used(capsys) -> None:
+def test_schema_override_used(capsys: pytest.CaptureFixture[str]) -> None:
     code = main(["validate", VALID, "--schema", str(SCHEMA_PATH)])
     captured = capsys.readouterr()
     assert code == 0
     assert captured.err == ""
 
 
-def test_validate_main_multiple_paths(capsys) -> None:
+def test_validate_main_multiple_paths(capsys: pytest.CaptureFixture[str]) -> None:
     # One valid + one invalid -> overall exit 1.
     code = validate_main([VALID, INVALID])
     captured = capsys.readouterr()
@@ -63,14 +67,16 @@ def test_validate_main_multiple_paths(capsys) -> None:
     assert "modules[0]" in captured.err
 
 
-def test_validate_main_single_valid(capsys) -> None:
+def test_validate_main_single_valid(capsys: pytest.CaptureFixture[str]) -> None:
     code = validate_main([VALID])
     captured = capsys.readouterr()
     assert code == 0
     assert captured.err == ""
 
 
-def test_invalid_taxonomy_yaml_exit_two(capsys, tmp_path) -> None:
+def test_invalid_taxonomy_yaml_exit_two(
+    capsys: pytest.CaptureFixture[str], tmp_path: Path
+) -> None:
     bad = tmp_path / "broken.yaml"
     bad.write_text("key: [unclosed", encoding="utf-8")
     code = main(["validate", str(bad)])
@@ -80,7 +86,9 @@ def test_invalid_taxonomy_yaml_exit_two(capsys, tmp_path) -> None:
     assert str(bad) in captured.err
 
 
-def test_missing_schema_file_exit_two(capsys, tmp_path) -> None:
+def test_missing_schema_file_exit_two(
+    capsys: pytest.CaptureFixture[str], tmp_path: Path
+) -> None:
     missing = tmp_path / "no-such-schema.yaml"
     code = main(["validate", VALID, "--schema", str(missing)])
     captured = capsys.readouterr()
@@ -89,7 +97,9 @@ def test_missing_schema_file_exit_two(capsys, tmp_path) -> None:
     assert str(missing) in captured.err
 
 
-def test_invalid_schema_yaml_exit_two(capsys, tmp_path) -> None:
+def test_invalid_schema_yaml_exit_two(
+    capsys: pytest.CaptureFixture[str], tmp_path: Path
+) -> None:
     bad_schema = tmp_path / "broken-schema.yaml"
     bad_schema.write_text("key: [unclosed", encoding="utf-8")
     code = main(["validate", VALID, "--schema", str(bad_schema)])
@@ -99,14 +109,18 @@ def test_invalid_schema_yaml_exit_two(capsys, tmp_path) -> None:
     assert str(bad_schema) in captured.err
 
 
-def test_validate_main_schema_override_valid(capsys) -> None:
+def test_validate_main_schema_override_valid(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
     code = validate_main([VALID, "--schema", str(SCHEMA_PATH)])
     captured = capsys.readouterr()
     assert code == 0
     assert captured.err == ""
 
 
-def test_validate_main_schema_override_missing(capsys, tmp_path) -> None:
+def test_validate_main_schema_override_missing(
+    capsys: pytest.CaptureFixture[str], tmp_path: Path
+) -> None:
     missing = tmp_path / "no-such-schema.yaml"
     code = validate_main([VALID, "--schema", str(missing)])
     captured = capsys.readouterr()

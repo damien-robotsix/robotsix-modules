@@ -11,6 +11,7 @@ Public API:
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any, cast
 
 import yaml
 from jsonschema import Draft202012Validator
@@ -28,7 +29,7 @@ __all__ = [
 ]
 
 
-def load_taxonomy(path: str | Path) -> dict:
+def load_taxonomy(path: str | Path) -> dict[str, Any]:
     """Load a ``modules.yaml`` file and return it as a dict.
 
     Raises:
@@ -36,10 +37,10 @@ def load_taxonomy(path: str | Path) -> dict:
         yaml.YAMLError: when the file is not valid YAML.
     """
     text = Path(path).read_text(encoding="utf-8")
-    return yaml.safe_load(text)
+    return cast(dict[str, Any], yaml.safe_load(text))
 
 
-def _format_error(error) -> str:
+def _format_error(error: Any) -> str:
     """Render a jsonschema ValidationError as a debuggable one-liner.
 
     Includes the JSON pointer to the offending node and the violating
@@ -57,7 +58,9 @@ def _format_error(error) -> str:
     return f"{pointer}: {error.message}"
 
 
-def validate(taxonomy: dict, *, schema: dict | None = None) -> list[str]:
+def validate(
+    taxonomy: dict[str, Any], *, schema: dict[str, Any] | None = None
+) -> list[str]:
     """Validate a taxonomy dict against a JSON Schema.
 
     Args:
@@ -83,7 +86,7 @@ def validate_file(
     Same return contract as :func:`validate`.
     """
     taxonomy = load_taxonomy(path)
-    schema: dict | None = None
+    schema: dict[str, Any] | None = None
     if schema_path is not None:
         schema = yaml.safe_load(Path(schema_path).read_text(encoding="utf-8"))
     return validate(taxonomy, schema=schema)
