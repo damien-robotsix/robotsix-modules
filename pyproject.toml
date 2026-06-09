@@ -40,6 +40,7 @@ select = ["E", "F", "I", "UP", "B", "S"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/modules-validator/**" = ["S101", "S607"]
+"tests/test_registration.py" = ["S101"]
 
 [tool.mypy]
 python_version = "3.14"
