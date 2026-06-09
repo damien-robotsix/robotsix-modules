@@ -5,6 +5,15 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0]
+
+### Added
+- `check_registration()` – verifies every tracked file is claimed by exactly one module, detecting unclassified files, stale paths, and duplicate registrations.
+- `validate_paths()` – checks that every module path entry (literal or glob) resolves to at least one file on disk.
+- `RegistrationFinding` and `PathFinding` frozen-dataclass types for structured findings.
+- CLI subcommands: `robotsix-modules check-registration` and `robotsix-modules validate-paths`, each with `--root` flag and exit-code semantics (0/1/2).
+- Public API re-exports for the new functions and types from the package root.
+
 ## [0.1.0]
 
 Initial public release.

@@ -4,6 +4,9 @@ Public API:
     load_taxonomy(path)             -> dict
     validate(taxonomy, *, schema)   -> list[str]
     validate_file(path, *, schema_path) -> list[str]
+    check_registration(taxonomy, repo_root, *,
+        tracked_files) -> list[RegistrationFinding]
+    validate_paths(taxonomy, repo_root) -> list[PathFinding]
     SCHEMA_PATH                     -> pathlib.Path
     __version__                     -> str
 """
@@ -16,16 +19,26 @@ from typing import Any, cast
 import yaml
 from jsonschema import Draft202012Validator
 
+from .registration import (
+    PathFinding,
+    RegistrationFinding,
+    check_registration,
+    validate_paths,
+)
 from .schema import SCHEMA_PATH, load_schema
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
+    "PathFinding",
+    "RegistrationFinding",
     "SCHEMA_PATH",
     "__version__",
+    "check_registration",
     "load_taxonomy",
     "validate",
     "validate_file",
+    "validate_paths",
 ]
 
 
