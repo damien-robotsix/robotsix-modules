@@ -1,0 +1,9 @@
+modules:
+  - id: alpha
+    description: First module that claims the shared directory.
+    paths:
+      - shared/**
+  - id: beta
+    description: Second module that also claims the shared directory.
+    paths:
+      - shared/**

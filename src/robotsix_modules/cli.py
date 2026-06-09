@@ -10,6 +10,7 @@ from typing import Any, cast
 import yaml
 
 from . import __version__, validate
+from .registration import check_registration, validate_paths
 
 PROG = "robotsix-modules"
 
@@ -54,6 +55,40 @@ def _validate_one(path: str, schema_path: str | None) -> int:
     return 0
 
 
+def _check_registration_one(path: str, root: str) -> int:
+    """Run registration check on one taxonomy file. Return exit code."""
+    taxonomy = _safe_load_yaml(path)
+    if taxonomy is None:
+        return 2
+
+    try:
+        findings = check_registration(taxonomy, Path(root))
+    except RuntimeError as exc:
+        print(f"{PROG}: error: {exc}", file=sys.stderr)
+        return 2
+
+    if findings:
+        for f in findings:
+            print(f.message, file=sys.stderr)
+        return 1
+    return 0
+
+
+def _validate_paths_one(path: str, root: str) -> int:
+    """Run path validation on one taxonomy file. Return exit code."""
+    taxonomy = _safe_load_yaml(path)
+    if taxonomy is None:
+        return 2
+
+    findings = validate_paths(taxonomy, Path(root))
+
+    if findings:
+        for f in findings:
+            print(f.message, file=sys.stderr)
+        return 1
+    return 0
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog=PROG)
     parser.add_argument(
@@ -73,6 +108,37 @@ def _build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Override the bundled JSON Schema with the given file.",
     )
+
+    check_reg_parser = subparsers.add_parser(
+        "check-registration",
+        help="Check that every tracked file is claimed by exactly one module.",
+    )
+    check_reg_parser.add_argument(
+        "modules_yaml",
+        metavar="modules.yaml",
+        help="Path to the taxonomy YAML file.",
+    )
+    check_reg_parser.add_argument(
+        "--root",
+        default=".",
+        help="Repository root directory (default: .).",
+    )
+
+    validate_paths_parser = subparsers.add_parser(
+        "validate-paths",
+        help="Check that every module path entry resolves to at least one file.",
+    )
+    validate_paths_parser.add_argument(
+        "modules_yaml",
+        metavar="modules.yaml",
+        help="Path to the taxonomy YAML file.",
+    )
+    validate_paths_parser.add_argument(
+        "--root",
+        default=".",
+        help="Repository root directory (default: .).",
+    )
+
     return parser
 
 
@@ -82,6 +148,10 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.command == "validate":
         return _validate_one(args.path, args.schema)
+    if args.command == "check-registration":
+        return _check_registration_one(args.modules_yaml, args.root)
+    if args.command == "validate-paths":
+        return _validate_paths_one(args.modules_yaml, args.root)
     parser.error(f"unknown command: {args.command}")
     return 2  # pragma: no cover - argparse exits before reaching here
 
