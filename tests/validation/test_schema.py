@@ -5,7 +5,7 @@ from __future__ import annotations
 import yaml
 
 from robotsix_modules import SCHEMA_PATH, validate
-from robotsix_modules.schema import load_schema
+from robotsix_modules.validation.schema import load_schema
 
 
 def test_schema_path_resolves_and_is_readable() -> None:

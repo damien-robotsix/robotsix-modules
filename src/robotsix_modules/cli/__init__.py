@@ -9,8 +9,8 @@ from typing import Any, cast
 
 import yaml
 
-from . import __version__, validate
-from .registration import check_registration, validate_paths
+from robotsix_modules import __version__, validate
+from robotsix_modules.validation import check_registration, validate_paths
 
 PROG = "robotsix-modules"
 

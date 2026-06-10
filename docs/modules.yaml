@@ -10,17 +10,15 @@ modules:
       (modules.schema.yaml), and schema-loading utilities.
     paths:
       - src/robotsix_modules/__init__.py
-      - src/robotsix_modules/schema.py
-      - src/robotsix_modules/registration.py
-      - src/robotsix_modules/schemas/**
       - src/robotsix_modules/py.typed
+      - src/robotsix_modules/validation/**
 
   - id: cli
     description: >
       Command-line interface for robotsix-modules. Provides the
       `robotsix-modules` and `robotsix-modules-validate` entry points.
     paths:
-      - src/robotsix_modules/cli.py
+      - src/robotsix_modules/cli/**
     dependencies:
       - validation
 

@@ -29,7 +29,7 @@ robotsix-modules-validate = "robotsix_modules.cli:validate_main"
 packages = ["src/robotsix_modules"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests/modules-validator"]
+testpaths = ["tests/validation", "tests/cli"]
 
 [tool.ruff]
 target-version = "py314"
@@ -39,8 +39,8 @@ line-length = 88
 select = ["E", "F", "I", "UP", "B", "S"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/modules-validator/**" = ["S101", "S607"]
-"tests/test_registration.py" = ["S101"]
+"tests/validation/**" = ["S101", "S607"]
+"tests/cli/**" = ["S101", "S607"]
 
 [tool.mypy]
 python_version = "3.14"
@@ -50,11 +50,14 @@ strict = true
 module = ["yaml", "jsonschema", "jsonschema.*"]
 ignore_missing_imports = true
 
+[tool.deptry]
+known_first_party = ["robotsix_modules"]
+
 [tool.deptry.per_rule_ignores]
 DEP002 = ["pytest", "pytest-cov", "ruff", "mypy", "deptry", "pip-audit", "bandit"]
 
 [tool.bandit]
-exclude_dirs = ["tests/modules-validator"]
+exclude_dirs = ["tests/validation", "tests/cli"]
 skips = ["B101"]
 
 [tool.coverage.run]
