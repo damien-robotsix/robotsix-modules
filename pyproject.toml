@@ -29,7 +29,7 @@ robotsix-modules-validate = "robotsix_modules.cli:validate_main"
 packages = ["src/robotsix_modules"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests/validation", "tests/cli"]
+testpaths = ["tests"]
 
 [tool.ruff]
 target-version = "py314"
