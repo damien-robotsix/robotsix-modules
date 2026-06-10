@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from robotsix_modules.registration import (
+from robotsix_modules.validation.registration import (
     _has_glob_metacharacters,
     check_registration,
     validate_paths,
