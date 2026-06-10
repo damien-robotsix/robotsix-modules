@@ -33,7 +33,7 @@ jobs:
         with:
           name: python-package-distributions
           path: dist/
-      - uses: softprops/action-gh-release@c062c08b81539e6e0a16b6b0b5e9f06c9e3e0e6c # v2.0.9
+      - uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
         with:
           files: dist/*
 
