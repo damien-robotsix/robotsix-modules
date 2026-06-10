@@ -4,11 +4,14 @@ modules:
   - id: validation
     description: >
       Core module-taxonomy validation logic. Provides the public API
-      (load_taxonomy, validate, validate_file), the bundled JSON Schema
+      (load_taxonomy, validate, validate_file), the
+      registration-completeness and path-resolution checks
+      (check_registration, validate_paths), the bundled JSON Schema
       (modules.schema.yaml), and schema-loading utilities.
     paths:
       - src/robotsix_modules/__init__.py
       - src/robotsix_modules/schema.py
+      - src/robotsix_modules/registration.py
       - src/robotsix_modules/schemas/**
       - src/robotsix_modules/py.typed
 
