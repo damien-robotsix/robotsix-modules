@@ -2,15 +2,15 @@
 
 ## Supported Versions
 
-Only the latest release (currently **v0.1.0**) receives security patches.
+Only the latest release (currently **v0.2.0**) receives security patches.
 Older releases are not supported — if you discover a vulnerability in an
 earlier version, please upgrade to the latest release first and verify the
 issue still reproduces.
 
 | Version | Supported          |
 |---------|--------------------|
-| 0.1.x   | :white_check_mark: |
-| < 0.1   | :x:                |
+| 0.2.x   | :white_check_mark: |
+| < 0.2   | :x:                |
 
 ## Reporting a Vulnerability
 
