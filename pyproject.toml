@@ -50,6 +50,9 @@ strict = true
 module = ["yaml", "jsonschema", "jsonschema.*"]
 ignore_missing_imports = true
 
+[tool.deptry]
+known_first_party = ["robotsix_modules"]
+
 [tool.deptry.per_rule_ignores]
 DEP002 = ["pytest", "pytest-cov", "ruff", "mypy", "deptry", "pip-audit", "bandit"]
 
