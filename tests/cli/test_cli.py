@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -430,3 +432,200 @@ def test_validate_paths_root_flag_respected(
     code = main(["validate-paths", str(yaml_path), "--root", str(root)])
     captured = capsys.readouterr()
     assert code == 0, f"stderr: {captured.err}"
+
+
+# ---------------------------------------------------------------------------
+# CLI: --output-format json
+# ---------------------------------------------------------------------------
+
+
+def _init_repo_with_orphan(tmp_path: Path) -> Path:
+    """Create a git repo with an unclaimed tracked file. Return the yaml path."""
+    (tmp_path / "orphan.txt").touch()
+
+    yaml_path = tmp_path / "modules.yaml"
+    yaml_path.write_text(
+        "modules:\n"
+        "  - id: example\n"
+        "    description: x\n"
+        "    paths:\n"
+        "      - src/example/**\n",
+        encoding="utf-8",
+    )
+
+    subprocess.run(["git", "init"], cwd=tmp_path, capture_output=True)
+    subprocess.run(["git", "add", "orphan.txt"], cwd=tmp_path, capture_output=True)
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            "user.name=test",
+            "-c",
+            "user.email=test@test",
+            "commit",
+            "-m",
+            "init",
+        ],
+        cwd=tmp_path,
+        capture_output=True,
+    )
+    return yaml_path
+
+
+def test_check_registration_json_findings(
+    capsys: pytest.CaptureFixture[str], tmp_path: Path
+) -> None:
+    """JSON mode emits a RegistrationFinding object and exits 1."""
+    yaml_path = _init_repo_with_orphan(tmp_path)
+
+    code = main(
+        [
+            "check-registration",
+            str(yaml_path),
+            "--root",
+            str(tmp_path),
+            "--output-format",
+            "json",
+        ]
+    )
+    captured = capsys.readouterr()
+    assert code == 1
+    assert captured.err == ""
+    payload = json.loads(captured.out)
+    assert payload["findings"]
+    finding = payload["findings"][0]
+    assert finding["kind"] == "unclassified_file"
+    assert "message" in finding
+    assert finding["file"] == "orphan.txt"
+
+
+def test_check_registration_json_clean(
+    capsys: pytest.CaptureFixture[str], tmp_path: Path
+) -> None:
+    """JSON mode on a clean repo emits {"findings": []} and exits 0."""
+    (tmp_path / "src" / "example").mkdir(parents=True)
+    (tmp_path / "src" / "example" / "app.py").touch()
+
+    yaml_path = tmp_path / "modules.yaml"
+    yaml_path.write_text(
+        "modules:\n"
+        "  - id: example\n"
+        "    description: x\n"
+        "    paths:\n"
+        "      - src/example/**\n",
+        encoding="utf-8",
+    )
+
+    subprocess.run(["git", "init"], cwd=tmp_path, capture_output=True)
+    subprocess.run(
+        ["git", "add", "src/example/app.py"], cwd=tmp_path, capture_output=True
+    )
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            "user.name=test",
+            "-c",
+            "user.email=test@test",
+            "commit",
+            "-m",
+            "init",
+        ],
+        cwd=tmp_path,
+        capture_output=True,
+    )
+
+    code = main(
+        [
+            "check-registration",
+            str(yaml_path),
+            "--root",
+            str(tmp_path),
+            "--output-format",
+            "json",
+        ]
+    )
+    captured = capsys.readouterr()
+    assert code == 0, f"stderr: {captured.err}"
+    assert captured.err == ""
+    assert json.loads(captured.out) == {"findings": []}
+
+
+def test_validate_paths_json_findings(
+    capsys: pytest.CaptureFixture[str], tmp_path: Path
+) -> None:
+    """JSON mode emits a PathFinding object and exits 1."""
+    yaml_path = tmp_path / "modules.yaml"
+    yaml_path.write_text(
+        "modules:\n"
+        "  - id: example\n"
+        "    description: x\n"
+        "    paths:\n"
+        "      - src/missing.py\n",
+        encoding="utf-8",
+    )
+
+    code = main(
+        [
+            "validate-paths",
+            str(yaml_path),
+            "--root",
+            str(tmp_path),
+            "--output-format",
+            "json",
+        ]
+    )
+    captured = capsys.readouterr()
+    assert code == 1
+    assert captured.err == ""
+    payload = json.loads(captured.out)
+    assert payload["findings"]
+    finding = payload["findings"][0]
+    assert "kind" in finding
+    assert finding["module_id"] == "example"
+    assert finding["path"] == "src/missing.py"
+
+
+def test_validate_json_invalid_and_valid(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """validate JSON mode emits {"errors": [...]} (exit 1) and [] (exit 0)."""
+    code = main(["validate", INVALID, "--output-format", "json"])
+    captured = capsys.readouterr()
+    assert code == 1
+    assert captured.err == ""
+    payload = json.loads(captured.out)
+    assert payload["errors"]
+
+    code = main(["validate", VALID, "--output-format", "json"])
+    captured = capsys.readouterr()
+    assert code == 0
+    assert captured.err == ""
+    assert json.loads(captured.out) == {"errors": []}
+
+
+def test_validate_json_file_error_exit_two(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """Operational errors stay on stderr and exit 2 even in JSON mode."""
+    code = main(["validate", "does-not-exist.yaml", "--output-format", "json"])
+    captured = capsys.readouterr()
+    assert code == 2
+    assert "file not found" in captured.err
+    assert captured.out == ""
+
+
+def test_validate_main_json_single_document(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """The wrapper emits one parseable JSON document across multiple paths."""
+    code = validate_main([VALID, INVALID, "--output-format", "json"])
+    captured = capsys.readouterr()
+    assert code == 1
+    payload = json.loads(captured.out)
+    assert payload["errors"]
+
+    code = validate_main([VALID, "--output-format", "json"])
+    captured = capsys.readouterr()
+    assert code == 0
+    assert json.loads(captured.out) == {"errors": []}
