@@ -2,6 +2,8 @@
 
 ## Supported Versions
 
+### Package versions
+
 Only the latest release (currently **v0.2.0**) receives security patches.
 Older releases are not supported — if you discover a vulnerability in an
 earlier version, please upgrade to the latest release first and verify the
@@ -11,6 +13,16 @@ issue still reproduces.
 |---------|--------------------|
 | 0.2.x   | :white_check_mark: |
 | < 0.2   | :x:                |
+
+### Python versions
+
+`robotsix-modules` requires **Python 3.12 or later**. Older Python versions
+are not supported.
+
+| Python  | Supported          |
+|---------|--------------------|
+| 3.12+   | :white_check_mark: |
+| < 3.12  | :x:                |
 
 ## Reporting a Vulnerability
 
