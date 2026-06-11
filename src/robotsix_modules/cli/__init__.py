@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import argparse
+import dataclasses
+import json
 import sys
 from pathlib import Path
 from typing import Any, cast
@@ -35,7 +37,9 @@ def _safe_load_yaml(path: str | Path, label: str = "") -> dict[str, Any] | None:
         return None
 
 
-def _validate_one(path: str, schema_path: str | None) -> int:
+def _validate_one(
+    path: str, schema_path: str | None, output_format: str = "text"
+) -> int:
     """Validate a single taxonomy file. Return the process exit code."""
     taxonomy = _safe_load_yaml(path)
     if taxonomy is None:
@@ -48,6 +52,9 @@ def _validate_one(path: str, schema_path: str | None) -> int:
             return 2
 
     errors = validate(taxonomy, schema=schema)
+    if output_format == "json":
+        json.dump({"errors": errors}, sys.stdout)
+        return 1 if errors else 0
     if errors:
         for message in errors:
             print(message, file=sys.stderr)
@@ -55,7 +62,7 @@ def _validate_one(path: str, schema_path: str | None) -> int:
     return 0
 
 
-def _check_registration_one(path: str, root: str) -> int:
+def _check_registration_one(path: str, root: str, output_format: str = "text") -> int:
     """Run registration check on one taxonomy file. Return exit code."""
     taxonomy = _safe_load_yaml(path)
     if taxonomy is None:
@@ -67,6 +74,9 @@ def _check_registration_one(path: str, root: str) -> int:
         print(f"{PROG}: error: {exc}", file=sys.stderr)
         return 2
 
+    if output_format == "json":
+        json.dump({"findings": [dataclasses.asdict(f) for f in findings]}, sys.stdout)
+        return 1 if findings else 0
     if findings:
         for f in findings:
             print(f.message, file=sys.stderr)
@@ -74,7 +84,7 @@ def _check_registration_one(path: str, root: str) -> int:
     return 0
 
 
-def _validate_paths_one(path: str, root: str) -> int:
+def _validate_paths_one(path: str, root: str, output_format: str = "text") -> int:
     """Run path validation on one taxonomy file. Return exit code."""
     taxonomy = _safe_load_yaml(path)
     if taxonomy is None:
@@ -82,6 +92,9 @@ def _validate_paths_one(path: str, root: str) -> int:
 
     findings = validate_paths(taxonomy, Path(root))
 
+    if output_format == "json":
+        json.dump({"findings": [dataclasses.asdict(f) for f in findings]}, sys.stdout)
+        return 1 if findings else 0
     if findings:
         for f in findings:
             print(f.message, file=sys.stderr)
@@ -108,6 +121,12 @@ def _build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Override the bundled JSON Schema with the given file.",
     )
+    validate_parser.add_argument(
+        "--output-format",
+        choices=["text", "json"],
+        default="text",
+        help="Output format for findings (default: text).",
+    )
 
     check_reg_parser = subparsers.add_parser(
         "check-registration",
@@ -122,6 +141,12 @@ def _build_parser() -> argparse.ArgumentParser:
         "--root",
         default=".",
         help="Repository root directory (default: .).",
+    )
+    check_reg_parser.add_argument(
+        "--output-format",
+        choices=["text", "json"],
+        default="text",
+        help="Output format for findings (default: text).",
     )
 
     validate_paths_parser = subparsers.add_parser(
@@ -138,6 +163,12 @@ def _build_parser() -> argparse.ArgumentParser:
         default=".",
         help="Repository root directory (default: .).",
     )
+    validate_paths_parser.add_argument(
+        "--output-format",
+        choices=["text", "json"],
+        default="text",
+        help="Output format for findings (default: text).",
+    )
 
     return parser
 
@@ -147,11 +178,11 @@ def main(argv: list[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
     if args.command == "validate":
-        return _validate_one(args.path, args.schema)
+        return _validate_one(args.path, args.schema, args.output_format)
     if args.command == "check-registration":
-        return _check_registration_one(args.modules_yaml, args.root)
+        return _check_registration_one(args.modules_yaml, args.root, args.output_format)
     if args.command == "validate-paths":
-        return _validate_paths_one(args.modules_yaml, args.root)
+        return _validate_paths_one(args.modules_yaml, args.root, args.output_format)
     parser.error(f"unknown command: {args.command}")
     return 2  # pragma: no cover - argparse exits before reaching here
 
@@ -175,11 +206,40 @@ def validate_main(argv: list[str] | None = None) -> int:
         default=None,
         help="Override the bundled JSON Schema with the given file.",
     )
+    parser.add_argument(
+        "--output-format",
+        choices=["text", "json"],
+        default="text",
+        help="Output format for findings (default: text).",
+    )
     args = parser.parse_args(argv)
+
+    if args.output_format == "json":
+        # Aggregate every path's error strings into ONE JSON document so the
+        # whole invocation emits a single parseable object to stdout.
+        exit_code = 0
+        errors: list[str] = []
+        for path in args.paths:
+            taxonomy = _safe_load_yaml(path)
+            if taxonomy is None:
+                exit_code = max(exit_code, 2)
+                continue
+            schema: dict[str, Any] | None = None
+            if args.schema is not None:
+                schema = _safe_load_yaml(args.schema, label="schema")
+                if schema is None:
+                    exit_code = max(exit_code, 2)
+                    continue
+            path_errors = validate(taxonomy, schema=schema)
+            if path_errors:
+                errors.extend(path_errors)
+                exit_code = max(exit_code, 1)
+        json.dump({"errors": errors}, sys.stdout)
+        return exit_code
 
     exit_code = 0
     for path in args.paths:
-        code = _validate_one(path, args.schema)
+        code = _validate_one(path, args.schema, args.output_format)
         exit_code = max(exit_code, code)
     return exit_code
 
