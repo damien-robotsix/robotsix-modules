@@ -180,9 +180,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "validate":
         return _validate_one(args.path, args.schema, args.output_format)
     if args.command == "check-registration":
-        return _check_registration_one(
-            args.modules_yaml, args.root, args.output_format
-        )
+        return _check_registration_one(args.modules_yaml, args.root, args.output_format)
     if args.command == "validate-paths":
         return _validate_paths_one(args.modules_yaml, args.root, args.output_format)
     parser.error(f"unknown command: {args.command}")
