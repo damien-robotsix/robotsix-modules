@@ -69,6 +69,20 @@ def _has_glob_metacharacters(pattern: str) -> bool:
     return any(c in pattern for c in "*?[")
 
 
+def _glob_paths(repo_root: Path, pattern: str) -> list[Path]:
+    """Expand *pattern* under *repo_root* with version-portable semantics.
+
+    A pattern ending in a bare ``**`` segment is rewritten to ``**/*`` so
+    that it matches files recursively on every supported Python version.
+    On Python 3.13+ ``Path.glob`` treats a trailing ``**`` as matching both
+    files and directories, but on Python 3.12 it matches directories only;
+    rewriting to ``**/*`` yields the 3.13 behaviour everywhere.
+    """
+    if pattern == "**" or pattern.endswith("/**"):
+        pattern = f"{pattern}/*"
+    return list(repo_root.glob(pattern))
+
+
 def _expand_module_paths(
     module_id: str,
     path_entries: list[str],
@@ -90,7 +104,7 @@ def _expand_module_paths(
     for pattern in path_entries:
         matches = [
             str(p.relative_to(repo_root))
-            for p in repo_root.glob(pattern)
+            for p in _glob_paths(repo_root, pattern)
             if p.is_file()
         ]
         if matches:
@@ -254,7 +268,7 @@ def validate_paths(
         module_id: str = module_entry["id"]
         for path_entry in module_entry.get("paths", []):
             if _has_glob_metacharacters(path_entry):
-                matches = list(repo_root.glob(path_entry))
+                matches = _glob_paths(repo_root, path_entry)
                 if not matches:
                     findings.append(
                         PathFinding(
