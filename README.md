@@ -40,6 +40,12 @@ $ robotsix-modules validate-paths docs/modules.yaml --root .
 Exit codes: `0` = valid, `1` = validation errors, `2` = file/parse
 errors. All diagnostics go to stderr; stdout stays empty on success.
 
+Pass `-v` / `--verbose` to any subcommand (and the
+`robotsix-modules-validate` wrapper) for more diagnostic detail:
+`-v` shows informational messages (files being loaded), `-vv` adds
+debug messages (glob expansion, git commands). At default verbosity
+(no `-v`), only errors are reported, matching the original behaviour.
+
 Pass `--output-format {text,json}` to any subcommand (and the
 `robotsix-modules-validate` wrapper). The default `text` preserves the
 human-readable stderr behavior above. `json` writes a single JSON object
