@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import dataclasses
 import json
+import logging
 import sys
 from collections.abc import Callable
 from pathlib import Path
@@ -17,24 +18,48 @@ from robotsix_modules.validation import check_registration, validate_paths
 
 PROG = "robotsix-modules"
 
+logger = logging.getLogger("robotsix_modules")
+
+
+def _configure_logging(verbosity: int) -> None:
+    """Map a verbosity count to a logging level and add a stderr handler."""
+    level = logging.WARNING
+    if verbosity >= 2:
+        level = logging.DEBUG
+    elif verbosity >= 1:
+        level = logging.INFO
+    logging.basicConfig(
+        level=level,
+        format="%(levelname)s: %(message)s",
+        stream=sys.stderr,
+        force=True,
+    )
+
 
 def _safe_load_yaml(path: str | Path, label: str = "") -> dict[str, Any] | None:
-    """Load a YAML file, printing a user-friendly error on failure.
+    """Load a YAML file, logging a user-friendly error on failure.
 
-    Returns the parsed dict on success, or None on failure (error already printed).
+    Returns the parsed dict on success, or None on failure (error already logged).
     """
     try:
-        return cast(
+        logger.info("loading %s", path)
+        result = cast(
             dict[str, Any],
             yaml.safe_load(Path(path).read_text(encoding="utf-8")),
         )
+        logger.debug("loaded %d top-level keys from %s", len(result), path)
+        return result
     except FileNotFoundError:
-        prefix = f" {label}" if label else ""
-        print(f"{PROG}: error:{prefix} file not found: {path}", file=sys.stderr)
+        if label:
+            logger.error("%s file not found: %s", label, path)
+        else:
+            logger.error("file not found: %s", path)
         return None
     except yaml.YAMLError as exc:
-        prefix = f" {label}" if label else ""
-        print(f"{PROG}: error: invalid YAML in{prefix} {path}: {exc}", file=sys.stderr)
+        if label:
+            logger.error("invalid YAML in %s %s: %s", label, path, exc)
+        else:
+            logger.error("invalid YAML in %s: %s", path, exc)
         return None
 
 
@@ -58,6 +83,7 @@ def _run_one(
     if taxonomy is None:
         return 2
 
+    logger.info("validating %s", path)
     items = compute(taxonomy)
     if items is None:
         return 2
@@ -102,7 +128,7 @@ def _check_registration_one(path: str, root: str, output_format: str = "text") -
         try:
             return check_registration(taxonomy, Path(root))
         except RuntimeError as exc:
-            print(f"{PROG}: error: {exc}", file=sys.stderr)
+            logger.error("%s", exc)
             return None
 
     return _run_one(
@@ -139,6 +165,13 @@ def _build_parser() -> argparse.ArgumentParser:
     validate_parser = subparsers.add_parser(
         "validate", help="Validate a module-taxonomy file."
     )
+    validate_parser.add_argument(
+        "-v",
+        "--verbose",
+        action="count",
+        default=0,
+        help="Increase verbosity (-v for info, -vv for debug).",
+    )
     validate_parser.add_argument("path", help="Path to the taxonomy YAML file.")
     validate_parser.add_argument(
         "--schema",
@@ -156,6 +189,13 @@ def _build_parser() -> argparse.ArgumentParser:
     check_reg_parser = subparsers.add_parser(
         "check-registration",
         help="Check that every tracked file is claimed by exactly one module.",
+    )
+    check_reg_parser.add_argument(
+        "-v",
+        "--verbose",
+        action="count",
+        default=0,
+        help="Increase verbosity (-v for info, -vv for debug).",
     )
     check_reg_parser.add_argument(
         "modules_yaml",
@@ -177,6 +217,13 @@ def _build_parser() -> argparse.ArgumentParser:
     validate_paths_parser = subparsers.add_parser(
         "validate-paths",
         help="Check that every module path entry resolves to at least one file.",
+    )
+    validate_paths_parser.add_argument(
+        "-v",
+        "--verbose",
+        action="count",
+        default=0,
+        help="Increase verbosity (-v for info, -vv for debug).",
     )
     validate_paths_parser.add_argument(
         "modules_yaml",
@@ -202,6 +249,7 @@ def main(argv: list[str] | None = None) -> int:
     """Top-level CLI: ``robotsix-modules``."""
     parser = _build_parser()
     args = parser.parse_args(argv)
+    _configure_logging(args.verbose)
     if args.command == "validate":
         return _validate_one(args.path, args.schema, args.output_format)
     if args.command == "check-registration":
@@ -221,6 +269,13 @@ def validate_main(argv: list[str] | None = None) -> int:
     """
     parser = argparse.ArgumentParser(prog=f"{PROG}-validate")
     parser.add_argument(
+        "-v",
+        "--verbose",
+        action="count",
+        default=0,
+        help="Increase verbosity (-v for info, -vv for debug).",
+    )
+    parser.add_argument(
         "paths",
         nargs="+",
         help="One or more taxonomy YAML files to validate.",
@@ -238,6 +293,8 @@ def validate_main(argv: list[str] | None = None) -> int:
         help="Output format for findings (default: text).",
     )
     args = parser.parse_args(argv)
+
+    _configure_logging(args.verbose)
 
     if args.output_format == "json":
         # Aggregate every path's error strings into ONE JSON document so the

@@ -8,10 +8,13 @@ modules accidentally claim the same file.
 
 from __future__ import annotations
 
+import logging
 import subprocess  # nosec B404
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
+
+logger = logging.getLogger("robotsix_modules")
 
 # ---------------------------------------------------------------------------
 # Finding types
@@ -101,6 +104,10 @@ def _expand_module_paths(
     claimed: set[str] = set()
     stale: set[str] = set()
 
+    logger.debug(
+        "expanding %d path entries for module %s", len(path_entries), module_id
+    )
+
     for pattern in path_entries:
         matches = [
             str(p.relative_to(repo_root))
@@ -167,6 +174,7 @@ def check_registration(
     """
     # ---- resolve tracked files --------------------------------------------------
     if tracked_files is None:
+        logger.debug("running git ls-files in %s", repo_root)
         result = subprocess.run(  # nosec B603, B607
             ["git", "ls-files"],  # noqa: S607
             cwd=repo_root,
