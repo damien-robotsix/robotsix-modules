@@ -5,12 +5,15 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+import yaml
 
 from robotsix_modules.validation.registration import (
     _has_glob_metacharacters,
     check_registration,
     validate_paths,
 )
+
+FIXTURES = Path(__file__).parent / "fixtures"
 
 # ---------------------------------------------------------------------------
 # _has_glob_metacharacters
@@ -81,12 +84,7 @@ def test_duplicate_registration(tmp_path: Path) -> None:
     (tmp_path / "shared").mkdir(parents=True)
     (tmp_path / "shared" / "util.py").touch()
 
-    taxonomy = {
-        "modules": [
-            {"id": "mod-a", "description": "a", "paths": ["shared/**"]},
-            {"id": "mod-b", "description": "b", "paths": ["shared/**"]},
-        ]
-    }
+    taxonomy = yaml.safe_load((FIXTURES / "overlapping_modules.yaml").read_text())
     findings = check_registration(
         taxonomy,
         tmp_path,
@@ -96,8 +94,8 @@ def test_duplicate_registration(tmp_path: Path) -> None:
     f = findings[0]
     assert f.kind == "duplicate_registration"
     assert f.file == "shared/util.py"
-    assert f.module_id in ("mod-a", "mod-b")
-    assert f.other_module_id in ("mod-a", "mod-b")
+    assert f.module_id in ("alpha", "beta")
+    assert f.other_module_id in ("alpha", "beta")
     assert f.module_id != f.other_module_id
     assert "multiple modules" in f.message.lower()
 
