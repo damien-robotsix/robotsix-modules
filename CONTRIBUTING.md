@@ -83,6 +83,40 @@ uv run pre-commit run --all-files
 - Open your pull request against the `main` branch. CI runs on every pull
   request, so all checks must pass before a change can be merged.
 
+## Releasing a new version
+
+Releases are cut by maintainers and published to PyPI automatically. Follow
+these steps in order:
+
+1. Bump the `version` field under `[project]` in `pyproject.toml`, following
+   [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+2. Add a matching entry at the top of the entries in `CHANGELOG.md`, using the
+   existing [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format
+   (a `## [<version>]` heading with `### Added` / `### Changed` / `### Fixed`
+   subsections as appropriate). The version in the heading must match the new
+   `pyproject.toml` version.
+
+3. Commit both changes and push to `main` (e.g. a `Release v<version>`
+   commit). Make sure CI is green on `main` first — run the lint, format,
+   type-check, and test gate documented above before tagging.
+
+4. Create a GitHub Release whose tag follows the `v{version}` convention
+   (version `0.3.0` → tag `v0.3.0`). Use the `gh` CLI:
+
+   ```console
+   gh release create v<version> --title v<version> --notes "..."
+   ```
+
+   or create it through the GitHub web UI.
+
+5. Publishing the GitHub Release fires `.github/workflows/release.yml`, which
+   calls the `damien-robotsix/robotsix-mill` reusable `python-release.yml`
+   workflow and publishes the package to PyPI via
+   [Trusted Publishing](https://docs.pypi.org/trusted-publishers/) — no manual
+   `twine` or token step is required. Confirm the `Publish to PyPI` workflow
+   run succeeds.
+
 ## Dependabot
 
 Dependabot is configured to open automated dependency-update PRs for both
