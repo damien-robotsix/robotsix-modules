@@ -59,7 +59,7 @@ your change passes before pushing:
 ```console
 uv run ruff check .
 uv run ruff format --check .
-uv run mypy src tests/modules-validator
+uv run mypy src tests
 uv run deptry .
 uv run bandit -c pyproject.toml -r src/
 uv run pip-audit --strict --vulnerability-service osv --desc
