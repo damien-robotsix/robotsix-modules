@@ -6,6 +6,7 @@ import argparse
 import dataclasses
 import json
 import sys
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any, cast
 
@@ -37,69 +38,93 @@ def _safe_load_yaml(path: str | Path, label: str = "") -> dict[str, Any] | None:
         return None
 
 
+def _run_one(
+    path: str,
+    output_format: str,
+    compute: Callable[[dict[str, Any]], list[Any] | None],
+    *,
+    json_key: str,
+    serialize: Callable[[Any], Any],
+    text_value: Callable[[Any], Any],
+) -> int:
+    """Shared load -> compute -> output -> exit-code skeleton for the handlers.
+
+    Loads the taxonomy YAML (exit code 2 on failure), runs ``compute`` to
+    produce the result items, then emits them as JSON (under ``json_key``) or
+    text. ``compute`` returns the item list, or ``None`` to signal exit code 2
+    (its own diagnostic already printed).
+    """
+    taxonomy = _safe_load_yaml(path)
+    if taxonomy is None:
+        return 2
+
+    items = compute(taxonomy)
+    if items is None:
+        return 2
+
+    if output_format == "json":
+        json.dump({json_key: [serialize(item) for item in items]}, sys.stdout)
+        return 1 if items else 0
+    if items:
+        for item in items:
+            print(text_value(item), file=sys.stderr)
+        return 1
+    return 0
+
+
 def _validate_one(
     path: str, schema_path: str | None, output_format: str = "text"
 ) -> int:
     """Validate a single taxonomy file. Return the process exit code."""
-    taxonomy = _safe_load_yaml(path)
-    if taxonomy is None:
-        return 2
 
-    schema: dict[str, Any] | None = None
-    if schema_path is not None:
-        schema = _safe_load_yaml(schema_path, label="schema")
-        if schema is None:
-            return 2
+    def compute(taxonomy: dict[str, Any]) -> list[Any] | None:
+        schema: dict[str, Any] | None = None
+        if schema_path is not None:
+            schema = _safe_load_yaml(schema_path, label="schema")
+            if schema is None:
+                return None
+        return validate(taxonomy, schema=schema)
 
-    errors = validate(taxonomy, schema=schema)
-    if output_format == "json":
-        json.dump({"errors": errors}, sys.stdout)
-        return 1 if errors else 0
-    if errors:
-        for message in errors:
-            print(message, file=sys.stderr)
-        return 1
-    return 0
+    return _run_one(
+        path,
+        output_format,
+        compute,
+        json_key="errors",
+        serialize=lambda message: message,
+        text_value=lambda message: message,
+    )
 
 
 def _check_registration_one(path: str, root: str, output_format: str = "text") -> int:
     """Run registration check on one taxonomy file. Return exit code."""
-    taxonomy = _safe_load_yaml(path)
-    if taxonomy is None:
-        return 2
 
-    try:
-        findings = check_registration(taxonomy, Path(root))
-    except RuntimeError as exc:
-        print(f"{PROG}: error: {exc}", file=sys.stderr)
-        return 2
+    def compute(taxonomy: dict[str, Any]) -> list[Any] | None:
+        try:
+            return check_registration(taxonomy, Path(root))
+        except RuntimeError as exc:
+            print(f"{PROG}: error: {exc}", file=sys.stderr)
+            return None
 
-    if output_format == "json":
-        json.dump({"findings": [dataclasses.asdict(f) for f in findings]}, sys.stdout)
-        return 1 if findings else 0
-    if findings:
-        for f in findings:
-            print(f.message, file=sys.stderr)
-        return 1
-    return 0
+    return _run_one(
+        path,
+        output_format,
+        compute,
+        json_key="findings",
+        serialize=dataclasses.asdict,
+        text_value=lambda f: f.message,
+    )
 
 
 def _validate_paths_one(path: str, root: str, output_format: str = "text") -> int:
     """Run path validation on one taxonomy file. Return exit code."""
-    taxonomy = _safe_load_yaml(path)
-    if taxonomy is None:
-        return 2
-
-    findings = validate_paths(taxonomy, Path(root))
-
-    if output_format == "json":
-        json.dump({"findings": [dataclasses.asdict(f) for f in findings]}, sys.stdout)
-        return 1 if findings else 0
-    if findings:
-        for f in findings:
-            print(f.message, file=sys.stderr)
-        return 1
-    return 0
+    return _run_one(
+        path,
+        output_format,
+        lambda taxonomy: validate_paths(taxonomy, Path(root)),
+        json_key="findings",
+        serialize=dataclasses.asdict,
+        text_value=lambda f: f.message,
+    )
 
 
 def _build_parser() -> argparse.ArgumentParser:
