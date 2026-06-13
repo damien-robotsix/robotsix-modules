@@ -256,7 +256,7 @@ def main(argv: list[str] | None = None) -> int:
         return _check_registration_one(args.modules_yaml, args.root, args.output_format)
     if args.command == "validate-paths":
         return _validate_paths_one(args.modules_yaml, args.root, args.output_format)
-    parser.error(f"unknown command: {args.command}")
+    parser.error(f"unknown command: {args.command}")  # pragma: no cover
     return 2  # pragma: no cover - argparse exits before reaching here
 
 

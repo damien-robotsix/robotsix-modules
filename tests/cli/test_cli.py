@@ -139,6 +139,29 @@ def test_validate_file_valid_schema_override() -> None:
     assert validate_file(VALID, schema_path=str(SCHEMA_PATH)) == []
 
 
+# ---------------------------------------------------------------------------
+# Logging verbosity
+# ---------------------------------------------------------------------------
+
+
+def test_verbose_info_logging(capsys: pytest.CaptureFixture[str]) -> None:
+    """-v enables INFO-level logging to stderr."""
+    code = main(["validate", VALID, "-v"])
+    captured = capsys.readouterr()
+    assert code == 0
+    assert "INFO:" in captured.err
+    assert "loading" in captured.err
+
+
+def test_verbose_debug_logging(capsys: pytest.CaptureFixture[str]) -> None:
+    """-vv enables DEBUG-level logging to stderr."""
+    code = main(["validate", VALID, "-vv"])
+    captured = capsys.readouterr()
+    assert code == 0
+    assert "DEBUG:" in captured.err
+    assert "loaded" in captured.err
+
+
 def test_validate_file_invalid_names_pointer() -> None:
     errors = validate_file(INVALID)
     assert errors
@@ -629,3 +652,38 @@ def test_validate_main_json_single_document(
     captured = capsys.readouterr()
     assert code == 0
     assert json.loads(captured.out) == {"errors": []}
+
+
+def test_validate_main_json_missing_file(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """JSON mode: missing taxonomy file → exit 2, file-not-found on stderr."""
+    code = validate_main(["does-not-exist.yaml", "--output-format", "json"])
+    captured = capsys.readouterr()
+    assert code == 2
+    assert "file not found" in captured.err
+
+
+def test_validate_main_json_schema_missing(
+    capsys: pytest.CaptureFixture[str], tmp_path: Path
+) -> None:
+    """JSON mode: missing schema file → exit 2, schema-not-found on stderr."""
+    missing = tmp_path / "no-such.yaml"
+    code = validate_main([VALID, "--schema", str(missing), "--output-format", "json"])
+    captured = capsys.readouterr()
+    assert code == 2
+    assert "schema file not found" in captured.err
+
+
+def test_validate_main_json_schema_bad_yaml(
+    capsys: pytest.CaptureFixture[str], tmp_path: Path
+) -> None:
+    """JSON mode: broken schema YAML → exit 2, invalid-YAML on stderr."""
+    bad_schema = tmp_path / "bad-schema.yaml"
+    bad_schema.write_text("key: [unclosed", encoding="utf-8")
+    code = validate_main(
+        [VALID, "--schema", str(bad_schema), "--output-format", "json"]
+    )
+    captured = capsys.readouterr()
+    assert code == 2
+    assert "invalid YAML in schema" in captured.err
