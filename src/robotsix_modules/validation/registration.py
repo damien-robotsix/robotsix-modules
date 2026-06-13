@@ -175,12 +175,22 @@ def check_registration(
     # ---- resolve tracked files --------------------------------------------------
     if tracked_files is None:
         logger.debug("running git ls-files in %s", repo_root)
-        result = subprocess.run(  # nosec B603, B607
-            ["git", "ls-files"],  # noqa: S607
-            cwd=repo_root,
-            capture_output=True,
-            text=True,
-        )
+        try:
+            result = subprocess.run(  # nosec B603, B607
+                ["git", "ls-files"],  # noqa: S607
+                cwd=repo_root,
+                capture_output=True,
+                text=True,
+                timeout=60,  # generous; guards against a hung/locked repo
+            )
+        except FileNotFoundError as exc:
+            raise RuntimeError(
+                "git is not installed or not on PATH; cannot list tracked files"
+            ) from exc
+        except subprocess.TimeoutExpired as exc:
+            raise RuntimeError(
+                f"git ls-files timed out after 60s in {repo_root}"
+            ) from exc
         if result.returncode != 0:
             raise RuntimeError(
                 f"git ls-files failed in {repo_root}: {result.stderr.strip()}"
