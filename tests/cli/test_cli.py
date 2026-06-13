@@ -669,9 +669,7 @@ def test_validate_main_json_schema_missing(
 ) -> None:
     """JSON mode: missing schema file → exit 2, schema-not-found on stderr."""
     missing = tmp_path / "no-such.yaml"
-    code = validate_main(
-        [VALID, "--schema", str(missing), "--output-format", "json"]
-    )
+    code = validate_main([VALID, "--schema", str(missing), "--output-format", "json"])
     captured = capsys.readouterr()
     assert code == 2
     assert "schema file not found" in captured.err
