@@ -42,10 +42,12 @@ Run the test suite the same way CI does:
 uv run pytest
 ```
 
-CI enforces coverage with:
+The 80% coverage threshold lives in `pyproject.toml` (`fail_under` under
+`[tool.coverage.report]`), so `pytest --cov` enforces the identical gate both
+locally and in CI:
 
 ```console
-uv run pytest --cov --cov-branch --cov-report=xml --cov-report=term-missing --cov-fail-under=80
+uv run pytest --cov --cov-report=xml --cov-report=term-missing
 ```
 
 New code should keep coverage at or above the 80% threshold, so please add

@@ -67,3 +67,6 @@ skips = ["B101"]
 branch = true
 relative_files = true
 source = ["robotsix_modules"]
+
+[tool.coverage.report]
+fail_under = 80
