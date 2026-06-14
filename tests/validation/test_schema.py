@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import yaml
+from robotsix_yaml_config import read_yaml_file
 
 from robotsix_modules import SCHEMA_PATH, validate
 from robotsix_modules.validation.schema import load_schema
@@ -14,7 +14,7 @@ def test_schema_path_resolves_and_is_readable() -> None:
 
 
 def test_bundled_schema_parses_and_has_expected_keys() -> None:
-    schema = yaml.safe_load(SCHEMA_PATH.read_text(encoding="utf-8"))
+    schema = read_yaml_file(SCHEMA_PATH)
     assert schema["$schema"] == "https://json-schema.org/draft/2020-12/schema"
     assert schema["$id"] == (
         "https://robotsix.github.io/modules/schemas/modules.schema.yaml"

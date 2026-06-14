@@ -6,7 +6,7 @@ import subprocess
 from pathlib import Path
 
 import pytest
-import yaml
+from robotsix_yaml_config import read_yaml_file
 
 from robotsix_modules.validation.registration import (
     _has_glob_metacharacters,
@@ -85,7 +85,7 @@ def test_duplicate_registration(tmp_path: Path) -> None:
     (tmp_path / "shared").mkdir(parents=True)
     (tmp_path / "shared" / "util.py").touch()
 
-    taxonomy = yaml.safe_load((FIXTURES / "overlapping_modules.yaml").read_text())
+    taxonomy = read_yaml_file(FIXTURES / "overlapping_modules.yaml")
     findings = check_registration(
         taxonomy,
         tmp_path,

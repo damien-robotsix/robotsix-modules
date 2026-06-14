@@ -13,10 +13,10 @@ Public API:
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, cast
+from typing import Any
 
-import yaml
 from jsonschema import Draft202012Validator
+from robotsix_yaml_config import YamlReadError, read_yaml_file
 
 from .registration import (
     PathFinding,
@@ -42,11 +42,14 @@ def load_taxonomy(path: str | Path) -> dict[str, Any]:
     """Load a ``modules.yaml`` file and return it as a dict.
 
     Raises:
-        FileNotFoundError: when ``path`` does not exist.
-        yaml.YAMLError: when the file is not valid YAML.
+        YamlReadError: when ``path`` does not exist or cannot be read.
+        YamlParseError: when the file is not valid YAML.
+        InvalidConfigStructureError: when the parsed content is not a mapping.
     """
-    text = Path(path).read_text(encoding="utf-8")
-    return cast(dict[str, Any], yaml.safe_load(text))
+    target = Path(path)
+    if not target.exists():
+        raise YamlReadError(f"file not found: {path}")
+    return read_yaml_file(target)
 
 
 def _format_error(error: Any) -> str:
@@ -97,5 +100,5 @@ def validate_file(
     taxonomy = load_taxonomy(path)
     schema: dict[str, Any] | None = None
     if schema_path is not None:
-        schema = yaml.safe_load(Path(schema_path).read_text(encoding="utf-8"))
+        schema = read_yaml_file(Path(schema_path))
     return validate(taxonomy, schema=schema)
