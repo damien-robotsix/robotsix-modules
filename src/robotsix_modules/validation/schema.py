@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from importlib.resources import files
 from pathlib import Path
-from typing import Any, cast
+from typing import Any
 
-import yaml
+from robotsix_yaml_config import read_yaml_file
 
 #: Filesystem path to the bundled JSON Schema resource.
 SCHEMA_PATH: Path = Path(
@@ -16,9 +16,4 @@ SCHEMA_PATH: Path = Path(
 
 def load_schema() -> dict[str, Any]:
     """Parse and return the bundled JSON Schema as a dict."""
-    text = (
-        files("robotsix_modules.validation.schemas")
-        .joinpath("modules.schema.yaml")
-        .read_text(encoding="utf-8")
-    )
-    return cast(dict[str, Any], yaml.safe_load(text))
+    return read_yaml_file(SCHEMA_PATH)

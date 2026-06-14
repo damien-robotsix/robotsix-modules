@@ -9,9 +9,9 @@ import logging
 import sys
 from collections.abc import Callable
 from pathlib import Path
-from typing import Any, cast
+from typing import Any
 
-import yaml
+from robotsix_yaml_config import YamlConfigError, YamlReadError, read_yaml_file
 
 from robotsix_modules import __version__, validate
 from robotsix_modules.validation import check_registration, validate_paths
@@ -43,19 +43,19 @@ def _safe_load_yaml(path: str | Path, label: str = "") -> dict[str, Any] | None:
     """
     try:
         logger.info("loading %s", path)
-        result = cast(
-            dict[str, Any],
-            yaml.safe_load(Path(path).read_text(encoding="utf-8")),
-        )
+        target = Path(path)
+        if not target.exists():
+            raise YamlReadError(f"file not found: {path}")
+        result = read_yaml_file(target)
         logger.debug("loaded %d top-level keys from %s", len(result), path)
         return result
-    except FileNotFoundError:
+    except YamlReadError:
         if label:
             logger.error("%s file not found: %s", label, path)
         else:
             logger.error("file not found: %s", path)
         return None
-    except yaml.YAMLError as exc:
+    except YamlConfigError as exc:
         if label:
             logger.error("invalid YAML in %s %s: %s", label, path, exc)
         else:
