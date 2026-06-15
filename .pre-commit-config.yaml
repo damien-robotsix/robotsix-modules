@@ -44,3 +44,9 @@ repos:
         entry: vulture src/ vulture_whitelist.py
         language: system
         pass_filenames: false
+      - id: validate-module-taxonomy
+        name: Validate module taxonomy
+        entry: robotsix-modules-validate
+        language: system
+        files: ^docs/modules\.ya?ml$
+        types_or: [yaml]
