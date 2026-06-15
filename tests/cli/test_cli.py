@@ -366,6 +366,29 @@ def test_check_registration_root_flag_respected(
     assert code == 0, f"stderr: {captured.err}"
 
 
+def test_check_registration_non_git_root_exit_two(
+    capsys: pytest.CaptureFixture[str], tmp_path: Path
+) -> None:
+    """Non-git --root causes git ls-files to fail → RuntimeError → exit 2."""
+    (tmp_path / "src" / "example").mkdir(parents=True)
+    (tmp_path / "src" / "example" / "app.py").touch()
+
+    yaml_path = tmp_path / "modules.yaml"
+    yaml_path.write_text(
+        "modules:\n"
+        "  - id: example\n"
+        "    description: x\n"
+        "    paths:\n"
+        "      - src/example/**\n",
+        encoding="utf-8",
+    )
+
+    code = main(["check-registration", str(yaml_path), "--root", str(tmp_path)])
+    captured = capsys.readouterr()
+    assert code == 2
+    assert "git ls-files failed" in captured.err
+
+
 # ---------------------------------------------------------------------------
 # CLI: validate-paths
 # ---------------------------------------------------------------------------
