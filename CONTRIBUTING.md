@@ -21,13 +21,13 @@ environment and dependencies.
 2. Install the project together with the `dev` extra:
 
    ```console
-   uv sync --extra dev
+   uv sync --group dev
    ```
 
 CI installs the exact same dependency set from the committed `uv.lock` with:
 
 ```console
-uv sync --frozen --extra dev
+uv sync --frozen --group dev
 ```
 
 `uv.lock` is committed to the repository and is the source of truth for

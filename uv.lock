@@ -688,7 +688,7 @@ dependencies = [
     { name = "robotsix-yaml-config" },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 dev = [
     { name = "bandit" },
     { name = "deptry" },
@@ -702,18 +702,21 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "bandit", extras = ["toml"], marker = "extra == 'dev'", specifier = ">=1.8" },
-    { name = "deptry", marker = "extra == 'dev'", specifier = ">=0.20" },
     { name = "jsonschema", specifier = ">=4" },
-    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.15" },
-    { name = "pip-audit", marker = "extra == 'dev'", specifier = ">=2.6.0" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8" },
-    { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=5" },
     { name = "robotsix-yaml-config", git = "https://github.com/damien-robotsix/robotsix-yaml-config.git?rev=main" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.11" },
-    { name = "vulture", marker = "extra == 'dev'" },
 ]
-provides-extras = ["dev"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "bandit", extras = ["toml"], specifier = ">=1.8" },
+    { name = "deptry", specifier = ">=0.20" },
+    { name = "mypy", specifier = ">=1.15" },
+    { name = "pip-audit", specifier = ">=2.6.0" },
+    { name = "pytest", specifier = ">=8" },
+    { name = "pytest-cov", specifier = ">=5" },
+    { name = "ruff", specifier = ">=0.11" },
+    { name = "vulture" },
+]
 
 [[package]]
 name = "robotsix-yaml-config"
