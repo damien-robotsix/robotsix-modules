@@ -12,6 +12,7 @@ modules:
       - src/robotsix_modules/__init__.py
       - src/robotsix_modules/py.typed
       - src/robotsix_modules/validation/**
+      - docs/**
 
   - id: cli
     description: >
