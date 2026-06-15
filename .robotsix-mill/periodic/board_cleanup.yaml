@@ -1,0 +1,9 @@
+# Per-repo periodic workflow: the PRESENCE of this file enables the
+# `board_cleanup` periodic for robotsix-modules.  It automatically
+# reviews recent tickets for staleness, duplicates, and mis-labeling
+# and files draft tickets for any hygiene issues found.  Schedule
+# (interval: 1d), model, tool list, and system prompt are all
+# inherited from the mill's built-in
+# agent_definitions/periodic/board_cleanup.yaml via partial-merge —
+# this file only needs `name`.
+name: board_cleanup
