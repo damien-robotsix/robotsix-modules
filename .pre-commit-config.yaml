@@ -37,3 +37,10 @@ repos:
     hooks:
       - id: detect-secrets
         args: ["--baseline", ".secrets.baseline"]
+  - repo: local
+    hooks:
+      - id: vulture
+        name: vulture
+        entry: vulture src/ vulture_whitelist.py
+        language: system
+        pass_filenames: false
