@@ -44,7 +44,7 @@ select = ["E", "F", "I", "UP", "B", "S"]
 [tool.ruff.lint.per-file-ignores]
 "tests/validation/**" = ["S101", "S607"]
 "tests/cli/**" = ["S101", "S607"]
-"vulture_whitelist.py" = ["B018"]
+"vulture_whitelist.py" = ["B018", "F821"]
 
 [tool.mypy]
 python_version = "3.14"
@@ -58,7 +58,7 @@ ignore_missing_imports = true
 known_first_party = ["robotsix_modules"]
 
 [tool.deptry.per_rule_ignores]
-DEP002 = ["pytest", "pytest-cov", "ruff", "mypy", "deptry", "pip-audit", "bandit"]
+DEP002 = ["pytest", "pytest-cov", "ruff", "mypy", "deptry", "pip-audit", "bandit", "vulture"]
 
 [tool.bandit]
 exclude_dirs = ["tests/validation", "tests/cli"]
