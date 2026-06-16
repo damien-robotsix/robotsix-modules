@@ -5,7 +5,7 @@ on:
   pull_request:
 jobs:
   check:
-    uses: damien-robotsix/robotsix-mill/.github/workflows/python-ci.yml@main
+    uses: damien-robotsix/robotsix-mill/.github/workflows/python-ci.yml@7338e0580335ed4fe01c30f79276c29e84dfbcc2
     with:
       python-version: "3.14"
       cov-package: "robotsix_modules"
@@ -64,5 +64,5 @@ jobs:
           path: sbom.json
 
   security:
-    uses: damien-robotsix/robotsix-mill/.github/workflows/python-security.yml@main
+    uses: damien-robotsix/robotsix-mill/.github/workflows/python-security.yml@7338e0580335ed4fe01c30f79276c29e84dfbcc2
     secrets: inherit
