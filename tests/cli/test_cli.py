@@ -10,6 +10,7 @@ import pytest
 
 from robotsix_modules import SCHEMA_PATH, validate_file
 from robotsix_modules.cli import main, validate_main
+from conftest import git_commit
 
 FIXTURES = Path(__file__).parent / "fixtures"
 VALID = str(FIXTURES / "valid_modules.yaml")
@@ -174,13 +175,13 @@ def test_validate_file_invalid_names_pointer() -> None:
 
 
 def test_check_registration_valid_fixture_no_findings(
-    capsys: pytest.CaptureFixture[str], tmp_path: Path
+    capsys: pytest.CaptureFixture[str], git_repo: Path
 ) -> None:
     """Valid taxonomy in a git repo with all tracked files covered → exit 0."""
-    (tmp_path / "src" / "example").mkdir(parents=True)
-    (tmp_path / "src" / "example" / "app.py").touch()
+    (git_repo / "src" / "example").mkdir(parents=True)
+    (git_repo / "src" / "example" / "app.py").touch()
 
-    yaml_path = tmp_path / "modules.yaml"
+    yaml_path = git_repo / "modules.yaml"
     yaml_path.write_text(
         "modules:\n"
         "  - id: example\n"
@@ -190,41 +191,22 @@ def test_check_registration_valid_fixture_no_findings(
         encoding="utf-8",
     )
 
-    import subprocess
-
-    subprocess.run(["git", "init"], cwd=tmp_path, capture_output=True)
     # Only track the source file, not modules.yaml itself
-    subprocess.run(
-        ["git", "add", "src/example/app.py"], cwd=tmp_path, capture_output=True
-    )
-    subprocess.run(
-        [
-            "git",
-            "-c",
-            "user.name=test",
-            "-c",
-            "user.email=test@test",
-            "commit",
-            "-m",
-            "init",
-        ],
-        cwd=tmp_path,
-        capture_output=True,
-    )
+    git_commit(git_repo, "src/example/app.py")
 
-    code = main(["check-registration", str(yaml_path), "--root", str(tmp_path)])
+    code = main(["check-registration", str(yaml_path), "--root", str(git_repo)])
     captured = capsys.readouterr()
     assert code == 0, f"stderr: {captured.err}"
 
 
 def test_check_registration_clean_tmp_path(
-    capsys: pytest.CaptureFixture[str], tmp_path: Path
+    capsys: pytest.CaptureFixture[str], git_repo: Path
 ) -> None:
     """Valid taxonomy + all files covered → exit 0."""
-    (tmp_path / "src" / "example").mkdir(parents=True)
-    (tmp_path / "src" / "example" / "app.py").touch()
+    (git_repo / "src" / "example").mkdir(parents=True)
+    (git_repo / "src" / "example" / "app.py").touch()
 
-    yaml_path = tmp_path / "modules.yaml"
+    yaml_path = git_repo / "modules.yaml"
     yaml_path.write_text(
         "modules:\n"
         "  - id: example\n"
@@ -234,42 +216,21 @@ def test_check_registration_clean_tmp_path(
         encoding="utf-8",
     )
 
-    # init a git repo so git ls-files works
-    import subprocess
+    git_commit(git_repo, "src/example/app.py")
 
-    subprocess.run(["git", "init"], cwd=tmp_path, capture_output=True)
-    subprocess.run(
-        ["git", "add", "src/example/app.py"], cwd=tmp_path, capture_output=True
-    )
-    # We need a minimal git config to commit
-    subprocess.run(
-        [
-            "git",
-            "-c",
-            "user.name=test",
-            "-c",
-            "user.email=test@test",
-            "commit",
-            "-m",
-            "init",
-        ],
-        cwd=tmp_path,
-        capture_output=True,
-    )
-
-    code = main(["check-registration", str(yaml_path), "--root", str(tmp_path)])
+    code = main(["check-registration", str(yaml_path), "--root", str(git_repo)])
     captured = capsys.readouterr()
     assert code == 0, f"stderr: {captured.err}"
     assert captured.out == ""
 
 
 def test_check_registration_unclassified_exit_one(
-    capsys: pytest.CaptureFixture[str], tmp_path: Path
+    capsys: pytest.CaptureFixture[str], git_repo: Path
 ) -> None:
     """Taxonomy with unclaimed tracked file → exit 1."""
-    (tmp_path / "orphan.txt").touch()
+    (git_repo / "orphan.txt").touch()
 
-    yaml_path = tmp_path / "modules.yaml"
+    yaml_path = git_repo / "modules.yaml"
     yaml_path.write_text(
         "modules:\n"
         "  - id: example\n"
@@ -279,26 +240,9 @@ def test_check_registration_unclassified_exit_one(
         encoding="utf-8",
     )
 
-    import subprocess
+    git_commit(git_repo, "orphan.txt")
 
-    subprocess.run(["git", "init"], cwd=tmp_path, capture_output=True)
-    subprocess.run(["git", "add", "orphan.txt"], cwd=tmp_path, capture_output=True)
-    subprocess.run(
-        [
-            "git",
-            "-c",
-            "user.name=test",
-            "-c",
-            "user.email=test@test",
-            "commit",
-            "-m",
-            "init",
-        ],
-        cwd=tmp_path,
-        capture_output=True,
-    )
-
-    code = main(["check-registration", str(yaml_path), "--root", str(tmp_path)])
+    code = main(["check-registration", str(yaml_path), "--root", str(git_repo)])
     captured = capsys.readouterr()
     assert code == 1
     assert "orphan.txt" in captured.err
@@ -342,24 +286,8 @@ def test_check_registration_root_flag_respected(
         encoding="utf-8",
     )
 
-    import subprocess
-
-    subprocess.run(["git", "init"], cwd=root, capture_output=True)
-    subprocess.run(["git", "add", "src/lib.py"], cwd=root, capture_output=True)
-    subprocess.run(
-        [
-            "git",
-            "-c",
-            "user.name=test",
-            "-c",
-            "user.email=test@test",
-            "commit",
-            "-m",
-            "init",
-        ],
-        cwd=root,
-        capture_output=True,
-    )
+    subprocess.run(["git", "init"], cwd=root, capture_output=True, check=True)
+    git_commit(root, "src/lib.py")
 
     code = main(["check-registration", str(yaml_path), "--root", str(root)])
     captured = capsys.readouterr()
@@ -485,11 +413,11 @@ def test_validate_paths_root_flag_respected(
 # ---------------------------------------------------------------------------
 
 
-def _init_repo_with_orphan(tmp_path: Path) -> Path:
+def _init_repo_with_orphan(git_repo: Path) -> Path:
     """Create a git repo with an unclaimed tracked file. Return the yaml path."""
-    (tmp_path / "orphan.txt").touch()
+    (git_repo / "orphan.txt").touch()
 
-    yaml_path = tmp_path / "modules.yaml"
+    yaml_path = git_repo / "modules.yaml"
     yaml_path.write_text(
         "modules:\n"
         "  - id: example\n"
@@ -499,37 +427,22 @@ def _init_repo_with_orphan(tmp_path: Path) -> Path:
         encoding="utf-8",
     )
 
-    subprocess.run(["git", "init"], cwd=tmp_path, capture_output=True)
-    subprocess.run(["git", "add", "orphan.txt"], cwd=tmp_path, capture_output=True)
-    subprocess.run(
-        [
-            "git",
-            "-c",
-            "user.name=test",
-            "-c",
-            "user.email=test@test",
-            "commit",
-            "-m",
-            "init",
-        ],
-        cwd=tmp_path,
-        capture_output=True,
-    )
+    git_commit(git_repo, "orphan.txt")
     return yaml_path
 
 
 def test_check_registration_json_findings(
-    capsys: pytest.CaptureFixture[str], tmp_path: Path
+    capsys: pytest.CaptureFixture[str], git_repo: Path
 ) -> None:
     """JSON mode emits a RegistrationFinding object and exits 1."""
-    yaml_path = _init_repo_with_orphan(tmp_path)
+    yaml_path = _init_repo_with_orphan(git_repo)
 
     code = main(
         [
             "check-registration",
             str(yaml_path),
             "--root",
-            str(tmp_path),
+            str(git_repo),
             "--output-format",
             "json",
         ]
@@ -546,13 +459,13 @@ def test_check_registration_json_findings(
 
 
 def test_check_registration_json_clean(
-    capsys: pytest.CaptureFixture[str], tmp_path: Path
+    capsys: pytest.CaptureFixture[str], git_repo: Path
 ) -> None:
     """JSON mode on a clean repo emits {"findings": []} and exits 0."""
-    (tmp_path / "src" / "example").mkdir(parents=True)
-    (tmp_path / "src" / "example" / "app.py").touch()
+    (git_repo / "src" / "example").mkdir(parents=True)
+    (git_repo / "src" / "example" / "app.py").touch()
 
-    yaml_path = tmp_path / "modules.yaml"
+    yaml_path = git_repo / "modules.yaml"
     yaml_path.write_text(
         "modules:\n"
         "  - id: example\n"
@@ -562,31 +475,14 @@ def test_check_registration_json_clean(
         encoding="utf-8",
     )
 
-    subprocess.run(["git", "init"], cwd=tmp_path, capture_output=True)
-    subprocess.run(
-        ["git", "add", "src/example/app.py"], cwd=tmp_path, capture_output=True
-    )
-    subprocess.run(
-        [
-            "git",
-            "-c",
-            "user.name=test",
-            "-c",
-            "user.email=test@test",
-            "commit",
-            "-m",
-            "init",
-        ],
-        cwd=tmp_path,
-        capture_output=True,
-    )
+    git_commit(git_repo, "src/example/app.py")
 
     code = main(
         [
             "check-registration",
             str(yaml_path),
             "--root",
-            str(tmp_path),
+            str(git_repo),
             "--output-format",
             "json",
         ]
