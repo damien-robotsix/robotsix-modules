@@ -7,10 +7,10 @@ import subprocess
 from pathlib import Path
 
 import pytest
+from conftest import git_commit
 
 from robotsix_modules import SCHEMA_PATH, validate_file
 from robotsix_modules.cli import main, validate_main
-from conftest import git_commit
 
 FIXTURES = Path(__file__).parent / "fixtures"
 VALID = str(FIXTURES / "valid_modules.yaml")
