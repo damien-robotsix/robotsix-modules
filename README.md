@@ -10,6 +10,19 @@ that file and ships a small CLI + Python API to validate it.
 
 ## Install
 
+> **Note:** A plain `pip install robotsix-modules` from PyPI does **not**
+> currently resolve. The runtime dependency `robotsix-yaml-config` is
+> Git-only (not published to PyPI), and `pip` cannot fetch it from the
+> published wheel metadata. Use one of the supported install paths below.
+
+With `uv`, which resolves the `[tool.uv.sources]` Git entry:
+
+```console
+uv add "robotsix-modules @ git+https://github.com/damien-robotsix/robotsix-modules@v0.2.0"
+```
+
+With `pip`, using the git-URL form:
+
 ```console
 pip install "robotsix-modules @ git+https://github.com/damien-robotsix/robotsix-modules@v0.2.0"
 ```

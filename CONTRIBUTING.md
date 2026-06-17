@@ -119,6 +119,16 @@ these steps in order:
    `twine` or token step is required. Confirm the `Publish to PyPI` workflow
    run succeeds.
 
+> **Install contract:** The PyPI artifact is **not** installable via a plain
+> `pip install robotsix-modules`. The runtime dependency
+> `robotsix-yaml-config` is Git-only (not published to PyPI), and
+> `[tool.uv.sources]` is not emitted into wheel metadata, so plain `pip`
+> cannot resolve it. The supported install paths are `uv` and
+> `pip` with the git-URL form (see [`README.md`](README.md#install)). The
+> long-term fix is to publish `robotsix-yaml-config` to PyPI and replace the
+> Git source with a version constraint — tracked separately in the
+> `robotsix-yaml-config` repository.
+
 ## Dependabot
 
 Dependabot is configured to open automated dependency-update PRs for both
