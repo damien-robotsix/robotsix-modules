@@ -703,7 +703,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "jsonschema", specifier = ">=4" },
-    { name = "robotsix-yaml-config", git = "https://github.com/damien-robotsix/robotsix-yaml-config.git?rev=main" },
+    { name = "robotsix-yaml-config", git = "https://github.com/damien-robotsix/robotsix-yaml-config.git?rev=d302ee4ada88905efa48333894ed19519f9f7920" },
 ]
 
 [package.metadata.requires-dev]
@@ -721,7 +721,7 @@ dev = [
 [[package]]
 name = "robotsix-yaml-config"
 version = "0.1.0"
-source = { git = "https://github.com/damien-robotsix/robotsix-yaml-config.git?rev=main#d302ee4ada88905efa48333894ed19519f9f7920" }
+source = { git = "https://github.com/damien-robotsix/robotsix-yaml-config.git?rev=d302ee4ada88905efa48333894ed19519f9f7920#d302ee4ada88905efa48333894ed19519f9f7920" }
 dependencies = [
     { name = "pyyaml" },
 ]
