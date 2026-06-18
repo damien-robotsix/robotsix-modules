@@ -61,7 +61,7 @@ jobs:
           uv venv --python 3.14 wheel-env
           uv pip install --python wheel-env \
             dist/*.whl \
-            "robotsix-yaml-config @ git+https://github.com/damien-robotsix/robotsix-yaml-config.git"
+            "robotsix-yaml-config @ git+https://github.com/damien-robotsix/robotsix-yaml-config.git@d302ee4ada88905efa48333894ed19519f9f7920"
       - name: Smoke-test the console entry point
         run: ./wheel-env/bin/robotsix-modules --version
 

@@ -26,7 +26,7 @@ robotsix-modules = "robotsix_modules.cli:main"
 robotsix-modules-validate = "robotsix_modules.cli:validate_main"
 
 [tool.uv.sources]
-robotsix-yaml-config = { git = "https://github.com/damien-robotsix/robotsix-yaml-config.git", rev = "main" }
+robotsix-yaml-config = { git = "https://github.com/damien-robotsix/robotsix-yaml-config.git", rev = "d302ee4ada88905efa48333894ed19519f9f7920" }
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/robotsix_modules"]
