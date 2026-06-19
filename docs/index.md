@@ -32,4 +32,4 @@ if errors:
 - **`validate_paths(taxonomy, repo_root)`** — check that module paths
   resolve to real files
 
-See the [API Reference](api.md) for full details.
+See the [API Reference](validation/api.md) for full details.
