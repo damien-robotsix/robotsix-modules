@@ -1,6 +1,15 @@
 # Module taxonomy for robotsix-modules itself.
 # Validate with:  robotsix-modules validate docs/modules.yaml
 modules:
+  - id: docs
+    description: >
+      Project-level documentation: MkDocs site config, homepage,
+      and the module taxonomy file itself.
+    paths:
+      - docs/index.md
+      - docs/modules.yaml
+      - docs/cli/.gitkeep
+
   - id: validation
     description: >
       Core module-taxonomy validation logic. Provides the public API
