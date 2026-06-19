@@ -147,7 +147,7 @@ def test_git_not_installed_raises_runtime_error(
 ) -> None:
     """git binary missing → clean RuntimeError instead of FileNotFoundError."""
 
-    def _raise_fnf(*args: object, **kwargs: object) -> None:
+    def _raise_fnf(*_args: object, **_kwargs: object) -> None:
         raise FileNotFoundError(2, "No such file or directory", "git")
 
     monkeypatch.setattr(
@@ -162,7 +162,7 @@ def test_git_ls_files_timeout_raises_runtime_error(
 ) -> None:
     """git ls-files hanging past the timeout → clean RuntimeError."""
 
-    def _raise_timeout(*args: object, **kwargs: object) -> None:
+    def _raise_timeout(*_args: object, **_kwargs: object) -> None:
         raise subprocess.TimeoutExpired(cmd=["git", "ls-files"], timeout=60)
 
     monkeypatch.setattr(
