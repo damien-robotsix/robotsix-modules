@@ -14,5 +14,6 @@ plugins:
             show_root_heading: true
 nav:
   - Home: index.md
+  - Schema Reference: schema-reference.md
   - API Reference: validation/api.md
   - Contributing: ../CONTRIBUTING.md
