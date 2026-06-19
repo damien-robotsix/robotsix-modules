@@ -1,0 +1,15 @@
+name: Weekly dependency bump
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bump:
+    uses: damien-robotsix/robotsix-mill/.github/workflows/deps-bump.yml@06f8807049ed8c16f584d2bf1e87f023e8a7e89a
+    secrets:
+      DEPS_BUMP_TOKEN: ${{ secrets.DEPS_BUMP_TOKEN }}
