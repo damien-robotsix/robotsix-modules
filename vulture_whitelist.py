@@ -8,3 +8,5 @@ validate_main
 kind
 file
 other_module_id
+module_id
+path
