@@ -93,6 +93,17 @@ these steps in order:
 1. Bump the `version` field under `[project]` in `pyproject.toml`, following
    [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+   > **Note:** `__version__` in `src/robotsix_modules/__init__.py` is now
+   > auto-derived from `pyproject.toml` at runtime via `importlib.metadata`
+   > and no longer needs manual updating. The test assertion in
+   > `tests/cli/test_cli.py` reads `__version__` dynamically — no manual
+   > update needed there either.
+   >
+   > The following files still require **manual** version-string updates;
+   > the CI version-consistency job enforces them:
+   > - `README.md` — the `vX.Y.Z` strings in install examples (3 occurrences).
+   > - `SECURITY.md` — the `**vX.Y.Z**` supported-version string.
+
 2. Add a matching entry at the top of the entries in `CHANGELOG.md`, using the
    existing [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format
    (a `## [<version>]` heading with `### Added` / `### Changed` / `### Fixed`

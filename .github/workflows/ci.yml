@@ -33,15 +33,15 @@ jobs:
       - name: Check version consistency
         run: |
           PYPROJECT=$(uv run python -c "from tomllib import load; print(load(open('pyproject.toml','rb'))['project']['version'])")
-          INIT=$(uv run python -c "from robotsix_modules import __version__; print(__version__)")
           CHANGELOG=$(grep -oP '^## \[\K[^\]]+' CHANGELOG.md | head -1)
-          TEST=$(grep -oP 'robotsix-modules \K\d+\.\d+\.\d+' tests/cli/test_cli.py)
-          if [ "$PYPROJECT" != "$INIT" ] || [ "$PYPROJECT" != "$CHANGELOG" ] || [ "$PYPROJECT" != "$TEST" ]; then
+          README_VER=$(grep -oP 'v\d+\.\d+\.\d+' README.md | head -3 | sort -u)
+          SECURITY_VER=$(grep -oP '\*\*v\d+\.\d+\.\d+\*\*' SECURITY.md | grep -oP '\d+\.\d+\.\d+')
+          if [ "$PYPROJECT" != "$CHANGELOG" ] || echo "$README_VER" | grep -qvF "$PYPROJECT" || [ "$PYPROJECT" != "$SECURITY_VER" ]; then
             echo "Version mismatch detected"
             echo "  pyproject.toml:   $PYPROJECT"
-            echo "  __init__.py:      $INIT"
             echo "  CHANGELOG.md:     $CHANGELOG"
-            echo "  tests/cli/test:   $TEST"
+            echo "  README.md:        $README_VER"
+            echo "  SECURITY.md:      $SECURITY_VER"
             exit 1
           fi
 

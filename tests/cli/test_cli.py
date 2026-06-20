@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 from conftest import git_commit
 
-from robotsix_modules import SCHEMA_PATH, validate_file
+from robotsix_modules import SCHEMA_PATH, __version__, validate_file
 from robotsix_modules.cli import main, validate_main
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -28,7 +28,7 @@ def test_version_exit_zero_stdout(capsys: pytest.CaptureFixture[str]) -> None:
         main(["--version"])
     assert exc.value.code == 0
     captured = capsys.readouterr()
-    assert captured.out.strip() == "robotsix-modules 0.2.0"
+    assert captured.out.strip() == f"robotsix-modules {__version__}"
 
 
 # ===================================================================
