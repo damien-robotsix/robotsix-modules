@@ -29,68 +29,20 @@ pip install "robotsix-modules @ git+https://github.com/damien-robotsix/robotsix-
 
 ## CLI
 
+The `robotsix-modules` CLI provides subcommands for validating module
+taxonomies, checking registration completeness, and verifying path
+resolutions. All subcommands support `--verbose`, `--output-format`, and
+standardised exit codes (0 = valid, 1 = validation errors, 2 = file/parse
+errors).
+
 ```console
 $ robotsix-modules validate docs/modules.yaml   # exit 0 when valid, empty output
-$ robotsix-modules validate broken.yaml          # prints "<pointer>: <message>" lines to stderr; exit 1
-$ robotsix-modules validate missing.yaml         # "robotsix-modules: error: file not found: ..."; exit 2
-$ robotsix-modules --version                     # robotsix-modules 0.2.0
+$ robotsix-modules validate broken.yaml          # prints errors to stderr; exit 1
 ```
 
-```console
-$ robotsix-modules check-registration docs/modules.yaml
-# exit 0 — every tracked file is claimed by exactly one module
-
-$ robotsix-modules check-registration docs/modules.yaml --root /path/to/repo
-# exit 1 — prints findings (unclassified files, stale paths, duplicates) to stderr
-
-$ robotsix-modules validate-paths docs/modules.yaml
-# exit 0 — every module path resolves to at least one file on disk
-
-$ robotsix-modules validate-paths docs/modules.yaml --root .
-# exit 1 — prints path_not_found / glob_empty findings to stderr
-```
-
-Exit codes: `0` = valid, `1` = validation errors, `2` = file/parse
-errors. All diagnostics go to stderr; stdout stays empty on success.
-
-Pass `-v` / `--verbose` to any subcommand (and the
-`robotsix-modules-validate` wrapper) for more diagnostic detail:
-`-v` shows informational messages (files being loaded), `-vv` adds
-debug messages (glob expansion, git commands). At default verbosity
-(no `-v`), only errors are reported, matching the original behaviour.
-
-Pass `--output-format {text,json}` to any subcommand (and the
-`robotsix-modules-validate` wrapper). The default `text` preserves the
-human-readable stderr behavior above. `json` writes a single JSON object
-to stdout — `{"findings": [...]}` for `check-registration`/`validate-paths`
-and `{"errors": [...]}` for `validate` — while operational errors stay on
-stderr. Exit codes are identical in both modes.
-
-```console
-$ robotsix-modules check-registration docs/modules.yaml --output-format json
-{"findings": []}
-```
-
-Pass `--schema <path>` to `validate` to override the bundled schema.
-
-For `check-registration` and `validate-paths`, add `--root <dir>` to
-specify the repository root (defaults to the current directory). Both
-subcommands follow the same exit-code contract: 0 = no findings, 1 =
-findings found, 2 = file/parse/git error.
-
-For pre-commit, use the wrapper entry point, which accepts one or more
-positional paths (pre-commit passes each matched file separately):
-
-```yaml
-  - repo: local
-    hooks:
-      - id: validate-module-taxonomy
-        name: Validate module taxonomy
-        entry: robotsix-modules-validate
-        language: system
-        files: ^docs/modules\.ya?ml$
-        types_or: [yaml]
-```
+For the full CLI reference — including all subcommands, options, exit
+codes, output formats, and pre-commit integration — see
+[docs/cli/usage.md](docs/cli/usage.md).
 
 ## Python API
 
