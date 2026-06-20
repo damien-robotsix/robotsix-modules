@@ -10,6 +10,7 @@ modules:
       - docs/modules.yaml
       - docs/cli/.gitkeep
       - docs/cli/usage.md
+      - docs/schema-reference.md
 
   - id: validation
     description: >
