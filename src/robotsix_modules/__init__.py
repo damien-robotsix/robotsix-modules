@@ -24,7 +24,12 @@ from .validation import (
     validate_paths,
 )
 
-__version__ = "0.2.0"
+try:
+    from importlib.metadata import version as _metadata_version
+
+    __version__ = _metadata_version("robotsix-modules")
+except Exception:
+    __version__ = "0.0.0.dev0"  # fallback for uninstalled / dev context
 
 __all__ = [
     "PathFinding",
