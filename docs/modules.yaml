@@ -9,6 +9,7 @@ modules:
       - docs/index.md
       - docs/modules.yaml
       - docs/cli/.gitkeep
+      - docs/cli/usage.md
 
   - id: validation
     description: >
