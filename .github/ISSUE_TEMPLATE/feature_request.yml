@@ -1,0 +1,47 @@
+name: Feature request
+description: Suggest a new feature or enhancement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping shape robotsix-modules! Please describe
+        the problem you're trying to solve and your proposed solution.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / use case
+      description: |
+        What problem are you trying to solve? What use case isn't currently
+        supported?
+      placeholder: |
+        I want to validate module registrations against a JSON schema but
+        the tool doesn't support custom schemas yet…
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: |
+        Describe the solution you'd like. What should the feature look like
+        from the user's perspective?
+      placeholder: |
+        Add a `--schema` flag that accepts a path to a custom JSON schema file…
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: |
+        What workarounds or alternative approaches have you tried or
+        considered? Why aren't they sufficient?
+      placeholder: |
+        I could write a wrapper script, but it's fragile because…
+    validations:
+      required: false
