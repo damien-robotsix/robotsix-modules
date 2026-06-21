@@ -1,0 +1,58 @@
+name: Bug report
+description: File a bug report to help us improve robotsix-modules
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to file a bug report.
+        Please fill out the sections below so we can reproduce and fix the issue.
+
+  - type: input
+    id: python-version
+    attributes:
+      label: Python version
+      description: Output of `uv version` or `python --version`
+      placeholder: e.g. Python 3.14.2
+    validations:
+      required: true
+
+  - type: input
+    id: robotsix-modules-version
+    attributes:
+      label: robotsix-modules version
+      description: Output of `uv run robotsix-modules --version`
+      placeholder: e.g. 0.2.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: |
+        Minimal steps to reproduce the bug. Include commands, input files,
+        and configuration where relevant.
+      placeholder: |
+        1. Create a file `modules.yaml` with …
+        2. Run `uv run robotsix-modules check-registration ...`
+        3. …
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+      description: What you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: What actually happened (error output, traceback, unexpected result)
+    validations:
+      required: true
