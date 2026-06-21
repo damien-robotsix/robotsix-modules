@@ -8,9 +8,9 @@ modules:
     paths:
       - docs/index.md
       - docs/modules.yaml
-      - docs/cli/.gitkeep
       - docs/cli/usage.md
       - docs/schema-reference.md
+      - docs/CONTRIBUTING.md
 
   - id: validation
     description: >
