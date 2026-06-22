@@ -36,7 +36,14 @@ dependencies in `pyproject.toml` change — never hand-edit it.
 
 ## Running tests
 
-Run the test suite the same way CI does:
+For a quick run, use the convenience script:
+
+```console
+scripts/test
+```
+
+This is a thin wrapper around `uv run pytest` with coverage enabled. Run the
+test suite the same way CI does with either:
 
 ```console
 uv run pytest
@@ -55,8 +62,16 @@ tests for any behavior you introduce.
 
 ## Linting, formatting, and static checks
 
-CI gates every change on the following commands. Run them locally to make sure
-your change passes before pushing:
+For a quick run of the lint and type-check gates, use the convenience scripts:
+
+```console
+scripts/lint       # ruff + mypy
+scripts/check      # full CI gate: lint, type-check, deptry, bandit, pip-audit, pytest
+```
+
+These are thin wrappers around the `uv run ...` commands below. CI gates every
+change on the following commands. Run them locally to make sure your change
+passes before pushing:
 
 ```console
 uv run ruff check .
