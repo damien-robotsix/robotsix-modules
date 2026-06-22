@@ -16,13 +16,13 @@ issue still reproduces.
 
 ### Python versions
 
-`robotsix-modules` requires **Python 3.12 or later**. Older Python versions
+`robotsix-modules` requires **Python 3.14 or later**. Older Python versions
 are not supported.
 
 | Python  | Supported          |
 |---------|--------------------|
-| 3.12+   | :white_check_mark: |
-| < 3.12  | :x:                |
+| 3.14+   | :white_check_mark: |
+| < 3.14  | :x:                |
 
 ## Reporting a Vulnerability
 
