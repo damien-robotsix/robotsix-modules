@@ -8,7 +8,6 @@ modules:
     paths:
       - docs/index.md
       - docs/modules.yaml
-      - docs/cli/usage.md
       - docs/schema-reference.md
       - docs/CONTRIBUTING.md
 
@@ -24,6 +23,7 @@ modules:
       - src/robotsix_modules/py.typed
       - src/robotsix_modules/validation/**
       - docs/validation/**
+      - tests/validation/**
 
   - id: cli
     description: >
@@ -31,6 +31,8 @@ modules:
       `robotsix-modules` and `robotsix-modules-validate` entry points.
     paths:
       - src/robotsix_modules/cli/**
+      - docs/cli/**
+      - tests/cli/**
     dependencies:
       - validation
 
@@ -39,4 +41,4 @@ modules:
       Test suite covering the validation API, schema, CLI behaviour,
       and shared test fixtures.
     paths:
-      - tests/**
+      - tests/conftest.py
