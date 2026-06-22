@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+echo "=== ruff check ==="
+uv run ruff check .
+echo "=== ruff format ==="
+uv run ruff format --check .
+echo "=== mypy ==="
+uv run mypy src tests
+echo "=== deptry ==="
+uv run deptry .
+echo "=== bandit ==="
+uv run bandit -c pyproject.toml -r src/
+echo "=== pip-audit ==="
+uv run pip-audit --strict --vulnerability-service osv --desc
+echo "=== pytest ==="
+uv run pytest --cov --cov-report=xml --cov-report=term-missing
+echo "=== all checks passed ==="
