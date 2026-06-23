@@ -23,6 +23,9 @@ and this project adheres to
   `pyproject.toml` and updated `scripts/docs` to use `--group docs`, fixing a
   broken local docs preview (`uv run mkdocs serve` failed without the
   dependencies).
+- Added `ignore_errors = true` for the `vulture_whitelist` module in mypy
+  configuration, fixing a type-check failure caused by intentional bare names
+  in the vulture whitelist file.
 
 ### Changed
 
