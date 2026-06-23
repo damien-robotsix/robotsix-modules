@@ -31,6 +31,7 @@ modules:
       `robotsix-modules` and `robotsix-modules-validate` entry points.
     paths:
       - src/robotsix_modules/cli/**
+      - docs/cli/**
       - tests/cli/**
     dependencies:
       - validation
