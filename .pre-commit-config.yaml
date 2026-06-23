@@ -50,11 +50,6 @@ repos:
         language: system
         files: ^docs/modules\.ya?ml$
         types_or: [yaml]
-  - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.22.1
-    hooks:
-      - id: markdownlint-cli2
-        args: ["--fix"]
   - repo: https://github.com/hukkin/mdformat
     rev: 1.0.0
     hooks:
@@ -62,3 +57,7 @@ repos:
         args: ["--number", "--wrap", "80"]
         additional_dependencies:
           - mdformat-gfm
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.22.1
+    hooks:
+      - id: markdownlint-cli2
