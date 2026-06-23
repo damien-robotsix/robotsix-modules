@@ -19,6 +19,10 @@ and this project adheres to
 - Added missing `docs/cli/**` path glob to the `cli` module in
   `docs/modules.yaml`, classifying the previously unclaimed `docs/cli/usage.md`
   and completing the per-module layout for the CLI module.
+- Added `docs` dependency group (`mkdocs-material`, `mkdocstrings[python]`) to
+  `pyproject.toml` and updated `scripts/docs` to use `--group docs`, fixing a
+  broken local docs preview (`uv run mkdocs serve` failed without the
+  dependencies).
 
 ### Changed
 
