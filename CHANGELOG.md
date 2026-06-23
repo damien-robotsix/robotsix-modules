@@ -14,6 +14,11 @@ and this project adheres to
   hooks (`markdownlint-cli2`, `mdformat`), and `scripts/lint`/`scripts/check`
   integration.
 
+## 0.0.0 (unreleased)
+
+### Fixed
+- Stale GitHub org URLs in `CONTRIBUTING.md` and `.github/ISSUE_TEMPLATE/config.yml` replaced `robotsix/robotsix-modules` → `damien-robotsix/robotsix-modules`.
+
 ## [0.2.0]
 
 ### Added

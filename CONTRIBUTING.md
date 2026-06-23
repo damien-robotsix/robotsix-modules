@@ -14,7 +14,7 @@ and dependencies.
 1. Clone the repository:
 
    ```console
-   git clone https://github.com/robotsix/robotsix-modules.git
+   git clone https://github.com/damien-robotsix/robotsix-modules.git
    cd robotsix-modules
    ```
 
