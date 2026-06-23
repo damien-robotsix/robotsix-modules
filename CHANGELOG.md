@@ -32,6 +32,7 @@ and this project adheres to
 - Refactored `validate_main` to use a shared `_validate_paths` generator,
   reducing nesting depth and eliminating the duplicated `for path in args.paths`
   loop.
+- Updated dev dependencies: ruff 0.15.16 → 0.15.18, pip-audit 2.10.0 → 2.10.1.
 
 ## 0.0.0 (unreleased)
 
