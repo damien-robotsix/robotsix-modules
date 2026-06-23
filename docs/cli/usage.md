@@ -4,8 +4,8 @@ The `robotsix-modules` package provides two CLI entry points:
 
 - `robotsix-modules` — the primary CLI with subcommands for validation,
   registration checks, and path validation.
-- `robotsix-modules-validate` — a convenience wrapper for pre-commit
-  integration (accepts one or more positional file paths).
+- `robotsix-modules-validate` — a convenience wrapper for pre-commit integration
+  (accepts one or more positional file paths).
 
 ## Subcommands
 
@@ -40,10 +40,10 @@ $ robotsix-modules validate-paths docs/modules.yaml --root .
 
 ## Exit Codes
 
-| Code | Meaning            |
-|------|--------------------|
-| 0    | Valid / no findings |
-| 1    | Validation errors or findings found |
+| Code | Meaning                                    |
+| ---- | ------------------------------------------ |
+| 0    | Valid / no findings                        |
+| 1    | Validation errors or findings found        |
 | 2    | File not found / parse errors / git errors |
 
 All diagnostics go to stderr; stdout stays empty on success.
@@ -52,8 +52,8 @@ All diagnostics go to stderr; stdout stays empty on success.
 
 ### `--verbose` / `-v`
 
-Pass `-v` / `--verbose` to any subcommand (and the
-`robotsix-modules-validate` wrapper) for more diagnostic detail:
+Pass `-v` / `--verbose` to any subcommand (and the `robotsix-modules-validate`
+wrapper) for more diagnostic detail:
 
 - `-v` — shows informational messages (files being loaded)
 - `-vv` — adds debug messages (glob expansion, git commands)
@@ -66,10 +66,9 @@ Pass `--output-format {text,json}` to any subcommand (and the
 `robotsix-modules-validate` wrapper).
 
 - `text` (default) — human-readable diagnostics to stderr
-- `json` — writes a single JSON object to stdout:
-  `{"findings": [...]}` for `check-registration`/`validate-paths`,
-  `{"errors": [...]}` for `validate`. Operational errors stay on stderr.
-  Exit codes are identical in both modes.
+- `json` — writes a single JSON object to stdout: `{"findings": [...]}` for
+  `check-registration`/`validate-paths`, `{"errors": [...]}` for `validate`.
+  Operational errors stay on stderr. Exit codes are identical in both modes.
 
 Example:
 
@@ -84,10 +83,10 @@ Pass `--schema <path>` to `validate` to override the bundled schema.
 
 ### `--root <dir>`
 
-For `check-registration` and `validate-paths`, add `--root <dir>` to
-specify the repository root (defaults to the current directory). Both
-subcommands follow the same exit-code contract: 0 = no findings, 1 =
-findings found, 2 = file/parse/git error.
+For `check-registration` and `validate-paths`, add `--root <dir>` to specify the
+repository root (defaults to the current directory). Both subcommands follow the
+same exit-code contract: 0 = no findings, 1 = findings found, 2 = file/parse/git
+error.
 
 ## Pre-commit Integration
 

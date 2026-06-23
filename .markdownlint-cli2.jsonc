@@ -1,0 +1,9 @@
+{
+  // Disable line-length rule: prose wrapping is handled by mdformat.
+  "MD013": false,
+  // Disable inline-HTML rule: occasionally needed in docs.
+  "MD033": false,
+  // Disable first-line-heading rule: some files start with badges,
+  // license headers, or other non-heading content.
+  "MD041": false
+}
