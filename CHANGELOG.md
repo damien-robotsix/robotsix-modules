@@ -14,6 +14,12 @@ and this project adheres to
   hooks (`markdownlint-cli2`, `mdformat`), and `scripts/lint`/`scripts/check`
   integration.
 
+### Changed
+
+- Refactored `validate_main` to use a shared `_validate_paths` generator,
+  reducing nesting depth and eliminating the duplicated `for path in args.paths`
+  loop.
+
 ## 0.0.0 (unreleased)
 
 ### Fixed

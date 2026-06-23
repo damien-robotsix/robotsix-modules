@@ -7,7 +7,7 @@ import dataclasses
 import json
 import logging
 import sys
-from collections.abc import Callable
+from collections.abc import Callable, Generator
 from pathlib import Path
 from typing import Any
 
@@ -260,6 +260,30 @@ def main(argv: list[str] | None = None) -> int:
     return 2  # pragma: no cover - argparse exits before reaching here
 
 
+def _validate_paths(
+    paths: list[str], schema_path: str | None
+) -> Generator[tuple[int, list[str]]]:
+    """Yield ``(exit_code, errors)`` for each taxonomy path.
+
+    *exit_code* is ``2`` when the taxonomy or schema file cannot be
+    loaded (the error is already logged by ``_safe_load_yaml``),
+    ``1`` when validation errors are found, or ``0`` for a clean pass.
+    """
+    for path in paths:
+        taxonomy = _safe_load_yaml(path)
+        if taxonomy is None:
+            yield 2, []
+            continue
+        schema: dict[str, Any] | None = None
+        if schema_path is not None:
+            schema = _safe_load_yaml(schema_path, label="schema")
+            if schema is None:
+                yield 2, []
+                continue
+        errors = validate(taxonomy, schema=schema)
+        yield (1 if errors else 0), errors
+
+
 def validate_main(argv: list[str] | None = None) -> int:
     """Lightweight pre-commit wrapper: ``robotsix-modules-validate``.
 
@@ -296,33 +320,20 @@ def validate_main(argv: list[str] | None = None) -> int:
 
     _configure_logging(args.verbose)
 
-    if args.output_format == "json":
-        # Aggregate every path's error strings into ONE JSON document so the
-        # whole invocation emits a single parseable object to stdout.
-        exit_code = 0
-        errors: list[str] = []
-        for path in args.paths:
-            taxonomy = _safe_load_yaml(path)
-            if taxonomy is None:
-                exit_code = max(exit_code, 2)
-                continue
-            schema: dict[str, Any] | None = None
-            if args.schema is not None:
-                schema = _safe_load_yaml(args.schema, label="schema")
-                if schema is None:
-                    exit_code = max(exit_code, 2)
-                    continue
-            path_errors = validate(taxonomy, schema=schema)
-            if path_errors:
-                errors.extend(path_errors)
-                exit_code = max(exit_code, 1)
-        json.dump({"errors": errors}, sys.stdout)
-        return exit_code
-
     exit_code = 0
-    for path in args.paths:
-        code = _validate_one(path, args.schema, args.output_format)
-        exit_code = max(exit_code, code)
+    all_errors: list[str] = []
+
+    for path_code, errors in _validate_paths(args.paths, args.schema):
+        exit_code = max(exit_code, path_code)
+        if args.output_format == "json":
+            all_errors.extend(errors)
+        else:
+            for message in errors:
+                print(message, file=sys.stderr)
+
+    if args.output_format == "json":
+        json.dump({"errors": all_errors}, sys.stdout)
+
     return exit_code
 
 
