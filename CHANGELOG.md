@@ -14,6 +14,12 @@ and this project adheres to
   hooks (`markdownlint-cli2`, `mdformat`), and `scripts/lint`/`scripts/check`
   integration.
 
+### Fixed
+
+- Added missing `docs/cli/**` path glob to the `cli` module in
+  `docs/modules.yaml`, classifying the previously unclaimed `docs/cli/usage.md`
+  and completing the per-module layout for the CLI module.
+
 ### Changed
 
 - Refactored `validate_main` to use a shared `_validate_paths` generator,
