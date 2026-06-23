@@ -1,5 +1,6 @@
 # API Reference
 
+<!-- mdformat off -->
 ::: robotsix_modules
     options:
       members:
@@ -12,3 +13,4 @@
         - PathFinding
         - SCHEMA_PATH
         - __version__
+<!-- mdformat on -->

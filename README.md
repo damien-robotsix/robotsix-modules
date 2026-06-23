@@ -3,17 +3,17 @@
 Shared JSON-Schema-driven module-taxonomy validation for robotsix projects.
 
 A *module taxonomy* is a structured inventory of the logical modules in a
-repository — their descriptions, the file globs they own, and the
-dependency relationships between them. It lives in a `docs/modules.yaml`
-file. This package bundles the canonical JSON Schema (draft 2020-12) for
-that file and ships a small CLI + Python API to validate it.
+repository — their descriptions, the file globs they own, and the dependency
+relationships between them. It lives in a `docs/modules.yaml` file. This package
+bundles the canonical JSON Schema (draft 2020-12) for that file and ships a
+small CLI + Python API to validate it.
 
 ## Install
 
 > **Note:** A plain `pip install robotsix-modules` from PyPI does **not**
-> currently resolve. The runtime dependency `robotsix-yaml-config` is
-> Git-only (not published to PyPI), and `pip` cannot fetch it from the
-> published wheel metadata. Use one of the supported install paths below.
+> currently resolve. The runtime dependency `robotsix-yaml-config` is Git-only
+> (not published to PyPI), and `pip` cannot fetch it from the published wheel
+> metadata. Use one of the supported install paths below.
 
 With `uv`, which resolves the `[tool.uv.sources]` Git entry:
 
@@ -30,18 +30,17 @@ pip install "robotsix-modules @ git+https://github.com/damien-robotsix/robotsix-
 ## CLI
 
 The `robotsix-modules` CLI provides subcommands for validating module
-taxonomies, checking registration completeness, and verifying path
-resolutions. All subcommands support `--verbose`, `--output-format`, and
-standardised exit codes (0 = valid, 1 = validation errors, 2 = file/parse
-errors).
+taxonomies, checking registration completeness, and verifying path resolutions.
+All subcommands support `--verbose`, `--output-format`, and standardised exit
+codes (0 = valid, 1 = validation errors, 2 = file/parse errors).
 
 ```console
 $ robotsix-modules validate docs/modules.yaml   # exit 0 when valid, empty output
 $ robotsix-modules validate broken.yaml          # prints errors to stderr; exit 1
 ```
 
-For the full CLI reference — including all subcommands, options, exit
-codes, output formats, and pre-commit integration — see
+For the full CLI reference — including all subcommands, options, exit codes,
+output formats, and pre-commit integration — see
 [docs/cli/usage.md](docs/cli/usage.md).
 
 ## Python API
@@ -87,16 +86,15 @@ finding = RegistrationFinding(
 ```
 
 - `load_taxonomy(path)` — load a `modules.yaml` and return a dict.
-- `validate(taxonomy, *, schema=None)` — validate a dict; returns a list
-  of human-readable error strings (empty = valid).
-- `validate_file(path, *, schema_path=None)` — `load_taxonomy` then
-  `validate`.
-- `check_registration(taxonomy, repo_root, *, tracked_files=None)` —
-  verify every tracked file is claimed by exactly one module.  Returns a
-  list of `RegistrationFinding` objects.  Uses `git ls-files` by default;
-  pass `tracked_files` to override.
+- `validate(taxonomy, *, schema=None)` — validate a dict; returns a list of
+  human-readable error strings (empty = valid).
+- `validate_file(path, *, schema_path=None)` — `load_taxonomy` then `validate`.
+- `check_registration(taxonomy, repo_root, *, tracked_files=None)` — verify
+  every tracked file is claimed by exactly one module. Returns a list of
+  `RegistrationFinding` objects. Uses `git ls-files` by default; pass
+  `tracked_files` to override.
 - `validate_paths(taxonomy, repo_root)` — verify every module path entry
-  resolves to at least one file on disk.  Returns a list of `PathFinding`
+  resolves to at least one file on disk. Returns a list of `PathFinding`
   objects.
 - `SCHEMA_PATH` — `pathlib.Path` to the bundled schema.
 

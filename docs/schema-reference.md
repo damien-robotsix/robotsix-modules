@@ -1,17 +1,16 @@
 # Schema Reference
 
-The module taxonomy file (`modules.yaml`) is the single source of truth
-for what logical modules exist in a robotsix project and where their
-files live. This page documents the structure that every
-`modules.yaml` must follow.
+The module taxonomy file (`modules.yaml`) is the single source of truth for what
+logical modules exist in a robotsix project and where their files live. This
+page documents the structure that every `modules.yaml` must follow.
 
 ## Top-level structure
 
 The file must be a YAML object with a single required key:
 
-| Key       | Type  | Required | Description                            |
-|-----------|-------|----------|----------------------------------------|
-| `modules` | array | yes      | Ordered list of module entries.        |
+| Key       | Type  | Required | Description                     |
+| --------- | ----- | -------- | ------------------------------- |
+| `modules` | array | yes      | Ordered list of module entries. |
 
 No other top-level keys are permitted (`additionalProperties: false`).
 
@@ -23,8 +22,8 @@ modules: []
 
 ## Module entry
 
-Each element in the `modules` array is an object with the following
-fields. No additional fields are permitted.
+Each element in the `modules` array is an object with the following fields. No
+additional fields are permitted.
 
 ### `id`
 
@@ -32,9 +31,9 @@ fields. No additional fields are permitted.
 - **Required:** yes
 - **Pattern:** `^[a-z][a-z0-9]*(-[a-z0-9]+)*$`
 
-A stable **kebab-case** identifier. Must start with a lowercase letter,
-contain only lowercase alphanumerics and hyphens, and must not start or
-end with a hyphen or contain consecutive hyphens.
+A stable **kebab-case** identifier. Must start with a lowercase letter, contain
+only lowercase alphanumerics and hyphens, and must not start or end with a
+hyphen or contain consecutive hyphens.
 
 **Valid examples:** `validation`, `cli`, `ci-fix`, `test-gap`
 
@@ -46,8 +45,8 @@ end with a hyphen or contain consecutive hyphens.
 - **Type:** string
 - **Required:** yes
 
-One paragraph explaining what the module does and why it exists. Keep
-it concise — one to three sentences.
+One paragraph explaining what the module does and why it exists. Keep it concise
+— one to three sentences.
 
 ### `paths`
 
@@ -55,12 +54,12 @@ it concise — one to three sentences.
 - **Required:** yes
 - **Minimum items:** 1
 
-Repo-relative glob patterns covering all source files, tests, docs,
-agent definitions, config snippets, and skills that belong to the
-module. Patterns use standard glob syntax (`*`, `**`, `?`).
+Repo-relative glob patterns covering all source files, tests, docs, agent
+definitions, config snippets, and skills that belong to the module. Patterns use
+standard glob syntax (`*`, `**`, `?`).
 
-Every file in the repo should be claimed by exactly one module (this
-constraint is validated by `check_registration`).
+Every file in the repo should be claimed by exactly one module (this constraint
+is validated by `check_registration`).
 
 ### `dependencies`
 
@@ -68,18 +67,18 @@ constraint is validated by `check_registration`).
 - **Required:** no
 - **Default:** `[]`
 
-Other module `id` values that this module consumes (imports, reads, or
-otherwise depends on). Each dependency ID must satisfy the same
-kebab-case pattern as `id`.
+Other module `id` values that this module consumes (imports, reads, or otherwise
+depends on). Each dependency ID must satisfy the same kebab-case pattern as
+`id`.
 
-Documentation-only for v1; no enforcement is implemented. Omit or use
-`[]` when a module has no internal dependencies.
+Documentation-only for v1; no enforcement is implemented. Omit or use `[]` when
+a module has no internal dependencies.
 
 ## Complete example
 
-Below is the taxonomy file that `robotsix-modules` uses for its own
-source tree — three modules (`validation`, `cli`, `tests`) with one
-dependency (the CLI depends on `validation`):
+Below is the taxonomy file that `robotsix-modules` uses for its own source tree
+— three modules (`validation`, `cli`, `tests`) with one dependency (the CLI
+depends on `validation`):
 
 ```yaml
 # Module taxonomy for robotsix-modules itself.

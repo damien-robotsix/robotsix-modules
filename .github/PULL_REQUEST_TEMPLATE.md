@@ -8,7 +8,8 @@
 
 ---
 
-**Pre-submit checklist** (see [`CONTRIBUTING.md`](./CONTRIBUTING.md) for details):
+**Pre-submit checklist** (see [`CONTRIBUTING.md`](./CONTRIBUTING.md) for
+details):
 
 - [ ] `uv run ruff check .`
 - [ ] `uv run ruff format --check .`

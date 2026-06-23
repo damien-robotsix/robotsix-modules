@@ -7,3 +7,7 @@ echo "=== ruff format ==="
 uv run ruff format --check .
 echo "=== mypy ==="
 uv run mypy src tests
+echo "=== markdownlint ==="
+uv run --with pre-commit pre-commit run markdownlint-cli2 --all-files -- --fix
+echo "=== mdformat ==="
+uv run --with pre-commit pre-commit run mdformat --all-files
