@@ -56,6 +56,10 @@ strict = true
 module = ["jsonschema", "jsonschema.*"]
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = "vulture_whitelist"
+ignore_errors = true
+
 [tool.deptry]
 known_first_party = ["robotsix_modules"]
 
