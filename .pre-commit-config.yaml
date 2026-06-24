@@ -61,3 +61,4 @@ repos:
     rev: v0.22.1
     hooks:
       - id: markdownlint-cli2
+        types: [markdown]

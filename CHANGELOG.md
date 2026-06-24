@@ -16,6 +16,8 @@ and this project adheres to
 
 ### Fixed
 
+- Added `types: [markdown]` filter to the `markdownlint-cli2` pre-commit hook,
+  preventing it from linting non-Markdown files (Python, YAML, JSON, etc.).
 - Added missing `docs/cli/**` path glob to the `cli` module in
   `docs/modules.yaml`, classifying the previously unclaimed `docs/cli/usage.md`
   and completing the per-module layout for the CLI module.
