@@ -13,6 +13,9 @@ and this project adheres to
 - Markdown linting and formatting via `.markdownlint-cli2.jsonc`, pre-commit
   hooks (`markdownlint-cli2`, `mdformat`), and `scripts/lint`/`scripts/check`
   integration.
+- `.gitignore` entries for `site/`, `wheel-env/`, `sbom.json`, `.env`, and
+  `.DS_Store` to prevent accidental commits of docs build output, CI artifacts,
+  and OS/environment files.
 
 ### Fixed
 
