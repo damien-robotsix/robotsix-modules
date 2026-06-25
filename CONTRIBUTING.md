@@ -66,7 +66,7 @@ For a quick run of the lint and type-check gates, use the convenience scripts:
 
 ```console
 scripts/lint       # ruff + mypy
-scripts/check      # full CI gate: lint, type-check, deptry, bandit, pip-audit, pytest
+scripts/check      # full CI gate: lint, type-check, deptry, bandit, uv audit, pytest
 ```
 
 These are thin wrappers around the `uv run ...` commands below. CI gates every
@@ -79,7 +79,7 @@ uv run ruff format --check .
 uv run mypy src tests
 uv run deptry .
 uv run bandit -c pyproject.toml -r src/
-uv run pip-audit --strict --vulnerability-service osv --desc
+uv audit
 ```
 
 Optionally, you can run the [pre-commit](https://pre-commit.com/) hooks defined

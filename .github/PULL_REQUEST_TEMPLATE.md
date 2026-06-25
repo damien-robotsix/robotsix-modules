@@ -17,5 +17,5 @@ details):
 - [ ] `uv run pytest --cov --cov-report=xml --cov-report=term-missing`
 - [ ] `uv run deptry .`
 - [ ] `uv run bandit -c pyproject.toml -r src/`
-- [ ] `uv run pip-audit --strict --vulnerability-service osv --desc`
+- [ ] `uv audit`
 - [ ] `uv.lock` is up to date (run `uv lock` if dependencies changed)

@@ -15,8 +15,8 @@ echo "=== deptry ==="
 uv run deptry .
 echo "=== bandit ==="
 uv run bandit -c pyproject.toml -r src/
-echo "=== pip-audit ==="
-uv run pip-audit --strict --vulnerability-service osv --desc
+echo "=== uv audit ==="
+uv audit
 echo "=== pytest ==="
 uv run pytest --cov --cov-report=xml --cov-report=term-missing
 echo "=== all checks passed ==="
