@@ -83,8 +83,10 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-      - run: uv sync --locked --group dev
-      - run: uv run pip-audit --format cyclonedx-json --output sbom.json
+      - run: uv sync --locked && uv audit
+      - run: uv export --format cyclonedx1.5 --output-file sbom.json
+        env:
+          UV_PREVIEW_FEATURES: sbom-export
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: sbom

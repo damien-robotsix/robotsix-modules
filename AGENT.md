@@ -46,7 +46,7 @@ The `.pre-commit-config.yaml` runs: `ruff` (lint + format), `mypy`, `bandit`,
 The CI pipeline (`.github/workflows/ci.yml`) additionally enforces: coverage
 threshold, `check-registration` via the reusable `python-ci.yml` workflow,
 version consistency across `pyproject.toml` / `CHANGELOG.md` / `README.md` /
-`SECURITY.md`, a smoketest wheel install, and a `pip-audit` SBOM step.
+`SECURITY.md`, a smoketest wheel install, and a `uv audit` / SBOM step.
 
 Any new source or test file must pass all of these gates.
 
