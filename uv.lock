@@ -277,6 +277,15 @@ wheels = [
 ]
 
 [[package]]
+name = "fastjsonschema"
+version = "2.21.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/20/b5/23b216d9d985a956623b6bd12d4086b60f0059b27799f23016af04a74ea1/fastjsonschema-2.21.2.tar.gz", hash = "sha256:b1eb43748041c880796cd077f1a07c3d94e93ae84bba5ed36800a33554ae05de", size = 374130, upload-time = "2025-08-14T18:49:36.666Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cb/a8/20d0723294217e47de6d9e2e40fd4a9d2f7c4b6ef974babd482a59743694/fastjsonschema-2.21.2-py3-none-any.whl", hash = "sha256:1c797122d0a86c5cace2e54bf4e819c36223b552017172f32c5c024a6b77e463", size = 24024, upload-time = "2025-08-14T18:49:34.776Z" },
+]
+
+[[package]]
 name = "filelock"
 version = "3.29.1"
 source = { registry = "https://pypi.org/simple" }
@@ -965,6 +974,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
+    { name = "validate-pyproject" },
     { name = "vulture" },
 ]
 docs = [
@@ -987,6 +997,7 @@ dev = [
     { name = "pytest", specifier = ">=8" },
     { name = "pytest-cov", specifier = ">=5" },
     { name = "ruff", specifier = ">=0.11" },
+    { name = "validate-pyproject", specifier = ">=0.25" },
     { name = "vulture" },
 ]
 docs = [
@@ -1172,6 +1183,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/53/0c/06f8b233b8fd13b9e5ee11424ef85419ba0d8ba0b3138bf360be2ff56953/urllib3-2.7.0.tar.gz", hash = "sha256:231e0ec3b63ceb14667c67be60f2f2c40a518cb38b03af60abc813da26505f4c", size = 433602, upload-time = "2026-05-07T16:13:18.596Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7f/3e/5db95bcf282c52709639744ca2a8b149baccf648e39c8cc87553df9eae0c/urllib3-2.7.0-py3-none-any.whl", hash = "sha256:9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897", size = 131087, upload-time = "2026-05-07T16:13:17.151Z" },
+]
+
+[[package]]
+name = "validate-pyproject"
+version = "0.25"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "fastjsonschema" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e7/d8/45a82408619c306d0083afcf6142617201b2647a82e9a7d4c902e837274c/validate_pyproject-0.25.tar.gz", hash = "sha256:e68c12d1cb0d8ddc269ffc42875a81727ddb7865000aa6d2f77d833b55c53f0b", size = 118662, upload-time = "2026-02-02T17:31:07.089Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b7/ee/e9c95cda829131f71a8dff5ce0406059fd16e591c074414e31ada19ba7c3/validate_pyproject-0.25-py3-none-any.whl", hash = "sha256:f9d05e2686beff82f9ea954f582306b036ced3d3feb258c1110f2c2a495b1981", size = 54942, upload-time = "2026-02-02T17:31:05.489Z" },
 ]
 
 [[package]]

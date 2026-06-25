@@ -10,6 +10,9 @@ and this project adheres to
 
 ### Added
 
+- `validate-pyproject` pre-commit hook and CI job to validate `pyproject.toml`
+  against PEP 517/518/621/639/735 JSON Schemas, catching invalid classifier
+  values, malformed dependency specs, and incorrect project metadata fields.
 - Markdown linting and formatting via `.markdownlint-cli2.jsonc`, pre-commit
   hooks (`markdownlint-cli2`, `mdformat`), and `scripts/lint`/`scripts/check`
   integration.

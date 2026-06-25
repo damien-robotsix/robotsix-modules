@@ -23,6 +23,15 @@ jobs:
       - run: uv sync --locked --group dev
       - run: uv run vulture src/ vulture_whitelist.py
 
+  validate-pyproject:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup
+        with:
+          python-version: "3.14"
+      - run: uv sync --locked --group dev
+      - run: uv run validate-pyproject pyproject.toml
+
   version-check:
     runs-on: ubuntu-latest
     steps:
