@@ -47,6 +47,7 @@ and this project adheres to
 ## 0.0.0 (unreleased)
 
 ### Fixed
+- Fixed stale docstring in `robotsix_modules.validation.schemas` package init referencing non-existent `robotsix_modules.schemas` path.
 - Stale GitHub org URLs in `CONTRIBUTING.md` and `.github/ISSUE_TEMPLATE/config.yml` replaced `robotsix/robotsix-modules` → `damien-robotsix/robotsix-modules`.
 
 ## [0.2.0]
