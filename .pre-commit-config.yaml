@@ -50,6 +50,10 @@ repos:
         language: system
         files: ^docs/modules\.ya?ml$
         types_or: [yaml]
+  - repo: https://github.com/abravalheri/validate-pyproject
+    rev: v0.25
+    hooks:
+      - id: validate-pyproject
   - repo: https://github.com/hukkin/mdformat
     rev: 1.0.0
     hooks:
