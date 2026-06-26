@@ -165,6 +165,8 @@ class TestValidateMain:
             ([VALID, INVALID], 1, ["modules[0]"], False),
             ([VALID], 0, [], True),
             ([VALID, "--schema", SCHEMA], 0, [], True),
+            ([VALID, "-v"], 0, ["INFO:"], False),
+            ([VALID, "-vv"], 0, ["DEBUG:"], False),
         ],
     )
     def test_validate_main(
@@ -202,6 +204,7 @@ class TestValidateMain:
         [
             ([VALID, INVALID, "--output-format", "json"], 1, True),
             ([VALID, "--output-format", "json"], 0, False),
+            ([VALID, "--schema", SCHEMA, "--output-format", "json"], 0, False),
         ],
     )
     def test_validate_main_json(
