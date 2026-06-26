@@ -8,6 +8,11 @@ and this project adheres to
 
 ## 0.0.0 (unreleased)
 
+### Changed
+
+- `src/robotsix_modules/validation/registration.py`: add explicit `check=False` to
+  `subprocess.run()` call and remove unused `# noqa: S607` directive.
+
 ### Added
 
 - `validate-pyproject` pre-commit hook and CI job to validate `pyproject.toml`

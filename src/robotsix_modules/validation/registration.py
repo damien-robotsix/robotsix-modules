@@ -164,11 +164,12 @@ def _resolve_tracked_files(
     logger.debug("running git ls-files in %s", repo_root)
     try:
         result = subprocess.run(  # nosec B603, B607
-            ["git", "ls-files"],  # noqa: S607
-            cwd=repo_root,
+            ["git", "ls-files"],
             capture_output=True,
             text=True,
+            cwd=repo_root,
             timeout=60,
+            check=False,
         )
     except FileNotFoundError as exc:
         raise RuntimeError(
