@@ -13,6 +13,9 @@ and this project adheres to
 - `validate-pyproject` pre-commit hook and CI job to validate `pyproject.toml`
   against PEP 517/518/621/639/735 JSON Schemas, catching invalid classifier
   values, malformed dependency specs, and incorrect project metadata fields.
+- `validate-pyproject-schema-store[all]` as an additional dependency for the
+  `validate-pyproject` hook and CI job, extending validation to third-party
+  `[tool.*]` sections (ruff, mypy, pytest, coverage, deptry, bandit).
 - Replaced `pip-audit` with native `uv audit` for vulnerability scanning and
   `uv export --format cyclonedx1.5` for SBOM generation in CI.
 - Markdown linting and formatting via `.markdownlint-cli2.jsonc`, pre-commit
