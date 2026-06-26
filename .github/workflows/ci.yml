@@ -29,8 +29,7 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-      - run: uv sync --locked --group dev
-      - run: uv run validate-pyproject pyproject.toml
+      - run: uv sync --locked --group dev && uv run validate-pyproject
 
   version-check:
     runs-on: ubuntu-latest
