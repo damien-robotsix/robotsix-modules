@@ -3,6 +3,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  merge_group:
 jobs:
   check:
     uses: damien-robotsix/robotsix-mill/.github/workflows/python-ci.yml@7338e0580335ed4fe01c30f79276c29e84dfbcc2
