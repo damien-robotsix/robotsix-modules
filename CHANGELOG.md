@@ -22,6 +22,8 @@ and this project adheres to
 - `validate-pyproject` pre-commit hook and CI job to validate `pyproject.toml`
   against PEP 517/518/621/639/735 JSON Schemas, catching invalid classifier
   values, malformed dependency specs, and incorrect project metadata fields.
+- `zizmor` static analysis for GitHub Actions workflow security: added to
+  pre-commit hooks, CI pipeline (with SARIF upload), and dev dependencies.
 - `validate-pyproject-schema-store[all]` as an additional dependency for the
   `validate-pyproject` hook and CI job, extending validation to third-party
   `[tool.*]` sections (ruff, mypy, pytest, coverage, deptry, bandit).
