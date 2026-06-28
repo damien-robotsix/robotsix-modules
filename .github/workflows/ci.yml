@@ -72,6 +72,16 @@ jobs:
           python-version: "3.14"
       - run: uv sync --locked --group dev && uv run validate-pyproject
 
+  mkdocs-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955  # v4.3.0
+      - uses: ./.github/actions/setup
+        with:
+          python-version: "3.14"
+      - run: uv sync --locked --group docs
+      - run: uv run mkdocs build --strict
+
   version-check:
     runs-on: ubuntu-latest
     steps:
