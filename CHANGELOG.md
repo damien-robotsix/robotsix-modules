@@ -15,6 +15,10 @@ and this project adheres to
 
 ### Added
 
+- OpenSSF Scorecard workflow (`.github/workflows/scorecard.yml`) running weekly
+  and on push to `main`, with SARIF results uploaded to CodeQL for supply-chain
+  security visibility.
+- OpenSSF Scorecard badge in `README.md`.
 - `validate-pyproject` pre-commit hook and CI job to validate `pyproject.toml`
   against PEP 517/518/621/639/735 JSON Schemas, catching invalid classifier
   values, malformed dependency specs, and incorrect project metadata fields.

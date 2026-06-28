@@ -1,5 +1,7 @@
 # robotsix-modules
 
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/damien-robotsix/robotsix-modules/badge)](https://securityscorecards.dev/viewer/?uri=github.com/damien-robotsix/robotsix-modules)
+
 Shared JSON-Schema-driven module-taxonomy validation for robotsix projects.
 
 A *module taxonomy* is a structured inventory of the logical modules in a
