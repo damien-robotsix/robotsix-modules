@@ -30,6 +30,8 @@ and this project adheres to
 - `validate-pyproject-schema-store[all]` as an additional dependency for the
   `validate-pyproject` hook and CI job, extending validation to third-party
   `[tool.*]` sections (ruff, mypy, pytest, coverage, deptry, bandit).
+- Added `load_schema` to the public API surface of `robotsix_modules.validation`
+  and `robotsix_modules` (`__all__` and top-level re-export).
 - Replaced `pip-audit` with native `uv audit` for vulnerability scanning and
   `uv export --format cyclonedx1.5` for SBOM generation in CI.
 - Markdown linting and formatting via `.markdownlint-cli2.jsonc`, pre-commit

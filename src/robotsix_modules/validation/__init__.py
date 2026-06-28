@@ -31,6 +31,7 @@ __all__ = [
     "RegistrationFinding",
     "SCHEMA_PATH",
     "check_registration",
+    "load_schema",
     "load_taxonomy",
     "validate",
     "validate_file",
