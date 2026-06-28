@@ -4,12 +4,13 @@ on:
   release:
     types: [published]
 
-permissions:
-  contents: write
-  id-token: write
+permissions: {}
 
 jobs:
   release:
+    permissions:
+      contents: write
+      id-token: write
     uses: damien-robotsix/robotsix-mill/.github/workflows/python-release.yml@543b6a187db82453f0644874612604583bbfb2a8
     with:
       github-release: true
