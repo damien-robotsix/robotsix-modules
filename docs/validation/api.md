@@ -5,6 +5,7 @@
     options:
       members:
         - load_taxonomy
+        - load_schema
         - validate
         - validate_file
         - check_registration
