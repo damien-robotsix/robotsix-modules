@@ -2,7 +2,7 @@
 
 Thanks for your interest in contributing! This project provides shared
 JSON-Schema-driven module-taxonomy validation for robotsix projects — see
-[`README.md`](README.md) for what it does and how to use it. The guide below
+[`README.md`](https://github.com/damien-robotsix/robotsix-modules/blob/main/README.md) for what it does and how to use it. The guide below
 explains how to set up your environment, run the same checks CI runs, and submit
 a pull request.
 
@@ -151,7 +151,7 @@ these steps in order:
 > is Git-only (not published to PyPI), and `[tool.uv.sources]` is not emitted
 > into wheel metadata, so plain `pip` cannot resolve it. The supported install
 > paths are `uv` and `pip` with the git-URL form (see
-> [`README.md`](README.md#install)). The long-term fix is to publish
+> [`README.md`](https://github.com/damien-robotsix/robotsix-modules/blob/main/README.md#install)). The long-term fix is to publish
 > `robotsix-yaml-config` to PyPI and replace the Git source with a version
 > constraint — tracked separately in the `robotsix-yaml-config` repository.
 
@@ -189,7 +189,7 @@ lockfile regeneration is needed.
 ## License & conduct
 
 By contributing, you agree that your contributions are accepted under the
-project's MIT [`LICENSE`](LICENSE).
+project's MIT [`LICENSE`](https://github.com/damien-robotsix/robotsix-modules/blob/main/LICENSE).
 
 Please be respectful and constructive in issues, pull requests, and reviews. We
 want this to be a welcoming, collaborative space for everyone.

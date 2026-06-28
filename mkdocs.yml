@@ -1,6 +1,12 @@
 site_name: robotsix-modules
 site_description: Shared JSON-Schema-driven module-taxonomy validation for robotsix projects.
 repo_url: https://github.com/damien-robotsix/robotsix-modules
+strict: true
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
+  anchors: warn
 theme:
   name: material
 plugins:

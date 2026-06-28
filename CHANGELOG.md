@@ -8,6 +8,16 @@ and this project adheres to
 
 ## 0.0.0 (unreleased)
 
+### Added
+
+- `mkdocs.yml`: enable `strict: true` and `validation` block (omitted files, absolute
+  links, unrecognized links, anchors) so `mkdocs build --strict` catches broken nav
+  entries, orphaned files, and stale cross-references at build time.
+- `.github/workflows/ci.yml`: add `mkdocs-build` job that runs `mkdocs build --strict`
+  on every PR.
+- `scripts/check`: add `mkdocs build --strict` step after pytest so local development
+  mirrors the CI docs gate.
+
 ### Changed
 
 - `src/robotsix_modules/validation/registration.py`: add explicit `check=False` to
