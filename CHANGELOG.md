@@ -19,6 +19,9 @@ and this project adheres to
   and on push to `main`, with SARIF results uploaded to CodeQL for supply-chain
   security visibility.
 - OpenSSF Scorecard badge in `README.md`.
+- `.github/workflows/ci.yml`: add `dependency-review` job using
+  `actions/dependency-review-action@v5` with `fail-on-severity: moderate` to catch
+  vulnerable dependency changes on pull requests.
 - `validate-pyproject` pre-commit hook and CI job to validate `pyproject.toml`
   against PEP 517/518/621/639/735 JSON Schemas, catching invalid classifier
   values, malformed dependency specs, and incorrect project metadata fields.

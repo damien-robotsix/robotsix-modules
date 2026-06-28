@@ -20,6 +20,17 @@ jobs:
       mypy-advisory: false
     secrets: inherit
 
+  dependency-review:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: ./.github/actions/setup
+        with:
+          python-version: "3.14"
+      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          fail-on-severity: moderate
+
   vulture:
     runs-on: ubuntu-latest
     steps:
