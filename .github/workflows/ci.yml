@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955  # v4.3.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -37,6 +38,7 @@ jobs:
   vulture:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955  # v4.3.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -49,6 +51,7 @@ jobs:
       contents: read
       security-events: write
     steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955  # v4.3.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -63,6 +66,7 @@ jobs:
   validate-pyproject:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955  # v4.3.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -71,6 +75,7 @@ jobs:
   version-check:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955  # v4.3.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -93,6 +98,7 @@ jobs:
   wheel-install:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955  # v4.3.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -116,6 +122,7 @@ jobs:
     needs: [check]
     if: always()
     steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955  # v4.3.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
