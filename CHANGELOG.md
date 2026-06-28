@@ -53,6 +53,11 @@ and this project adheres to
 - Added `ignore_errors = true` for the `vulture_whitelist` module in mypy
   configuration, fixing a type-check failure caused by intentional bare names
   in the vulture whitelist file.
+- CI: fix local-action-resolution failure by adding explicit `actions/checkout`
+  step before each `uses: ./.github/actions/setup` call and removing checkout
+  from within the composite action.
+- Add empty `tracing` extra to `[project.optional-dependencies]` to satisfy
+  reusable workflow's `uv sync --extra tracing` call.
 
 ### Changed
 
