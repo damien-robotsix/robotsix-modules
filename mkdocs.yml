@@ -23,4 +23,5 @@ nav:
   - Schema Reference: schema-reference.md
   - CLI: cli/usage.md
   - API Reference: validation/api.md
+  - Code of Conduct: CODE_OF_CONDUCT.md
   - Contributing: CONTRIBUTING.md

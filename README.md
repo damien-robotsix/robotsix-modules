@@ -100,6 +100,14 @@ finding = RegistrationFinding(
   objects.
 - `SCHEMA_PATH` — `pathlib.Path` to the bundled schema.
 
+## Contributing
+
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for setup, lint, test, and
+release instructions. By participating, you agree to abide by the
+[Code of Conduct](CODE_OF_CONDUCT.md).
+
 ## License
 
 MIT

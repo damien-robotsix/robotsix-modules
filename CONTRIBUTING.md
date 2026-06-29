@@ -186,10 +186,12 @@ uv lock
 and commit the updated `uv.lock` to the PR branch. For GitHub Actions updates no
 lockfile regeneration is needed.
 
-## License & conduct
+## License & code of conduct
 
 By contributing, you agree that your contributions are accepted under the
-project's MIT [`LICENSE`](https://github.com/damien-robotsix/robotsix-modules/blob/main/LICENSE).
+project's MIT [LICENSE](https://github.com/damien-robotsix/robotsix-modules/blob/main/LICENSE).
 
-Please be respectful and constructive in issues, pull requests, and reviews. We
-want this to be a welcoming, collaborative space for everyone.
+Please note that this project is governed by the
+[Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). All
+contributors are expected to uphold this code. Report unacceptable
+behavior to [damien.robotsix@gmail.com](mailto:damien.robotsix@gmail.com).
