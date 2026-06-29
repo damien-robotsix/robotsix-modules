@@ -59,6 +59,8 @@ and this project adheres to
 
 ### Fixed
 
+- Suppress ruff S607 (`start-process-with-partial-path`) on intentional `git ls-files`
+  subprocess call in `registration.py`.
 - Added `types: [markdown]` filter to the `markdownlint-cli2` pre-commit hook,
   preventing it from linting non-Markdown files (Python, YAML, JSON, etc.).
 - Added missing `docs/cli/**` path glob to the `cli` module in
