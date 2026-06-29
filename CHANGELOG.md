@@ -16,6 +16,8 @@ and this project adheres to
   conduct reference and reporting instructions.
 - `README.md`: add `## Contributing` section with Contributor Covenant badge and links
   to contributing guide and code of conduct.
+- Added `ExitCode` IntEnum (`src/robotsix_modules/cli/_exit_codes.py`) to replace
+  raw integer exit codes in the CLI, with named members `OK`, `ERRORS`, and `FATAL`.
 - `mkdocs.yml`: enable `strict: true` and `validation` block (omitted files, absolute
   links, unrecognized links, anchors) so `mkdocs build --strict` catches broken nav
   entries, orphaned files, and stale cross-references at build time.
