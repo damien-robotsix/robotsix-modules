@@ -20,5 +20,5 @@ jobs:
       contents: write
       pages: write
       id-token: write
-    uses: damien-robotsix/robotsix-mill/.github/workflows/python-docs.yml@aa0dd0a94c86f2d69668e069a17065ae6de38c01
+    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-docs.yml@5cd8c1facb02299da618979e7a55f1953f9c075a
     secrets: inherit
