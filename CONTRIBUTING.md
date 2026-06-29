@@ -189,7 +189,7 @@ lockfile regeneration is needed.
 ## License & code of conduct
 
 By contributing, you agree that your contributions are accepted under the
-project's MIT [`LICENSE`](LICENSE).
+project's MIT [LICENSE](https://github.com/damien-robotsix/robotsix-modules/blob/main/LICENSE).
 
 Please note that this project is governed by the
 [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). All
