@@ -10,6 +10,12 @@ and this project adheres to
 
 ### Added
 
+- `CODE_OF_CONDUCT.md`: adopt Contributor Covenant v2.1 with enforcement guidelines and
+  reporting contact (`damien.robotsix@gmail.com`).
+- `CONTRIBUTING.md`: replace informal "License & conduct" section with a formal code of
+  conduct reference and reporting instructions.
+- `README.md`: add `## Contributing` section with Contributor Covenant badge and links
+  to contributing guide and code of conduct.
 - `mkdocs.yml`: enable `strict: true` and `validation` block (omitted files, absolute
   links, unrecognized links, anchors) so `mkdocs build --strict` catches broken nav
   entries, orphaned files, and stale cross-references at build time.
