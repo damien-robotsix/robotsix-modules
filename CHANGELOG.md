@@ -18,6 +18,7 @@ and this project adheres to
   to contributing guide and code of conduct.
 - Added `ExitCode` IntEnum (`src/robotsix_modules/cli/_exit_codes.py`) to replace
   raw integer exit codes in the CLI, with named members `OK`, `ERRORS`, and `FATAL`.
+- Register `docs/CODE_OF_CONDUCT.md` in the `docs` module's path list in `docs/modules.yaml`.
 - `mkdocs.yml`: enable `strict: true` and `validation` block (omitted files, absolute
   links, unrecognized links, anchors) so `mkdocs build --strict` catches broken nav
   entries, orphaned files, and stale cross-references at build time.
