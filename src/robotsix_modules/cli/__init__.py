@@ -14,6 +14,7 @@ from typing import Any
 from robotsix_yaml_config import YamlConfigError, YamlReadError, read_yaml_file
 
 from robotsix_modules import __version__, validate
+from robotsix_modules.cli._exit_codes import ExitCode
 from robotsix_modules.validation import check_registration, validate_paths
 
 PROG = "robotsix-modules"
@@ -71,7 +72,7 @@ def _run_one(
     json_key: str,
     serialize: Callable[[Any], Any],
     text_value: Callable[[Any], Any],
-) -> int:
+) -> ExitCode:
     """Shared load -> compute -> output -> exit-code skeleton for the handlers.
 
     Loads the taxonomy YAML (exit code 2 on failure), runs ``compute`` to
@@ -81,26 +82,26 @@ def _run_one(
     """
     taxonomy = _safe_load_yaml(path)
     if taxonomy is None:
-        return 2
+        return ExitCode.FATAL
 
     logger.info("validating %s", path)
     items = compute(taxonomy)
     if items is None:
-        return 2
+        return ExitCode.FATAL
 
     if output_format == "json":
         json.dump({json_key: [serialize(item) for item in items]}, sys.stdout)
-        return 1 if items else 0
+        return ExitCode.ERRORS if items else ExitCode.OK
     if items:
         for item in items:
             print(text_value(item), file=sys.stderr)
-        return 1
-    return 0
+        return ExitCode.ERRORS
+    return ExitCode.OK
 
 
 def _validate_one(
     path: str, schema_path: str | None, output_format: str = "text"
-) -> int:
+) -> ExitCode:
     """Validate a single taxonomy file. Return the process exit code."""
 
     def compute(taxonomy: dict[str, Any]) -> list[Any] | None:
@@ -121,7 +122,9 @@ def _validate_one(
     )
 
 
-def _check_registration_one(path: str, root: str, output_format: str = "text") -> int:
+def _check_registration_one(
+    path: str, root: str, output_format: str = "text"
+) -> ExitCode:
     """Run registration check on one taxonomy file. Return exit code."""
 
     def compute(taxonomy: dict[str, Any]) -> list[Any] | None:
@@ -141,7 +144,7 @@ def _check_registration_one(path: str, root: str, output_format: str = "text") -
     )
 
 
-def _validate_paths_one(path: str, root: str, output_format: str = "text") -> int:
+def _validate_paths_one(path: str, root: str, output_format: str = "text") -> ExitCode:
     """Run path validation on one taxonomy file. Return exit code."""
     return _run_one(
         path,
@@ -245,7 +248,7 @@ def _build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> ExitCode:
     """Top-level CLI: ``robotsix-modules``."""
     parser = _build_parser()
     args = parser.parse_args(argv)
@@ -257,34 +260,34 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "validate-paths":
         return _validate_paths_one(args.modules_yaml, args.root, args.output_format)
     parser.error(f"unknown command: {args.command}")  # pragma: no cover
-    return 2  # pragma: no cover - argparse exits before reaching here
+    return ExitCode.FATAL  # pragma: no cover - argparse exits before reaching here
 
 
 def _validate_paths(
     paths: list[str], schema_path: str | None
-) -> Generator[tuple[int, list[str]]]:
+) -> Generator[tuple[ExitCode, list[str]]]:
     """Yield ``(exit_code, errors)`` for each taxonomy path.
 
-    *exit_code* is ``2`` when the taxonomy or schema file cannot be
+    *exit_code* is ``FATAL`` when the taxonomy or schema file cannot be
     loaded (the error is already logged by ``_safe_load_yaml``),
-    ``1`` when validation errors are found, or ``0`` for a clean pass.
+    ``ERRORS`` when validation errors are found, or ``OK`` for a clean pass.
     """
     for path in paths:
         taxonomy = _safe_load_yaml(path)
         if taxonomy is None:
-            yield 2, []
+            yield ExitCode.FATAL, []
             continue
         schema: dict[str, Any] | None = None
         if schema_path is not None:
             schema = _safe_load_yaml(schema_path, label="schema")
             if schema is None:
-                yield 2, []
+                yield ExitCode.FATAL, []
                 continue
         errors = validate(taxonomy, schema=schema)
-        yield (1 if errors else 0), errors
+        yield (ExitCode.ERRORS if errors else ExitCode.OK), errors
 
 
-def validate_main(argv: list[str] | None = None) -> int:
+def validate_main(argv: list[str] | None = None) -> ExitCode:
     """Lightweight pre-commit wrapper: ``robotsix-modules-validate``.
 
     Accepts one or more positional paths (pre-commit passes each matched
@@ -320,7 +323,7 @@ def validate_main(argv: list[str] | None = None) -> int:
 
     _configure_logging(args.verbose)
 
-    exit_code = 0
+    exit_code: ExitCode = ExitCode.OK
     all_errors: list[str] = []
 
     for path_code, errors in _validate_paths(args.paths, args.schema):

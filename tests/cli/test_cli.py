@@ -11,6 +11,7 @@ from conftest import git_commit
 
 from robotsix_modules import SCHEMA_PATH, __version__, validate_file
 from robotsix_modules.cli import main, validate_main
+from robotsix_modules.cli._exit_codes import ExitCode
 
 FIXTURES = Path(__file__).parent / "fixtures"
 VALID = str(FIXTURES / "valid_modules.yaml")
@@ -44,25 +45,43 @@ class TestValidate:
     @pytest.mark.parametrize(
         "args,exit_code,err_substrs,out_empty,err_empty",
         [
-            (["validate", VALID], 0, [], True, True),
-            (["validate", INVALID], 1, ["modules[0]", "modules[1]"], True, False),
+            (["validate", VALID], ExitCode.OK, [], True, True),
+            (
+                ["validate", INVALID],
+                ExitCode.ERRORS,
+                ["modules[0]", "modules[1]"],
+                True,
+                False,
+            ),
             (
                 ["validate", "does-not-exist.yaml"],
-                2,
+                ExitCode.FATAL,
                 ["file not found", "does-not-exist.yaml"],
                 False,
                 False,
             ),
-            (["validate", VALID, "--schema", SCHEMA], 0, [], False, True),
-            (["validate", VALID, "-v"], 0, ["INFO:", "loading"], False, False),
-            (["validate", VALID, "-vv"], 0, ["DEBUG:", "loaded"], False, False),
+            (["validate", VALID, "--schema", SCHEMA], ExitCode.OK, [], False, True),
+            (
+                ["validate", VALID, "-v"],
+                ExitCode.OK,
+                ["INFO:", "loading"],
+                False,
+                False,
+            ),
+            (
+                ["validate", VALID, "-vv"],
+                ExitCode.OK,
+                ["DEBUG:", "loaded"],
+                False,
+                False,
+            ),
         ],
     )
     def test_validate(
         self,
         capsys: pytest.CaptureFixture[str],
         args: list[str],
-        exit_code: int,
+        exit_code: ExitCode,
         err_substrs: list[str],
         out_empty: bool,
         err_empty: bool,
@@ -86,7 +105,7 @@ class TestValidate:
         bad.write_text("key: [unclosed", encoding="utf-8")
         code = main(["validate", str(bad)])
         captured = capsys.readouterr()
-        assert code == 2
+        assert code == ExitCode.FATAL
         assert "invalid YAML" in captured.err
         assert str(bad) in captured.err
 
@@ -98,7 +117,7 @@ class TestValidate:
         missing = tmp_path / "no-such-schema.yaml"
         code = main(["validate", VALID, "--schema", str(missing)])
         captured = capsys.readouterr()
-        assert code == 2
+        assert code == ExitCode.FATAL
         assert "schema file not found" in captured.err
         assert str(missing) in captured.err
 
@@ -111,7 +130,7 @@ class TestValidate:
         bad_schema.write_text("key: [unclosed", encoding="utf-8")
         code = main(["validate", VALID, "--schema", str(bad_schema)])
         captured = capsys.readouterr()
-        assert code == 2
+        assert code == ExitCode.FATAL
         assert "invalid YAML in schema" in captured.err
         assert str(bad_schema) in captured.err
 
@@ -119,13 +138,13 @@ class TestValidate:
 
     @pytest.mark.parametrize(
         "file_path,exit_code,expect_errors",
-        [(INVALID, 1, True), (VALID, 0, False)],
+        [(INVALID, ExitCode.ERRORS, True), (VALID, ExitCode.OK, False)],
     )
     def test_validate_json(
         self,
         capsys: pytest.CaptureFixture[str],
         file_path: str,
-        exit_code: int,
+        exit_code: ExitCode,
         expect_errors: bool,
     ) -> None:
         code = main(["validate", file_path, "--output-format", "json"])
@@ -144,7 +163,7 @@ class TestValidate:
     ) -> None:
         code = main(["validate", "does-not-exist.yaml", "--output-format", "json"])
         captured = capsys.readouterr()
-        assert code == 2
+        assert code == ExitCode.FATAL
         assert "file not found" in captured.err
         assert captured.out == ""
 
@@ -162,18 +181,18 @@ class TestValidateMain:
     @pytest.mark.parametrize(
         "args,exit_code,err_substrs,err_empty",
         [
-            ([VALID, INVALID], 1, ["modules[0]"], False),
-            ([VALID], 0, [], True),
-            ([VALID, "--schema", SCHEMA], 0, [], True),
-            ([VALID, "-v"], 0, ["INFO:"], False),
-            ([VALID, "-vv"], 0, ["DEBUG:"], False),
+            ([VALID, INVALID], ExitCode.ERRORS, ["modules[0]"], False),
+            ([VALID], ExitCode.OK, [], True),
+            ([VALID, "--schema", SCHEMA], ExitCode.OK, [], True),
+            ([VALID, "-v"], ExitCode.OK, ["INFO:"], False),
+            ([VALID, "-vv"], ExitCode.OK, ["DEBUG:"], False),
         ],
     )
     def test_validate_main(
         self,
         capsys: pytest.CaptureFixture[str],
         args: list[str],
-        exit_code: int,
+        exit_code: ExitCode,
         err_substrs: list[str],
         err_empty: bool,
     ) -> None:
@@ -193,7 +212,7 @@ class TestValidateMain:
         missing = tmp_path / "no-such-schema.yaml"
         code = validate_main([VALID, "--schema", str(missing)])
         captured = capsys.readouterr()
-        assert code == 2
+        assert code == ExitCode.FATAL
         assert "schema file not found" in captured.err
         assert str(missing) in captured.err
 
@@ -202,16 +221,20 @@ class TestValidateMain:
     @pytest.mark.parametrize(
         "args,exit_code,expect_errors",
         [
-            ([VALID, INVALID, "--output-format", "json"], 1, True),
-            ([VALID, "--output-format", "json"], 0, False),
-            ([VALID, "--schema", SCHEMA, "--output-format", "json"], 0, False),
+            ([VALID, INVALID, "--output-format", "json"], ExitCode.ERRORS, True),
+            ([VALID, "--output-format", "json"], ExitCode.OK, False),
+            (
+                [VALID, "--schema", SCHEMA, "--output-format", "json"],
+                ExitCode.OK,
+                False,
+            ),
         ],
     )
     def test_validate_main_json(
         self,
         capsys: pytest.CaptureFixture[str],
         args: list[str],
-        exit_code: int,
+        exit_code: ExitCode,
         expect_errors: bool,
     ) -> None:
         code = validate_main(args)
@@ -229,7 +252,7 @@ class TestValidateMain:
     ) -> None:
         code = validate_main(["does-not-exist.yaml", "--output-format", "json"])
         captured = capsys.readouterr()
-        assert code == 2
+        assert code == ExitCode.FATAL
         assert "file not found" in captured.err
 
     def test_validate_main_json_schema_missing(
@@ -242,7 +265,7 @@ class TestValidateMain:
             [VALID, "--schema", str(missing), "--output-format", "json"],
         )
         captured = capsys.readouterr()
-        assert code == 2
+        assert code == ExitCode.FATAL
         assert "schema file not found" in captured.err
 
     def test_validate_main_json_schema_bad_yaml(
@@ -256,7 +279,7 @@ class TestValidateMain:
             [VALID, "--schema", str(bad_schema), "--output-format", "json"],
         )
         captured = capsys.readouterr()
-        assert code == 2
+        assert code == ExitCode.FATAL
         assert "invalid YAML in schema" in captured.err
 
 
@@ -320,8 +343,14 @@ class TestCheckRegistration:
     @pytest.mark.parametrize(
         "files_to_create,files_to_commit,exit_code,err_substrs,out_empty",
         [
-            (["src/example/app.py"], ["src/example/app.py"], 0, [], True),
-            (["orphan.txt"], ["orphan.txt"], 1, ["orphan.txt", "not claimed"], False),
+            (["src/example/app.py"], ["src/example/app.py"], ExitCode.OK, [], True),
+            (
+                ["orphan.txt"],
+                ["orphan.txt"],
+                ExitCode.ERRORS,
+                ["orphan.txt", "not claimed"],
+                False,
+            ),
         ],
     )
     def test_check_registration_git(
@@ -330,7 +359,7 @@ class TestCheckRegistration:
         git_repo: Path,
         files_to_create: list[str],
         files_to_commit: list[str],
-        exit_code: int,
+        exit_code: ExitCode,
         err_substrs: list[str],
         out_empty: bool,
     ) -> None:
@@ -357,7 +386,7 @@ class TestCheckRegistration:
     ) -> None:
         code = main(["check-registration", "does-not-exist.yaml"])
         captured = capsys.readouterr()
-        assert code == 2
+        assert code == ExitCode.FATAL
         assert "file not found" in captured.err
 
     def test_check_registration_invalid_yaml_exit_two(
@@ -369,7 +398,7 @@ class TestCheckRegistration:
         bad.write_text("key: [unclosed", encoding="utf-8")
         code = main(["check-registration", str(bad)])
         captured = capsys.readouterr()
-        assert code == 2
+        assert code == ExitCode.FATAL
         assert "invalid YAML" in captured.err
 
     def test_check_registration_root_flag_respected(
@@ -399,7 +428,7 @@ class TestCheckRegistration:
             ["check-registration", str(yaml_path), "--root", str(root)],
         )
         captured = capsys.readouterr()
-        assert code == 0, f"stderr: {captured.err}"
+        assert code == ExitCode.OK, f"stderr: {captured.err}"
 
     def test_check_registration_non_git_root_exit_two(
         self,
@@ -423,7 +452,7 @@ class TestCheckRegistration:
             ["check-registration", str(yaml_path), "--root", str(tmp_path)],
         )
         captured = capsys.readouterr()
-        assert code == 2
+        assert code == ExitCode.FATAL
         assert "git ls-files failed" in captured.err
 
     # -- JSON output ---------------------------------------------------------
@@ -431,8 +460,8 @@ class TestCheckRegistration:
     @pytest.mark.parametrize(
         "files_to_create,files_to_commit,exit_code,expect_findings",
         [
-            (["src/example/app.py"], ["src/example/app.py"], 0, False),
-            (["orphan.txt"], ["orphan.txt"], 1, True),
+            (["src/example/app.py"], ["src/example/app.py"], ExitCode.OK, False),
+            (["orphan.txt"], ["orphan.txt"], ExitCode.ERRORS, True),
         ],
     )
     def test_check_registration_json(
@@ -441,7 +470,7 @@ class TestCheckRegistration:
         git_repo: Path,
         files_to_create: list[str],
         files_to_commit: list[str],
-        exit_code: int,
+        exit_code: ExitCode,
         expect_findings: bool,
     ) -> None:
         yaml_path = self._setup_git_repo(
@@ -494,7 +523,7 @@ class TestValidatePaths:
                 "    description: x\n"
                 "    paths:\n"
                 "      - src/app.py\n",
-                0,
+                ExitCode.OK,
                 [],
                 True,
             ),
@@ -505,7 +534,7 @@ class TestValidatePaths:
                 "    description: x\n"
                 "    paths:\n"
                 "      - src/missing.py\n",
-                1,
+                ExitCode.ERRORS,
                 ["does not exist", "src/missing.py"],
                 False,
             ),
@@ -517,7 +546,7 @@ class TestValidatePaths:
         tmp_path: Path,
         create_file: str | None,
         yaml_body: str,
-        exit_code: int,
+        exit_code: ExitCode,
         err_substrs: list[str],
         out_empty: bool,
     ) -> None:
@@ -546,7 +575,7 @@ class TestValidatePaths:
     ) -> None:
         code = main(["validate-paths", "does-not-exist.yaml"])
         captured = capsys.readouterr()
-        assert code == 2
+        assert code == ExitCode.FATAL
         assert "file not found" in captured.err
 
     def test_validate_paths_invalid_yaml_exit_two(
@@ -558,7 +587,7 @@ class TestValidatePaths:
         bad.write_text("key: [unclosed", encoding="utf-8")
         code = main(["validate-paths", str(bad)])
         captured = capsys.readouterr()
-        assert code == 2
+        assert code == ExitCode.FATAL
         assert "invalid YAML" in captured.err
 
     def test_validate_paths_root_flag_respected(
@@ -585,7 +614,7 @@ class TestValidatePaths:
             ["validate-paths", str(yaml_path), "--root", str(root)],
         )
         captured = capsys.readouterr()
-        assert code == 0, f"stderr: {captured.err}"
+        assert code == ExitCode.OK, f"stderr: {captured.err}"
 
     # -- JSON output ---------------------------------------------------------
 
@@ -615,7 +644,7 @@ class TestValidatePaths:
             ],
         )
         captured = capsys.readouterr()
-        assert code == 1
+        assert code == ExitCode.ERRORS
         assert captured.err == ""
         payload = json.loads(captured.out)
         assert payload["findings"]
