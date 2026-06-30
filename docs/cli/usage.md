@@ -70,11 +70,56 @@ Pass `--output-format {text,json}` to any subcommand (and the
   `check-registration`/`validate-paths`, `{"errors": [...]}` for `validate`.
   Operational errors stay on stderr. Exit codes are identical in both modes.
 
+#### JSON output shapes
+
+##### `validate`
+
+The JSON output is `{"errors": string[]}` — a list of plain error strings.
+
+Example:
+
+```console
+$ robotsix-modules validate broken.yaml --output-format json
+{"errors": ["$.modules.0.name: required field missing", "$.modules.0.paths: expected array, got string"]}
+```
+
+##### `check-registration`
+
+The JSON output is `{"findings": RegistrationFinding[]}`. Each finding is a
+dict produced by `dataclasses.asdict` with these fields:
+
+| Field | Type | Always present? | Description |
+|-------|------|-----------------|-------------|
+| `kind` | string | always | One of `"unclassified_file"`, `"stale_path"`, `"duplicate_registration"` |
+| `message` | string | always | Human-readable one-liner |
+| `file` | string or null | only for `unclassified_file` and `duplicate_registration` | Repo-relative path |
+| `module_id` | string or null | only for `stale_path` and `duplicate_registration` | Module identifier |
+| `other_module_id` | string or null | only for `duplicate_registration` | Second claimant module id |
+
 Example:
 
 ```console
 $ robotsix-modules check-registration docs/modules.yaml --output-format json
-{"findings": []}
+{"findings": [{"kind": "unclassified_file", "message": "File 'orphan.txt' is not claimed by any module", "file": "orphan.txt", "module_id": null, "other_module_id": null}]}
+```
+
+##### `validate-paths`
+
+The JSON output is `{"findings": PathFinding[]}`. Each finding is a dict
+produced by `dataclasses.asdict` with these fields:
+
+| Field | Type | Always present? | Description |
+|-------|------|-----------------|-------------|
+| `kind` | string | always | One of `"path_not_found"`, `"glob_empty"` |
+| `message` | string | always | Human-readable one-liner |
+| `module_id` | string | always | Module identifier |
+| `path` | string | always | The literal path or glob pattern that failed |
+
+Example:
+
+```console
+$ robotsix-modules validate-paths docs/modules.yaml --output-format json
+{"findings": [{"kind": "path_not_found", "message": "Path 'src/missing.py' does not exist", "module_id": "my-module", "path": "src/missing.py"}]}
 ```
 
 ### `--schema <path>`
