@@ -10,6 +10,9 @@ and this project adheres to
 
 ### Added
 
+- Bump pre-commit hook versions: `pre-commit-hooks` v5.0.0→v6.0.0,
+  `ruff` v0.15.15→v0.15.19, `mirrors-mypy` v1.19.1→v2.1.0,
+  `zizmor` v1.23.1→v1.26.1
 - Add `detect-secrets` CI job to `.github/workflows/ci.yml` for server-side secret scanning with existing baseline
 - Add `security_posture` periodic workflow to `.robotsix-mill/periodic/` for automated security posture review.
 - Document CLI JSON output field schemas for `validate`, `check-registration`, and `validate-paths` subcommands in `docs/cli/usage.md`.
