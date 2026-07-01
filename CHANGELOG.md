@@ -24,6 +24,7 @@ and this project adheres to
   `ruff` v0.15.15→v0.15.19, `mirrors-mypy` v1.19.1→v2.1.0,
   `zizmor` v1.23.1→v1.26.1
 - Add `detect-secrets` CI job to `.github/workflows/ci.yml` for server-side secret scanning with existing baseline
+- Update pinned GitHub Actions to latest versions: `actions/checkout` to v7.0.0, `astral-sh/setup-uv` to v8.2.0, `github/codeql-action/upload-sarif` to v4.36.2, `actions/upload-artifact` to v7.0.1. Correct misleading version comment on `codeql-action/upload-sarif`. (mill: Update stale GitHub Actions to latest pinned versions across CI workflows (20260701T092348Z-update-stale-github-actions-to-latest-pi-a566))
 - Add `security_posture` periodic workflow to `.robotsix-mill/periodic/` for automated security posture review.
 - Document CLI JSON output field schemas for `validate`, `check-registration`, and `validate-paths` subcommands in `docs/cli/usage.md`.
 - `CODE_OF_CONDUCT.md`: adopt Contributor Covenant v2.1 with enforcement guidelines and
