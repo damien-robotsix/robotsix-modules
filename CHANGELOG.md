@@ -10,6 +10,7 @@ and this project adheres to
 
 ### Added
 
+- Bump bandit[toml] requirement from >=1.8 to >=1.9.4
 - Bump pre-commit hook versions: `pre-commit-hooks` v5.0.0→v6.0.0,
   `ruff` v0.15.15→v0.15.19, `mirrors-mypy` v1.19.1→v2.1.0,
   `zizmor` v1.23.1→v1.26.1
