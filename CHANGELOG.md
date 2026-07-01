@@ -10,6 +10,7 @@ and this project adheres to
 
 ### Added
 
+- Add `security_posture` periodic workflow to `.robotsix-mill/periodic/` for automated security posture review.
 - Document CLI JSON output field schemas for `validate`, `check-registration`, and `validate-paths` subcommands in `docs/cli/usage.md`.
 - `CODE_OF_CONDUCT.md`: adopt Contributor Covenant v2.1 with enforcement guidelines and
   reporting contact (`damien.robotsix@gmail.com`).
