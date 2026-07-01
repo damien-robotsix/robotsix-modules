@@ -135,6 +135,9 @@ jobs:
           ./wheel-env/bin/robotsix-modules --help
           ./wheel-env/bin/robotsix-modules validate \
             "${{ github.workspace }}/tests/cli/fixtures/valid_modules.yaml"
+      - name: Dogfood — validate the real modules.yaml
+        run: ./wheel-env/bin/robotsix-modules validate \
+          "${{ github.workspace }}/docs/modules.yaml"
 
   sbom:
     runs-on: ubuntu-latest
