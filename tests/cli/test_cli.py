@@ -3,11 +3,15 @@
 from __future__ import annotations
 
 import json
-import subprocess
 from pathlib import Path
 
 import pytest
-from conftest import git_commit
+from conftest import (
+    git_commit,
+    run_invalid_yaml_test,
+    run_missing_file_test,
+    run_root_flag_respected_test,
+)
 
 from robotsix_modules import SCHEMA_PATH, __version__, validate_file
 from robotsix_modules.cli import main, validate_main
@@ -95,19 +99,6 @@ class TestValidate:
             assert captured.err == ""
         for s in err_substrs:
             assert s in captured.err
-
-    def test_invalid_taxonomy_yaml_exit_two(
-        self,
-        capsys: pytest.CaptureFixture[str],
-        tmp_path: Path,
-    ) -> None:
-        bad = tmp_path / "broken.yaml"
-        bad.write_text("key: [unclosed", encoding="utf-8")
-        code = main(["validate", str(bad)])
-        captured = capsys.readouterr()
-        assert code == ExitCode.FATAL
-        assert "invalid YAML" in captured.err
-        assert str(bad) in captured.err
 
     def test_missing_schema_file_exit_two(
         self,
@@ -380,56 +371,6 @@ class TestCheckRegistration:
         for s in err_substrs:
             assert s in lower_err
 
-    def test_check_registration_missing_file_exit_two(
-        self,
-        capsys: pytest.CaptureFixture[str],
-    ) -> None:
-        code = main(["check-registration", "does-not-exist.yaml"])
-        captured = capsys.readouterr()
-        assert code == ExitCode.FATAL
-        assert "file not found" in captured.err
-
-    def test_check_registration_invalid_yaml_exit_two(
-        self,
-        capsys: pytest.CaptureFixture[str],
-        tmp_path: Path,
-    ) -> None:
-        bad = tmp_path / "broken.yaml"
-        bad.write_text("key: [unclosed", encoding="utf-8")
-        code = main(["check-registration", str(bad)])
-        captured = capsys.readouterr()
-        assert code == ExitCode.FATAL
-        assert "invalid YAML" in captured.err
-
-    def test_check_registration_root_flag_respected(
-        self,
-        capsys: pytest.CaptureFixture[str],
-        tmp_path: Path,
-    ) -> None:
-        root = tmp_path / "myroot"
-        root.mkdir()
-        (root / "src").mkdir()
-        (root / "src" / "lib.py").touch()
-
-        yaml_path = tmp_path / "modules.yaml"
-        yaml_path.write_text(
-            "modules:\n"
-            "  - id: lib\n"
-            "    description: x\n"
-            "    paths:\n"
-            "      - src/lib.py\n",
-            encoding="utf-8",
-        )
-
-        subprocess.run(["git", "init"], cwd=root, capture_output=True, check=True)
-        git_commit(root, "src/lib.py")
-
-        code = main(
-            ["check-registration", str(yaml_path), "--root", str(root)],
-        )
-        captured = capsys.readouterr()
-        assert code == ExitCode.OK, f"stderr: {captured.err}"
-
     def test_check_registration_non_git_root_exit_two(
         self,
         capsys: pytest.CaptureFixture[str],
@@ -569,53 +510,6 @@ class TestValidatePaths:
         for s in err_substrs:
             assert s in lower_err
 
-    def test_validate_paths_missing_file_exit_two(
-        self,
-        capsys: pytest.CaptureFixture[str],
-    ) -> None:
-        code = main(["validate-paths", "does-not-exist.yaml"])
-        captured = capsys.readouterr()
-        assert code == ExitCode.FATAL
-        assert "file not found" in captured.err
-
-    def test_validate_paths_invalid_yaml_exit_two(
-        self,
-        capsys: pytest.CaptureFixture[str],
-        tmp_path: Path,
-    ) -> None:
-        bad = tmp_path / "broken.yaml"
-        bad.write_text("key: [unclosed", encoding="utf-8")
-        code = main(["validate-paths", str(bad)])
-        captured = capsys.readouterr()
-        assert code == ExitCode.FATAL
-        assert "invalid YAML" in captured.err
-
-    def test_validate_paths_root_flag_respected(
-        self,
-        capsys: pytest.CaptureFixture[str],
-        tmp_path: Path,
-    ) -> None:
-        root = tmp_path / "myroot"
-        root.mkdir()
-        (root / "src").mkdir()
-        (root / "src" / "lib.py").touch()
-
-        yaml_path = tmp_path / "modules.yaml"
-        yaml_path.write_text(
-            "modules:\n"
-            "  - id: lib\n"
-            "    description: x\n"
-            "    paths:\n"
-            "      - src/lib.py\n",
-            encoding="utf-8",
-        )
-
-        code = main(
-            ["validate-paths", str(yaml_path), "--root", str(root)],
-        )
-        captured = capsys.readouterr()
-        assert code == ExitCode.OK, f"stderr: {captured.err}"
-
     # -- JSON output ---------------------------------------------------------
 
     def test_validate_paths_json_findings(
@@ -652,3 +546,40 @@ class TestValidatePaths:
         assert "kind" in finding
         assert finding["module_id"] == "example"
         assert finding["path"] == "src/missing.py"
+
+
+# ===================================================================
+# Shared parametrized error-path tests (replaces per-class duplicates)
+# ===================================================================
+
+
+@pytest.mark.parametrize("subcommand", ["check-registration", "validate-paths"])
+def test_missing_yaml_file_exit_two(
+    capsys: pytest.CaptureFixture[str],
+    subcommand: str,
+) -> None:
+    run_missing_file_test(capsys, subcommand)
+
+
+@pytest.mark.parametrize(
+    "subcommand", ["validate", "check-registration", "validate-paths"]
+)
+def test_invalid_yaml_exit_two(
+    capsys: pytest.CaptureFixture[str],
+    tmp_path: Path,
+    subcommand: str,
+) -> None:
+    run_invalid_yaml_test(capsys, tmp_path, subcommand)
+
+
+@pytest.mark.parametrize(
+    "subcommand,needs_git",
+    [("check-registration", True), ("validate-paths", False)],
+)
+def test_root_flag_respected(
+    capsys: pytest.CaptureFixture[str],
+    tmp_path: Path,
+    subcommand: str,
+    needs_git: bool,
+) -> None:
+    run_root_flag_respected_test(capsys, tmp_path, subcommand, needs_git=needs_git)
