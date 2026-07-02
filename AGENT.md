@@ -1,5 +1,7 @@
 # AGENT.md — robotsix-modules
 
+This repo follows the [robotsix stack standards](https://github.com/damien-robotsix/robotsix-standards).
+
 ## Package identity
 
 `robotsix-modules` is a **pure validation + CLI library**. It provides

@@ -10,6 +10,7 @@ and this project adheres to
 
 ### Added
 
+- Add robotsix-standards reference link to `README.md` and `AGENT.md`.
 - Migrate secret scanning from `detect-secrets` to `gitleaks` in both pre-commit and CI, and add a minimal `.gitleaks.toml` configuration.
 - Extract `RegistrationFinding` dataclass and its six helper functions from `registration.py` into a new `validation/_findings.py` module for improved cohesion.
 - Consolidate duplicate CLI error-path test boilerplate: added shared helpers in `tests/conftest.py` (`run_missing_file_test`, `run_invalid_yaml_test`, `run_root_flag_respected_test`) and replaced 7 per-class duplicate methods in `tests/cli/test_cli.py` with 3 parametrized module-level tests.
