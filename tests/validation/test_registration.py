@@ -151,7 +151,7 @@ def test_git_not_installed_raises_runtime_error(
         raise FileNotFoundError(2, "No such file or directory", "git")
 
     monkeypatch.setattr(
-        "robotsix_modules.validation.registration.subprocess.run", _raise_fnf
+        "robotsix_modules.validation._findings.subprocess.run", _raise_fnf
     )
     with pytest.raises(RuntimeError, match="git is not installed or not on PATH"):
         check_registration(SINGLE_MODULE_TAXONOMY, tmp_path)
@@ -166,7 +166,7 @@ def test_git_ls_files_timeout_raises_runtime_error(
         raise subprocess.TimeoutExpired(cmd=["git", "ls-files"], timeout=60)
 
     monkeypatch.setattr(
-        "robotsix_modules.validation.registration.subprocess.run", _raise_timeout
+        "robotsix_modules.validation._findings.subprocess.run", _raise_timeout
     )
     with pytest.raises(RuntimeError, match="timed out"):
         check_registration(SINGLE_MODULE_TAXONOMY, tmp_path)
