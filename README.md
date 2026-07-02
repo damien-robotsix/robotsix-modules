@@ -108,6 +108,10 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md) for setup, lint, test, and
 release instructions. By participating, you agree to abide by the
 [Code of Conduct](CODE_OF_CONDUCT.md).
 
+## Standards
+
+This repo follows the [robotsix stack standards](https://github.com/damien-robotsix/robotsix-standards).
+
 ## License
 
 MIT
