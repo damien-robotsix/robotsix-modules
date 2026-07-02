@@ -11,6 +11,7 @@ and this project adheres to
 ### Added
 
 - Extract `RegistrationFinding` dataclass and its six helper functions from `registration.py` into a new `validation/_findings.py` module for improved cohesion.
+- Consolidate duplicate CLI error-path test boilerplate: added shared helpers in `tests/conftest.py` (`run_missing_file_test`, `run_invalid_yaml_test`, `run_root_flag_respected_test`) and replaced 7 per-class duplicate methods in `tests/cli/test_cli.py` with 3 parametrized module-level tests.
 - Bump bandit[toml] requirement from >=1.8 to >=1.9.4
 - Bump pre-commit hook versions: `pre-commit-hooks` v5.0.0→v6.0.0,
   `ruff` v0.15.15→v0.15.19, `mirrors-mypy` v1.19.1→v2.1.0,

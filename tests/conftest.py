@@ -34,3 +34,57 @@ def git_commit(repo: Path, *files: str) -> None:
         capture_output=True,
         check=True,
     )
+
+
+# ---------------------------------------------------------------------------
+# Shared CLI error-test helpers
+# ---------------------------------------------------------------------------
+
+
+def run_missing_file_test(capsys, subcommand):
+    """Assert *subcommand* with a missing YAML file exits FATAL / 'file not found'."""
+    from robotsix_modules.cli import main
+    from robotsix_modules.cli._exit_codes import ExitCode
+
+    code = main([subcommand, "does-not-exist.yaml"])
+    captured = capsys.readouterr()
+    assert code == ExitCode.FATAL
+    assert "file not found" in captured.err
+
+
+def run_invalid_yaml_test(capsys, tmp_path, subcommand):
+    """Assert *subcommand* with broken YAML exits FATAL / 'invalid YAML'."""
+    from robotsix_modules.cli import main
+    from robotsix_modules.cli._exit_codes import ExitCode
+
+    bad = tmp_path / "broken.yaml"
+    bad.write_text("key: [unclosed", encoding="utf-8")
+    code = main([subcommand, str(bad)])
+    captured = capsys.readouterr()
+    assert code == ExitCode.FATAL
+    assert "invalid YAML" in captured.err
+
+
+def run_root_flag_respected_test(capsys, tmp_path, subcommand, *, needs_git=False):
+    """Assert *subcommand* with --root resolves paths correctly."""
+    from robotsix_modules.cli import main
+    from robotsix_modules.cli._exit_codes import ExitCode
+
+    root = tmp_path / "myroot"
+    root.mkdir()
+    (root / "src").mkdir()
+    (root / "src" / "lib.py").touch()
+
+    yaml_path = tmp_path / "modules.yaml"
+    yaml_path.write_text(
+        "modules:\n  - id: lib\n    description: x\n    paths:\n      - src/lib.py\n",
+        encoding="utf-8",
+    )
+
+    if needs_git:
+        subprocess.run(["git", "init"], cwd=root, capture_output=True, check=True)
+        git_commit(root, "src/lib.py")
+
+    code = main([subcommand, str(yaml_path), "--root", str(root)])
+    captured = capsys.readouterr()
+    assert code == ExitCode.OK, f"stderr: {captured.err}"
