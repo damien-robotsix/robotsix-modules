@@ -10,6 +10,7 @@ and this project adheres to
 
 ### Added
 
+- Add `.github/workflows/dependabot-auto-merge.yml` to auto-merge Dependabot PRs once required checks pass.
 - Add robotsix-standards reference link to `README.md` and `AGENT.md`.
 - Migrate secret scanning from `detect-secrets` to `gitleaks` in both pre-commit and CI, and add a minimal `.gitleaks.toml` configuration.
 - Extract `RegistrationFinding` dataclass and its six helper functions from `registration.py` into a new `validation/_findings.py` module for improved cohesion.
