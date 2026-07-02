@@ -63,14 +63,14 @@ jobs:
           sarif_file: zizmor-results.sarif
           category: zizmor
 
-  detect-secrets:
+  gitleaks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-      - run: uv run --with detect-secrets detect-secrets scan --baseline .secrets.baseline
+      - run: uv run --with gitleaks gitleaks detect --source . --verbose --no-git
 
   validate-pyproject:
     runs-on: ubuntu-latest
