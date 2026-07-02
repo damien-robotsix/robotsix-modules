@@ -8,39 +8,18 @@ modules accidentally claim the same file.
 
 from __future__ import annotations
 
-import logging
-import subprocess  # nosec B404
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
 
-logger = logging.getLogger("robotsix_modules")
-
-# ---------------------------------------------------------------------------
-# Finding types
-# ---------------------------------------------------------------------------
-
-
-@dataclass(frozen=True)
-class RegistrationFinding:
-    """A single finding from :func:`check_registration`.
-
-    Attributes:
-        kind: the category of finding.
-        message: human-readable one-liner suitable for CLI output.
-        file: repo-relative path (set for ``unclassified_file`` and
-            ``duplicate_registration``).
-        module_id: module id (set for ``stale_path`` and
-            ``duplicate_registration``).
-        other_module_id: second claimant (set for ``duplicate_registration``
-            only).
-    """
-
-    kind: Literal["unclassified_file", "stale_path", "duplicate_registration"]
-    message: str
-    file: str | None = None
-    module_id: str | None = None
-    other_module_id: str | None = None
+from ._findings import (
+    RegistrationFinding,
+    _build_file_claimants,
+    _find_duplicates,
+    _find_stale_paths,
+    _find_unclassified,
+    _resolve_tracked_files,
+)
 
 
 @dataclass(frozen=True)
@@ -84,174 +63,6 @@ def _glob_paths(repo_root: Path, pattern: str) -> list[Path]:
     if pattern == "**" or pattern.endswith("/**"):
         pattern = f"{pattern}/*"
     return list(repo_root.glob(pattern))
-
-
-def _expand_module_paths(
-    module_id: str,
-    path_entries: list[str],
-    repo_root: Path,
-) -> tuple[set[str], set[str]]:
-    """Expand every path entry for a single module.
-
-    Returns:
-        (*claimed_files*, *stale_entries*).
-
-    ``claimed_files`` is the set of repo-relative paths that exist on disk
-    and match at least one of the module's path patterns.  ``stale_entries``
-    is the subset of *path_entries* whose glob expansion matched zero files
-    on disk.
-    """
-    claimed: set[str] = set()
-    stale: set[str] = set()
-
-    logger.debug(
-        "expanding %d path entries for module %s", len(path_entries), module_id
-    )
-
-    for pattern in path_entries:
-        matches = [
-            str(p.relative_to(repo_root))
-            for p in _glob_paths(repo_root, pattern)
-            if p.is_file()
-        ]
-        if matches:
-            claimed.update(matches)
-        else:
-            stale.add(pattern)
-
-    return claimed, stale
-
-
-def _build_file_claimants(
-    taxonomy: dict[str, Any],
-    repo_root: Path,
-) -> dict[str, list[str]]:
-    """Build a mapping of repo-relative file path → list of claiming module ids.
-
-    Only paths expanded via ``Path.glob`` that correspond to actual on-disk
-    files are included.
-    """
-    file_to_modules: dict[str, list[str]] = {}
-    for module_entry in taxonomy.get("modules", []):
-        module_id: str = module_entry["id"]
-        claimed, _ = _expand_module_paths(
-            module_id, module_entry.get("paths", []), repo_root
-        )
-        for path in claimed:
-            file_to_modules.setdefault(path, []).append(module_id)
-    return file_to_modules
-
-
-def _resolve_tracked_files(
-    repo_root: Path,
-    tracked_files: list[str] | None,
-) -> list[str]:
-    """Resolve the list of tracked files for *repo_root*.
-
-    When *tracked_files* is not ``None`` it is returned unchanged.
-    Otherwise ``git ls-files`` is run in *repo_root*.
-
-    Returns:
-        A list of repo-relative file paths.
-
-    Raises:
-        RuntimeError: when *tracked_files* is ``None`` and ``git ls-files``
-            cannot be run successfully.
-    """
-    if tracked_files is not None:
-        return tracked_files
-
-    logger.debug("running git ls-files in %s", repo_root)
-    try:
-        result = subprocess.run(  # nosec B603, B607
-            ["git", "ls-files"],  # noqa: S607
-            capture_output=True,
-            text=True,
-            cwd=repo_root,
-            timeout=60,
-            check=False,
-        )
-    except FileNotFoundError as exc:
-        raise RuntimeError(
-            "git is not installed or not on PATH; cannot list tracked files"
-        ) from exc
-    except subprocess.TimeoutExpired as exc:
-        raise RuntimeError(f"git ls-files timed out after 60s in {repo_root}") from exc
-    if result.returncode != 0:
-        raise RuntimeError(
-            f"git ls-files failed in {repo_root}: {result.stderr.strip()}"
-        )
-    return [line.strip() for line in result.stdout.splitlines() if line.strip()]
-
-
-def _find_unclassified(
-    tracked_set: set[str],
-    file_to_modules: dict[str, list[str]],
-) -> list[RegistrationFinding]:
-    """Return findings for tracked files not claimed by any module."""
-    findings: list[RegistrationFinding] = []
-    unclassified = sorted(tracked_set - set(file_to_modules))
-    for path in unclassified:
-        findings.append(
-            RegistrationFinding(
-                kind="unclassified_file",
-                message=f"File '{path}' is not claimed by any module",
-                file=path,
-            )
-        )
-    return findings
-
-
-def _find_stale_paths(
-    taxonomy: dict[str, Any],
-    repo_root: Path,
-) -> list[RegistrationFinding]:
-    """Return findings for module path entries that match zero files on disk."""
-    findings: list[RegistrationFinding] = []
-    for module_entry in taxonomy.get("modules", []):
-        module_id: str = module_entry["id"]
-        _, stale_entries = _expand_module_paths(
-            module_id, module_entry.get("paths", []), repo_root
-        )
-        for pattern in sorted(stale_entries):
-            findings.append(
-                RegistrationFinding(
-                    kind="stale_path",
-                    message=(
-                        f"Module '{module_id}' path '{pattern}' matches "
-                        "no files on disk"
-                    ),
-                    module_id=module_id,
-                )
-            )
-    return findings
-
-
-def _find_duplicates(
-    file_to_modules: dict[str, list[str]],
-    tracked_set: set[str],
-) -> list[RegistrationFinding]:
-    """Return findings for files claimed by more than one module."""
-    findings: list[RegistrationFinding] = []
-    duplicates = {
-        path: ids
-        for path, ids in file_to_modules.items()
-        if len(ids) >= 2 and path in tracked_set
-    }
-    for path in sorted(duplicates):
-        ids = duplicates[path]
-        findings.append(
-            RegistrationFinding(
-                kind="duplicate_registration",
-                message=(
-                    f"File '{path}' is claimed by multiple modules: " + ", ".join(ids)
-                ),
-                file=path,
-                module_id=ids[0],
-                other_module_id=ids[1],
-            )
-        )
-    return findings
 
 
 # ---------------------------------------------------------------------------
