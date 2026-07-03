@@ -137,7 +137,7 @@ def _validate_one(
 
 def _migrate_one(path: str, *, in_place: bool) -> ExitCode:
     """Migrate *path* to convention-first format. Return exit code."""
-    import yaml  # type: ignore[import-untyped]  # transitive via robotsix-yaml-config
+    import yaml  # transitive via robotsix-yaml-config
 
     from robotsix_modules.validation.registration import compute_default_globs
 

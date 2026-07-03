@@ -41,7 +41,7 @@ def git_commit(repo: Path, *files: str) -> None:
 # ---------------------------------------------------------------------------
 
 
-def run_missing_file_test(capsys, subcommand):
+def run_missing_file_test(capsys: pytest.CaptureFixture[str], subcommand: str) -> None:
     """Assert *subcommand* with a missing YAML file exits FATAL / 'file not found'."""
     from robotsix_modules.cli import main
     from robotsix_modules.cli._exit_codes import ExitCode
@@ -52,7 +52,9 @@ def run_missing_file_test(capsys, subcommand):
     assert "file not found" in captured.err
 
 
-def run_invalid_yaml_test(capsys, tmp_path, subcommand):
+def run_invalid_yaml_test(
+    capsys: pytest.CaptureFixture[str], tmp_path: Path, subcommand: str
+) -> None:
     """Assert *subcommand* with broken YAML exits FATAL / 'invalid YAML'."""
     from robotsix_modules.cli import main
     from robotsix_modules.cli._exit_codes import ExitCode
@@ -65,7 +67,13 @@ def run_invalid_yaml_test(capsys, tmp_path, subcommand):
     assert "invalid YAML" in captured.err
 
 
-def run_root_flag_respected_test(capsys, tmp_path, subcommand, *, needs_git=False):
+def run_root_flag_respected_test(
+    capsys: pytest.CaptureFixture[str],
+    tmp_path: Path,
+    subcommand: str,
+    *,
+    needs_git: bool = False,
+) -> None:
     """Assert *subcommand* with --root resolves paths correctly."""
     from robotsix_modules.cli import main
     from robotsix_modules.cli._exit_codes import ExitCode
