@@ -10,7 +10,8 @@ and this project adheres to
 
 ### Added
 
-- Dogfood `.pre-commit-hooks.yaml`: the repo's own `.pre-commit-config.yaml` now uses `repo: .` to reference the bundled hook definition instead of a `repo: local` entry for `validate-module-taxonomy`.
+- Dogfood `.pre-commit-hooks.yaml` in own `.pre-commit-config.yaml` via `repo: .` instead of `repo: local`.
+  Document the pre-commit hook layout convention in `AGENT.md` (## Project layout).
 - Added `.pre-commit-hooks.yaml` at repo root enabling remote-repo consumption of the `validate-module-taxonomy` hook (`language: python`)
 - Updated `docs/cli/usage.md` — split the pre-commit integration section into two separate code blocks: a remote-repo (recommended) example and the existing local-hook block
 - Add `.github/workflows/dependabot-auto-merge.yml` to auto-merge Dependabot PRs once required checks pass.
