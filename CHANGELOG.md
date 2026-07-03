@@ -10,6 +10,7 @@ and this project adheres to
 
 ### Added
 
+- Add `paths` globs to the `cli` module in `docs/modules.yaml` to properly claim its source, test, and doc files.
 - Resolve mypy strict-mode errors in test files: add type annotations to conftest helpers, add `types-PyYAML` dev dependency, and fix TestMigrate type signatures.
 - Add coverage check to `validate` and `validate-main` subcommands: every tracked file must be covered by at least one module's globs (explicit paths + convention defaults). Previously only `check-registration` performed this check; now the pre-commit `robotsix-modules-validate` hook also catches unclassified files.
 - Add ``robotsix-modules migrate`` CLI subcommand that rewrites a

@@ -29,6 +29,10 @@ modules:
     description: >
       Command-line interface for robotsix-modules. Provides the
       `robotsix-modules` and `robotsix-modules-validate` entry points.
+    paths:
+      - src/robotsix_modules/cli/**
+      - tests/cli/**
+      - docs/cli/**
     dependencies:
       - validation
 
