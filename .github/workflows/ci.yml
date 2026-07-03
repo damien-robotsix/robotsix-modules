@@ -27,18 +27,18 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@9c091bb8a8a4ff02b44f04232c9f21c993bb5b85  # v7.0.0
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-      - uses: actions/dependency-review-action@3943c2c5beaaaf1806eb3758273c203dabcbf89c # v5.0.0
+      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
         with:
           fail-on-severity: moderate
 
   vulture:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb8a8a4ff02b44f04232c9f21c993bb5b85  # v7.0.0
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -51,13 +51,13 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - uses: actions/checkout@9c091bb8a8a4ff02b44f04232c9f21c993bb5b85  # v7.0.0
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
       - run: uv sync --locked --group dev
       - run: uv run zizmor --format sarif . --output zizmor-results.sarif
-      - uses: github/codeql-action/upload-sarif@71d2c6fa467d7b140356e1ba3f3fe4d1cd1dbf9a  # v4.36.2
+      - uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e  # v4.36.2
         if: always()
         with:
           sarif_file: zizmor-results.sarif
@@ -66,7 +66,7 @@ jobs:
   gitleaks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb8a8a4ff02b44f04232c9f21c993bb5b85  # v7.0.0
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -75,7 +75,7 @@ jobs:
   validate-pyproject:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb8a8a4ff02b44f04232c9f21c993bb5b85  # v7.0.0
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -84,7 +84,7 @@ jobs:
   mkdocs-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb8a8a4ff02b44f04232c9f21c993bb5b85  # v7.0.0
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -94,7 +94,7 @@ jobs:
   version-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb8a8a4ff02b44f04232c9f21c993bb5b85  # v7.0.0
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -117,7 +117,7 @@ jobs:
   wheel-install:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb8a8a4ff02b44f04232c9f21c993bb5b85  # v7.0.0
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -144,13 +144,13 @@ jobs:
     needs: [check]
     if: always()
     steps:
-      - uses: actions/checkout@9c091bb8a8a4ff02b44f04232c9f21c993bb5b85  # v7.0.0
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
       - run: uv sync --locked && uv audit
       - run: uv export --format cyclonedx1.5 --output-file sbom.json
-      - uses: actions/upload-artifact@043fb4689d4d68deefcd50e5b71aef7e07f718ad # v7.0.1
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: sbom
           path: sbom.json
