@@ -10,6 +10,7 @@ from robotsix_yaml_config import read_yaml_file
 
 from robotsix_modules.validation.registration import (
     _has_glob_metacharacters,
+    check_coverage,
     check_registration,
     compute_default_globs,
     validate_paths,
@@ -433,3 +434,74 @@ def test_explicit_paths_take_precedence_over_defaults(tmp_path: Path) -> None:
     )
     # Both files are covered — explicit paths + defaults
     assert findings == []
+
+
+# ---------------------------------------------------------------------------
+# check_coverage
+# ---------------------------------------------------------------------------
+
+
+def test_check_coverage_all_covered(tmp_path: Path) -> None:
+    """All tracked files covered → empty error list."""
+    (tmp_path / "src" / "example").mkdir(parents=True)
+    (tmp_path / "src" / "example" / "foo.py").touch()
+
+    taxonomy: dict[str, object] = {
+        "modules": [{"id": "example", "description": "x", "paths": ["src/example/**"]}]
+    }
+    errors = check_coverage(
+        taxonomy,
+        tmp_path,
+        tracked_files=["src/example/foo.py"],
+    )
+    assert errors == []
+
+
+def test_check_coverage_unclassified(tmp_path: Path) -> None:
+    """Unclassified tracked file → one error message."""
+    (tmp_path / "src" / "example").mkdir(parents=True)
+    (tmp_path / "src" / "example" / "foo.py").touch()
+    (tmp_path / "orphan.txt").touch()
+
+    taxonomy = {
+        "modules": [{"id": "example", "description": "x", "paths": ["src/example/**"]}]
+    }
+    errors = check_coverage(
+        taxonomy,
+        tmp_path,
+        tracked_files=["src/example/foo.py", "orphan.txt"],
+    )
+    assert len(errors) == 1
+    assert "orphan.txt" in errors[0]
+    assert "not claimed" in errors[0].lower()
+
+
+def test_check_coverage_non_git_graceful(tmp_path: Path) -> None:
+    """Non-git directory → graceful no-op, returns []."""
+    errors = check_coverage(
+        {"modules": [{"id": "x", "description": "x", "paths": ["src/x/**"]}]},
+        tmp_path,
+    )
+    assert errors == []
+
+
+def test_check_coverage_ignores_stale_and_duplicates(tmp_path: Path) -> None:
+    """Only unclassified_file findings are returned; stale/duplicate ignored."""
+    (tmp_path / "shared").mkdir(parents=True)
+    (tmp_path / "shared" / "lib.py").touch()
+
+    taxonomy = {
+        "modules": [
+            {"id": "mod-a", "description": "a", "paths": ["shared/**"]},
+            {"id": "mod-b", "description": "b", "paths": ["shared/**"]},
+            {"id": "stale-mod", "description": "s", "paths": ["nowhere/**"]},
+        ]
+    }
+    errors = check_coverage(
+        taxonomy,
+        tmp_path,
+        tracked_files=["shared/lib.py"],
+    )
+    # File is duplicated but NOT unclassified — so check_coverage should
+    # return no errors (duplicates and stale paths are ignored).
+    assert errors == []
