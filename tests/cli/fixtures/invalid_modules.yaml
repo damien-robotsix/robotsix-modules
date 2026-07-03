@@ -2,6 +2,6 @@ modules:
   - description: This module is missing its required id field.
     paths:
       - src/no_id/**
-  - id: empty-paths
-    description: This module declares an empty paths array.
-    paths: []
+  - description: Another module also missing its required id field.
+    paths:
+      - src/also_bad/**

@@ -15,6 +15,13 @@ description: >-
 
 type: object
 properties:
+  package:
+    type: string
+    pattern: "^[a-z][a-z0-9_]*$"
+    description: >-
+      Python package name (underscore-separated, e.g. ``robotsix_modules``).
+      When set, module entries that omit ``paths`` inherit three convention
+      globs: ``src/<package>/<id>/**``, ``tests/<id>/**``, ``docs/<id>/**``.
   modules:
     type: array
     description: "Ordered list of module entries."
@@ -42,15 +49,14 @@ $defs:
           exists.  Keep it concise — one to three sentences.
       paths:
         type: array
-        minItems: 1
         items:
           type: string
         description: >-
-          Repo-relative glob patterns covering all source files, tests,
-          docs, agent definitions, config snippets, and skills that
-          belong to this module.  Patterns use standard glob syntax
-          (`*`, `**`, `?`).  Every file in the repo should be claimed
-          by exactly one module.
+          Repo-relative glob patterns covering files that belong to this module.
+          When omitted (or empty), default convention globs are synthesised from
+          the top-level ``package`` field — ``src/<package>/<id>/**``,
+          ``tests/<id>/**``, ``docs/<id>/**``.  Only out-of-convention files need
+          to be listed explicitly.
       dependencies:
         type: array
         default: []
@@ -62,5 +68,5 @@ $defs:
           reads, or otherwise depends on).  Documentation-only for v1;
           no enforcement is implemented.  Omit or use `[]` when a
           module has no internal dependencies.
-    required: [id, description, paths]
+    required: [id, description]
     additionalProperties: false

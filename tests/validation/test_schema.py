@@ -50,11 +50,43 @@ def test_bad_id_mentions_kebab_pattern() -> None:
     assert any("[a-z]" in e for e in errors)
 
 
-def test_empty_paths_mentions_minitems() -> None:
+def test_empty_paths_and_missing_paths_valid() -> None:
+    """Empty paths list and missing paths key are both valid now."""
+    # Module with empty paths list
     taxonomy = {"modules": [{"id": "foo", "description": "bar", "paths": []}]}
+    assert validate(taxonomy) == []
+    # Module without paths key at all
+    taxonomy_no_paths = {"modules": [{"id": "foo", "description": "bar"}]}
+    assert validate(taxonomy_no_paths) == []
+
+
+def test_package_field_valid() -> None:
+    """package field with valid value produces no schema errors."""
+    taxonomy = {
+        "package": "my_pkg",
+        "modules": [{"id": "x", "description": "y"}],
+    }
+    assert validate(taxonomy) == []
+
+
+def test_paths_optional() -> None:
+    """Module without paths key produces no schema errors."""
+    taxonomy = {"modules": [{"id": "x", "description": "y"}]}
+    assert validate(taxonomy) == []
+
+
+def test_paths_empty_list_valid() -> None:
+    """paths: [] produces no schema errors (was previously invalid)."""
+    taxonomy = {"modules": [{"id": "x", "description": "y", "paths": []}]}
+    assert validate(taxonomy) == []
+
+
+def test_package_pattern_invalid() -> None:
+    """package with uppercase/hyphens produces a schema error."""
+    taxonomy = {
+        "package": "My-Pkg",
+        "modules": [{"id": "x", "description": "y"}],
+    }
     errors = validate(taxonomy)
     assert errors
-    assert any(
-        "non-empty" in e.lower() or "minitems" in e.lower() or "short" in e.lower()
-        for e in errors
-    )
+    assert any("package" in e.lower() for e in errors)

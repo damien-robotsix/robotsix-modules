@@ -22,6 +22,7 @@ from ._findings import RegistrationFinding
 from .registration import (
     PathFinding,
     check_registration,
+    compute_default_globs,
     validate_paths,
 )
 from .schema import SCHEMA_PATH, load_schema
@@ -31,6 +32,7 @@ __all__ = [
     "RegistrationFinding",
     "SCHEMA_PATH",
     "check_registration",
+    "compute_default_globs",
     "load_schema",
     "load_taxonomy",
     "validate",

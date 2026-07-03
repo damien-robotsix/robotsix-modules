@@ -65,6 +65,21 @@ def _glob_paths(repo_root: Path, pattern: str) -> list[Path]:
     return list(repo_root.glob(pattern))
 
 
+def compute_default_globs(module_id: str, package: str) -> list[str]:
+    """Return the three convention globs for *module_id* in *package*.
+
+    Covers the standard robotsix repo layout:
+    - ``src/<package>/<module_id>/**``
+    - ``tests/<module_id>/**``
+    - ``docs/<module_id>/**``
+    """
+    return [
+        f"src/{package}/{module_id}/**",
+        f"tests/{module_id}/**",
+        f"docs/{module_id}/**",
+    ]
+
+
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------

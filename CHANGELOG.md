@@ -10,6 +10,10 @@ and this project adheres to
 
 ### Added
 
+- Make module ``paths`` optional in ``modules.yaml``: when a top-level
+  ``package`` field is set, modules without explicit paths inherit three
+  convention globs (``src/<package>/<id>/**``, ``tests/<id>/**``,
+  ``docs/<id>/**``).  Add ``compute_default_globs`` to the public API.
 - Dogfood `.pre-commit-hooks.yaml` in own `.pre-commit-config.yaml` via `repo: .` instead of `repo: local`.
   Document the pre-commit hook layout convention in `AGENT.md` (## Project layout).
 - Added `.pre-commit-hooks.yaml` at repo root enabling remote-repo consumption of the `validate-module-taxonomy` hook (`language: python`)
