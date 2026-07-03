@@ -136,7 +136,24 @@ error.
 ## Pre-commit Integration
 
 Use the wrapper entry point, which accepts one or more positional paths
-(pre-commit passes each matched file separately):
+(pre-commit passes each matched file separately).
+
+### Remote-repo (recommended)
+
+Add the following to your `.pre-commit-config.yaml` (requires no global
+installation — pre-commit provisions an isolated venv automatically):
+
+```yaml
+  - repo: https://github.com/damien-robotsix/robotsix-modules
+    rev: v0.2.0
+    hooks:
+      - id: validate-module-taxonomy
+```
+
+### Local hook (alternative)
+
+If you have the package installed globally and want to pin a specific
+version or use non-default arguments, use the `repo: local` style:
 
 ```yaml
   - repo: local

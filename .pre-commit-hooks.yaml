@@ -1,0 +1,7 @@
+- id: validate-module-taxonomy
+  name: Validate module taxonomy
+  description: Validates docs/modules.yaml against the robotsix JSON Schema
+  entry: robotsix-modules-validate
+  language: python
+  files: ^docs/modules\.ya?ml$
+  types_or: [yaml]
