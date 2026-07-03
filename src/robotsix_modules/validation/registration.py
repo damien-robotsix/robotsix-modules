@@ -120,6 +120,38 @@ def check_registration(
     )
 
 
+def check_coverage(
+    taxonomy: dict[str, Any],
+    repo_root: Path,
+    *,
+    tracked_files: list[str] | None = None,
+) -> list[str]:
+    """Check that every tracked file is covered by at least one module's globs.
+
+    Collects all module globs (explicit ``paths`` + convention defaults) and
+    verifies every tracked file is matched by at least one of them.  Only
+    *unclassified_file* findings are returned; stale-path and duplicate
+    findings are left to :func:`check_registration`.
+
+    Args:
+        taxonomy: a parsed ``modules.yaml`` dict.
+        repo_root: the repository root directory.
+        tracked_files: optional override — a list of repo-relative file
+            paths.  When ``None`` (the default), the list is obtained by
+            running ``git ls-files`` in *repo_root*.
+
+    Returns:
+        A (possibly empty) list of human-readable error messages, one per
+        unclassified file.  Returns an empty list (graceful no-op) when
+        ``git ls-files`` cannot be run — e.g. in a non-git directory.
+    """
+    try:
+        findings = check_registration(taxonomy, repo_root, tracked_files=tracked_files)
+    except RuntimeError:
+        return []
+    return [f.message for f in findings if f.kind == "unclassified_file"]
+
+
 def validate_paths(
     taxonomy: dict[str, Any],
     repo_root: Path,

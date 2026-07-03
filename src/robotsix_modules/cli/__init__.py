@@ -15,7 +15,11 @@ from robotsix_yaml_config import YamlConfigError, YamlReadError, read_yaml_file
 
 from robotsix_modules import __version__, validate
 from robotsix_modules.cli._exit_codes import ExitCode
-from robotsix_modules.validation import check_registration, validate_paths
+from robotsix_modules.validation import (
+    check_coverage,
+    check_registration,
+    validate_paths,
+)
 
 PROG = "robotsix-modules"
 
@@ -100,26 +104,35 @@ def _run_one(
 
 
 def _validate_one(
-    path: str, schema_path: str | None, output_format: str = "text"
+    path: str, schema_path: str | None, output_format: str = "text", *, root: str = "."
 ) -> ExitCode:
     """Validate a single taxonomy file. Return the process exit code."""
 
-    def compute(taxonomy: dict[str, Any]) -> list[Any] | None:
-        schema: dict[str, Any] | None = None
-        if schema_path is not None:
-            schema = _safe_load_yaml(schema_path, label="schema")
-            if schema is None:
-                return None
-        return validate(taxonomy, schema=schema)
+    taxonomy = _safe_load_yaml(path)
+    if taxonomy is None:
+        return ExitCode.FATAL
 
-    return _run_one(
-        path,
-        output_format,
-        compute,
-        json_key="errors",
-        serialize=lambda message: message,
-        text_value=lambda message: message,
-    )
+    schema: dict[str, Any] | None = None
+    if schema_path is not None:
+        schema = _safe_load_yaml(schema_path, label="schema")
+        if schema is None:
+            return ExitCode.FATAL
+
+    logger.info("validating %s", path)
+    schema_errors = validate(taxonomy, schema=schema)
+    coverage_errors = check_coverage(taxonomy, Path(root))
+
+    all_errors = schema_errors + coverage_errors
+
+    if output_format == "json":
+        json.dump({"errors": all_errors}, sys.stdout)
+        return ExitCode.ERRORS if all_errors else ExitCode.OK
+
+    if all_errors:
+        for message in all_errors:
+            print(message, file=sys.stderr)
+        return ExitCode.ERRORS
+    return ExitCode.OK
 
 
 def _migrate_one(path: str, *, in_place: bool) -> ExitCode:
@@ -233,6 +246,11 @@ def _build_parser() -> argparse.ArgumentParser:
         default="text",
         help="Output format for findings (default: text).",
     )
+    validate_parser.add_argument(
+        "--root",
+        default=".",
+        help="Repository root directory (default: .).",
+    )
 
     check_reg_parser = subparsers.add_parser(
         "check-registration",
@@ -325,7 +343,7 @@ def main(argv: list[str] | None = None) -> ExitCode:
     args = parser.parse_args(argv)
     _configure_logging(args.verbose)
     if args.command == "validate":
-        return _validate_one(args.path, args.schema, args.output_format)
+        return _validate_one(args.path, args.schema, args.output_format, root=args.root)
     if args.command == "check-registration":
         return _check_registration_one(args.modules_yaml, args.root, args.output_format)
     if args.command == "validate-paths":
@@ -392,6 +410,11 @@ def validate_main(argv: list[str] | None = None) -> ExitCode:
         default="text",
         help="Output format for findings (default: text).",
     )
+    parser.add_argument(
+        "--root",
+        default=".",
+        help="Repository root directory (default: .).",
+    )
     args = parser.parse_args(argv)
 
     _configure_logging(args.verbose)
@@ -406,6 +429,22 @@ def validate_main(argv: list[str] | None = None) -> ExitCode:
         else:
             for message in errors:
                 print(message, file=sys.stderr)
+
+    # Supplement schema validation with a coverage check (once, not per-path).
+    if exit_code != ExitCode.FATAL:
+        coverage_errors: list[str] = []
+        for path in args.paths:
+            taxonomy = _safe_load_yaml(path)
+            if taxonomy is not None:
+                coverage_errors.extend(check_coverage(taxonomy, Path(args.root)))
+                break  # only need one valid taxonomy for coverage
+        if coverage_errors:
+            exit_code = ExitCode.ERRORS
+            if args.output_format == "json":
+                all_errors.extend(coverage_errors)
+            else:
+                for msg in coverage_errors:
+                    print(msg, file=sys.stderr)
 
     if args.output_format == "json":
         json.dump({"errors": all_errors}, sys.stdout)

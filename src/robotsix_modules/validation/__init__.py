@@ -21,6 +21,7 @@ from robotsix_yaml_config import YamlReadError, read_yaml_file
 from ._findings import RegistrationFinding
 from .registration import (
     PathFinding,
+    check_coverage,
     check_registration,
     compute_default_globs,
     validate_paths,
@@ -31,6 +32,7 @@ __all__ = [
     "PathFinding",
     "RegistrationFinding",
     "SCHEMA_PATH",
+    "check_coverage",
     "check_registration",
     "compute_default_globs",
     "load_schema",
