@@ -52,6 +52,18 @@ version consistency across `pyproject.toml` / `CHANGELOG.md` / `README.md` /
 
 Any new source or test file must pass all of these gates.
 
+## Project layout
+
+- `.pre-commit-hooks.yaml` — pre-commit hook manifest at the repo root. When
+  this repo provides a pre-commit hook with an `id:` defined in
+  `.pre-commit-config.yaml`, ship a `.pre-commit-hooks.yaml` so downstream users
+  can consume it as a remote pre-commit source
+  (`repo: https://github.com/damien-robotsix/robotsix-modules`) rather than
+  requiring a `repo: local` / `language: system` setup. Every hook entry in
+  `.pre-commit-hooks.yaml` must use `language: python` (not `language: system`).
+- Dogfood: the repo's own `.pre-commit-config.yaml` references the hook via
+  `repo: .` (with `rev: ""`) instead of duplicating it under `repo: local`.
+
 ## Docs conventions
 
 - `docs/modules.yaml` — the canonical module registry. Every logical module

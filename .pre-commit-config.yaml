@@ -48,6 +48,7 @@ repos:
         language: system
         pass_filenames: false
   - repo: .
+    rev: ""
     hooks:
       - id: validate-module-taxonomy
   - repo: https://github.com/abravalheri/validate-pyproject
