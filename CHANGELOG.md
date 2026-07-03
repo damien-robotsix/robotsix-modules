@@ -10,6 +10,8 @@ and this project adheres to
 
 ### Added
 
+- Added `.pre-commit-hooks.yaml` at repo root enabling remote-repo consumption of the `validate-module-taxonomy` hook (`language: python`)
+- Updated `docs/cli/usage.md` — split the pre-commit integration section into two separate code blocks: a remote-repo (recommended) example and the existing local-hook block
 - Add `.github/workflows/dependabot-auto-merge.yml` to auto-merge Dependabot PRs once required checks pass.
 - Add robotsix-standards reference link to `README.md` and `AGENT.md`.
 - Migrate secret scanning from `detect-secrets` to `gitleaks` in both pre-commit and CI, and add a minimal `.gitleaks.toml` configuration.
