@@ -140,6 +140,8 @@ Use the wrapper entry point, which accepts one or more positional paths
 
 ```yaml
   - repo: local
+  - repo: https://github.com/damien-robotsix/robotsix-modules
+    rev: v0.2.0
     hooks:
       - id: validate-module-taxonomy
         name: Validate module taxonomy
