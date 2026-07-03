@@ -24,6 +24,9 @@ modules:
     paths:
       - src/robotsix_modules/__init__.py
       - src/robotsix_modules/py.typed
+      - src/robotsix_modules/validation/**
+      - tests/validation/**
+      - docs/validation/**
 
   - id: cli
     description: >
