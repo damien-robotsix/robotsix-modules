@@ -66,7 +66,7 @@ jobs:
   gitleaks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+      - uses: actions/checkout@9c091bb8a8a4ff02b44f04232c9f21c993bb5b85  # v7.0.0
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
