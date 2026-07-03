@@ -47,12 +47,9 @@ repos:
         entry: vulture src/ vulture_whitelist.py
         language: system
         pass_filenames: false
+  - repo: .
+    hooks:
       - id: validate-module-taxonomy
-        name: Validate module taxonomy
-        entry: robotsix-modules-validate
-        language: system
-        files: ^docs/modules\.ya?ml$
-        types_or: [yaml]
   - repo: https://github.com/abravalheri/validate-pyproject
     rev: v0.25
     hooks:
