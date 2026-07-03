@@ -23,20 +23,17 @@ FIXTURES = Path(__file__).parent / "fixtures"
 # ---------------------------------------------------------------------------
 
 
-def test_has_glob_metacharacters_literal() -> None:
-    assert not _has_glob_metacharacters("src/foo.py")
-
-
-def test_has_glob_metacharacters_star() -> None:
-    assert _has_glob_metacharacters("src/**/*.py")
-
-
-def test_has_glob_metacharacters_question() -> None:
-    assert _has_glob_metacharacters("src/chapter?.md")
-
-
-def test_has_glob_metacharacters_bracket() -> None:
-    assert _has_glob_metacharacters("src/[Ff]oo.py")
+@pytest.mark.parametrize(
+    ("path", "expected"),
+    [
+        ("src/foo.py", False),
+        ("src/**/*.py", True),
+        ("src/chapter?.md", True),
+        ("src/[Ff]oo.py", True),
+    ],
+)
+def test_has_glob_metacharacters(path: str, expected: bool) -> None:
+    assert _has_glob_metacharacters(path) is expected
 
 
 # ---------------------------------------------------------------------------
@@ -46,6 +43,33 @@ def test_has_glob_metacharacters_bracket() -> None:
 SINGLE_MODULE_TAXONOMY = {
     "modules": [{"id": "example", "description": "x", "paths": ["src/example/**"]}]
 }
+
+_MISSING = object()
+
+
+def _assert_finding(
+    findings: list,
+    idx: int = 0,
+    *,
+    kind: str | None = None,
+    file: object = _MISSING,
+    module_id: object = _MISSING,
+    other_module_id: object = _MISSING,
+    message_contains: str | None = None,
+) -> None:
+    """Assert properties of a single finding at position *idx*."""
+    assert idx < len(findings)
+    f = findings[idx]
+    if kind is not None:
+        assert f.kind == kind
+    if file is not _MISSING:
+        assert f.file == file
+    if module_id is not _MISSING:
+        assert f.module_id == module_id
+    if other_module_id is not _MISSING:
+        assert f.other_module_id == other_module_id
+    if message_contains is not None:
+        assert message_contains in f.message
 
 
 def test_all_tracked_files_covered(tmp_path: Path) -> None:
@@ -73,13 +97,15 @@ def test_unclassified_file(tmp_path: Path) -> None:
         tracked_files=["src/example/foo.py", "orphan.txt"],
     )
     assert len(findings) == 1
-    f = findings[0]
-    assert f.kind == "unclassified_file"
-    assert f.file == "orphan.txt"
-    assert f.module_id is None
-    assert f.other_module_id is None
-    assert "orphan.txt" in f.message
-    assert "not claimed" in f.message.lower()
+    _assert_finding(
+        findings,
+        kind="unclassified_file",
+        file="orphan.txt",
+        module_id=None,
+        other_module_id=None,
+        message_contains="orphan.txt",
+    )
+    assert "not claimed" in findings[0].message.lower()
 
 
 def test_duplicate_registration(tmp_path: Path) -> None:
@@ -95,12 +121,15 @@ def test_duplicate_registration(tmp_path: Path) -> None:
     )
     assert len(findings) == 1
     f = findings[0]
-    assert f.kind == "duplicate_registration"
-    assert f.file == "shared/util.py"
+    _assert_finding(
+        findings,
+        kind="duplicate_registration",
+        file="shared/util.py",
+        message_contains="multiple modules",
+    )
     assert f.module_id in ("alpha", "beta")
     assert f.other_module_id in ("alpha", "beta")
     assert f.module_id != f.other_module_id
-    assert "multiple modules" in f.message.lower()
 
 
 def test_stale_path(tmp_path: Path) -> None:
@@ -114,11 +143,13 @@ def test_stale_path(tmp_path: Path) -> None:
         tracked_files=[],
     )
     assert len(findings) == 1
-    f = findings[0]
-    assert f.kind == "stale_path"
-    assert f.module_id == "gone"
-    assert f.file is None
-    assert "nonexistent/**" in f.message
+    _assert_finding(
+        findings,
+        kind="stale_path",
+        module_id="gone",
+        file=None,
+        message_contains="nonexistent/**",
+    )
 
 
 def test_tracked_files_override_no_git_call(tmp_path: Path) -> None:
@@ -212,8 +243,11 @@ def test_sparse_checkout_unclassified(tmp_path: Path) -> None:
         tracked_files=["src/example/ghost.py", "src/example/real.py"],
     )
     assert len(findings) == 1
-    assert findings[0].kind == "unclassified_file"
-    assert findings[0].file == "src/example/ghost.py"
+    _assert_finding(
+        findings,
+        kind="unclassified_file",
+        file="src/example/ghost.py",
+    )
 
 
 def test_multiple_stale_paths(tmp_path: Path) -> None:
