@@ -1,5 +1,6 @@
 # Module taxonomy for robotsix-modules itself.
 # Validate with:  robotsix-modules validate docs/modules.yaml
+package: robotsix_modules
 modules:
   - id: docs
     description: >
@@ -23,18 +24,11 @@ modules:
     paths:
       - src/robotsix_modules/__init__.py
       - src/robotsix_modules/py.typed
-      - src/robotsix_modules/validation/**
-      - docs/validation/**
-      - tests/validation/**
 
   - id: cli
     description: >
       Command-line interface for robotsix-modules. Provides the
       `robotsix-modules` and `robotsix-modules-validate` entry points.
-    paths:
-      - src/robotsix_modules/cli/**
-      - docs/cli/**
-      - tests/cli/**
     dependencies:
       - validation
 

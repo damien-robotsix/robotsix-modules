@@ -11,6 +11,7 @@ from robotsix_yaml_config import read_yaml_file
 from robotsix_modules.validation.registration import (
     _has_glob_metacharacters,
     check_registration,
+    compute_default_globs,
     validate_paths,
 )
 
@@ -339,3 +340,96 @@ def test_literal_path_directory(tmp_path: Path) -> None:
 def test_validate_paths_no_modules(tmp_path: Path) -> None:
     """Empty modules list → no findings."""
     assert validate_paths({"modules": []}, tmp_path) == []
+
+
+# ---------------------------------------------------------------------------
+# compute_default_globs
+# ---------------------------------------------------------------------------
+
+
+def test_compute_default_globs() -> None:
+    """Compute the three convention globs for a module_id/package pair."""
+    result = compute_default_globs("cli", "my_pkg")
+    assert result == ["src/my_pkg/cli/**", "tests/cli/**", "docs/cli/**"]
+
+
+def test_default_globs_cover_conventional_files(tmp_path: Path) -> None:
+    """No-paths module with package set → conventional files are classified."""
+    (tmp_path / "src" / "example_pkg" / "core").mkdir(parents=True)
+    (tmp_path / "src" / "example_pkg" / "core" / "main.py").touch()
+
+    taxonomy = {
+        "package": "example_pkg",
+        "modules": [{"id": "core", "description": "Fully conventional"}],
+    }
+    findings = check_registration(
+        taxonomy,
+        tmp_path,
+        tracked_files=["src/example_pkg/core/main.py"],
+    )
+    assert findings == []
+
+
+def test_no_paths_no_package_files_unclassified(tmp_path: Path) -> None:
+    """No package set and no paths → files are unclassified."""
+    (tmp_path / "src" / "example_pkg" / "core").mkdir(parents=True)
+    (tmp_path / "src" / "example_pkg" / "core" / "main.py").touch()
+
+    taxonomy = {
+        "modules": [{"id": "core", "description": "No package, no paths"}],
+    }
+    findings = check_registration(
+        taxonomy,
+        tmp_path,
+        tracked_files=["src/example_pkg/core/main.py"],
+    )
+    assert len(findings) == 1
+    assert findings[0].kind == "unclassified_file"
+    assert findings[0].file == "src/example_pkg/core/main.py"
+
+
+def test_default_globs_no_stale_finding(tmp_path: Path) -> None:
+    """No-paths module with package → no stale_path findings."""
+    (tmp_path / "src" / "example_pkg" / "core").mkdir(parents=True)
+    (tmp_path / "src" / "example_pkg" / "core" / "lib.py").touch()
+
+    taxonomy = {
+        "package": "example_pkg",
+        "modules": [{"id": "core", "description": "Fully conventional"}],
+    }
+    findings = check_registration(
+        taxonomy,
+        tmp_path,
+        tracked_files=["src/example_pkg/core/lib.py"],
+    )
+    stale = [f for f in findings if f.kind == "stale_path"]
+    assert stale == []
+
+
+def test_explicit_paths_take_precedence_over_defaults(tmp_path: Path) -> None:
+    """Explicit paths are merged with defaults — both sets are used."""
+    (tmp_path / "src" / "example_pkg" / "core").mkdir(parents=True)
+    (tmp_path / "src" / "example_pkg" / "core" / "conventional.py").touch()
+    (tmp_path / "custom").mkdir()
+    (tmp_path / "custom" / "included.py").touch()
+
+    taxonomy = {
+        "package": "example_pkg",
+        "modules": [
+            {
+                "id": "core",
+                "description": "Has explicit paths",
+                "paths": ["custom/**"],
+            }
+        ],
+    }
+    findings = check_registration(
+        taxonomy,
+        tmp_path,
+        tracked_files=[
+            "custom/included.py",
+            "src/example_pkg/core/conventional.py",
+        ],
+    )
+    # Both files are covered — explicit paths + defaults
+    assert findings == []

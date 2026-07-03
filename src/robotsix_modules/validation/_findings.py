@@ -95,12 +95,18 @@ def _build_file_claimants(
     Only paths expanded via ``Path.glob`` that correspond to actual on-disk
     files are included.
     """
+    # lazy import to avoid circular dependency
+    from .registration import compute_default_globs
+
+    package: str | None = taxonomy.get("package")
     file_to_modules: dict[str, list[str]] = {}
     for module_entry in taxonomy.get("modules", []):
         module_id: str = module_entry["id"]
-        claimed, _ = _expand_module_paths(
-            module_id, module_entry.get("paths", []), repo_root
-        )
+        explicit_paths: list[str] = module_entry.get("paths") or []
+        effective_paths: list[str] = list(explicit_paths)
+        if package:
+            effective_paths.extend(compute_default_globs(module_id, package))
+        claimed, _ = _expand_module_paths(module_id, effective_paths, repo_root)
         for path in claimed:
             file_to_modules.setdefault(path, []).append(module_id)
     return file_to_modules
