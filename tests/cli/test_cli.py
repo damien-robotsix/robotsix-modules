@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Mapping
 from pathlib import Path
+from typing import Any
 
 import pytest
 from conftest import (
@@ -747,7 +749,7 @@ class TestMigrate:
     @staticmethod
     def _write_yaml(
         tmp_path: Path,
-        body: dict[str, object],
+        body: Mapping[str, Any],
         *,
         filename: str = "modules.yaml",
     ) -> Path:
@@ -761,7 +763,7 @@ class TestMigrate:
         return p
 
     @staticmethod
-    def _load_yaml(path: str | Path) -> dict[str, object]:
+    def _load_yaml(path: str | Path) -> Any:
         import yaml
 
         return yaml.safe_load(Path(path).read_text(encoding="utf-8"))
