@@ -38,6 +38,20 @@ $ robotsix-modules validate-paths docs/modules.yaml --root .
 # exit 1 — prints path_not_found / glob_empty findings to stderr
 ```
 
+### `migrate`
+
+```console
+$ robotsix-modules migrate docs/modules.yaml
+# exit 0 — prints simplified YAML to stdout with default-convention
+# globs stripped from explicit path lists (YAML comments not preserved)
+
+$ robotsix-modules migrate docs/modules.yaml --in-place
+# exit 0 — rewrites the file in place (stderr: "Wrote simplified taxonomy to …")
+
+$ robotsix-modules migrate no-such-file.yaml
+# exit 2 — file not found
+```
+
 ## Exit Codes
 
 | Code | Meaning                                    |

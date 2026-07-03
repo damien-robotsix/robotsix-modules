@@ -549,6 +549,186 @@ class TestValidatePaths:
 
 
 # ===================================================================
+# migrate
+# ===================================================================
+
+
+class TestMigrate:
+    """Tests for ``robotsix-modules migrate``."""
+
+    @staticmethod
+    def _write_yaml(
+        tmp_path: Path,
+        body: dict[str, object],
+        *,
+        filename: str = "modules.yaml",
+    ) -> Path:
+        import yaml
+
+        p = tmp_path / filename
+        p.write_text(
+            yaml.dump(body, default_flow_style=False, sort_keys=False),
+            encoding="utf-8",
+        )
+        return p
+
+    @staticmethod
+    def _load_yaml(path: str | Path) -> dict[str, object]:
+        import yaml
+
+        return yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+
+    def test_migrate_strips_default_paths_stdout(
+        self,
+        capsys: pytest.CaptureFixture[str],
+        tmp_path: Path,
+    ) -> None:
+        taxonomy = {
+            "package": "example_pkg",
+            "modules": [
+                {
+                    "id": "core",
+                    "description": "Core module.",
+                    "paths": [
+                        "src/example_pkg/core/**",
+                        "tests/core/**",
+                        "docs/core/**",
+                        "legacy/old.py",
+                    ],
+                },
+            ],
+        }
+        p = self._write_yaml(tmp_path, taxonomy)
+        code = main(["migrate", str(p)])
+        captured = capsys.readouterr()
+        assert code == ExitCode.OK
+        import yaml
+
+        result = yaml.safe_load(captured.out)
+        assert result["modules"][0]["paths"] == ["legacy/old.py"]
+
+    def test_migrate_fully_conventional_module_drops_paths_key(
+        self,
+        capsys: pytest.CaptureFixture[str],
+        tmp_path: Path,
+    ) -> None:
+        taxonomy = {
+            "package": "pkg",
+            "modules": [
+                {
+                    "id": "sub",
+                    "description": "Sub module.",
+                    "paths": [
+                        "src/pkg/sub/**",
+                        "tests/sub/**",
+                        "docs/sub/**",
+                    ],
+                },
+            ],
+        }
+        p = self._write_yaml(tmp_path, taxonomy)
+        code = main(["migrate", str(p)])
+        captured = capsys.readouterr()
+        assert code == ExitCode.OK
+        import yaml
+
+        result = yaml.safe_load(captured.out)
+        assert "paths" not in result["modules"][0]
+
+    def test_migrate_no_package_exits_ok_prints_unchanged(
+        self,
+        capsys: pytest.CaptureFixture[str],
+        tmp_path: Path,
+    ) -> None:
+        taxonomy: dict[str, object] = {
+            "modules": [
+                {
+                    "id": "core",
+                    "description": "Core.",
+                    "paths": ["src/pkg/core/**"],
+                },
+            ],
+        }
+        p = self._write_yaml(tmp_path, taxonomy)
+        code = main(["migrate", str(p)])
+        captured = capsys.readouterr()
+        assert code == ExitCode.OK
+        assert "WARNING" in captured.err
+        assert "nothing to migrate" in captured.err
+        import yaml
+
+        stdout_loaded = yaml.safe_load(captured.out)
+        assert stdout_loaded == taxonomy
+
+    def test_migrate_in_place_rewrites_file(
+        self,
+        capsys: pytest.CaptureFixture[str],
+        tmp_path: Path,
+    ) -> None:
+        taxonomy = {
+            "package": "pkg",
+            "modules": [
+                {
+                    "id": "core",
+                    "description": "Core.",
+                    "paths": [
+                        "src/pkg/core/**",
+                        "tests/core/**",
+                        "docs/core/**",
+                        "custom/extra.py",
+                    ],
+                },
+            ],
+        }
+        p = self._write_yaml(tmp_path, taxonomy)
+        code = main(["migrate", str(p), "--in-place"])
+        captured = capsys.readouterr()
+        assert code == ExitCode.OK
+        assert "Wrote simplified taxonomy" in captured.err
+        result = self._load_yaml(p)
+        assert result["modules"][0]["paths"] == ["custom/extra.py"]
+
+    def test_migrate_missing_file_exits_two(
+        self,
+        capsys: pytest.CaptureFixture[str],
+        tmp_path: Path,
+    ) -> None:
+        missing = tmp_path / "nonexistent.yaml"
+        code = main(["migrate", str(missing)])
+        captured = capsys.readouterr()
+        assert code == ExitCode.FATAL
+        assert "file not found" in captured.err
+
+    def test_migrate_preserves_non_default_paths(
+        self,
+        capsys: pytest.CaptureFixture[str],
+        tmp_path: Path,
+    ) -> None:
+        taxonomy = {
+            "package": "example_pkg",
+            "modules": [
+                {
+                    "id": "core",
+                    "description": "Core.",
+                    "paths": [
+                        "src/example_pkg/core/**",
+                        "src/example_pkg/core/extra.py",
+                    ],
+                },
+            ],
+        }
+        p = self._write_yaml(tmp_path, taxonomy)
+        code = main(["migrate", str(p)])
+        captured = capsys.readouterr()
+        assert code == ExitCode.OK
+        import yaml
+
+        result = yaml.safe_load(captured.out)
+        assert "paths" in result["modules"][0]
+        assert result["modules"][0]["paths"] == ["src/example_pkg/core/extra.py"]
+
+
+# ===================================================================
 # Shared parametrized error-path tests (replaces per-class duplicates)
 # ===================================================================
 

@@ -10,6 +10,11 @@ and this project adheres to
 
 ### Added
 
+- Add ``robotsix-modules migrate`` CLI subcommand that rewrites a
+  ``modules.yaml`` to strip explicit path entries already covered by
+  convention default globs (``src/<pkg>/<id>/**``, ``tests/<id>/**``,
+  ``docs/<id>/**``). Supports ``--in-place`` for file overwrite.
+  YAML comments are not preserved.
 - Make module ``paths`` optional in ``modules.yaml``: when a top-level
   ``package`` field is set, modules without explicit paths inherit three
   convention globs (``src/<package>/<id>/**``, ``tests/<id>/**``,
