@@ -68,6 +68,7 @@ known_first_party = ["robotsix_modules"]
 
 [tool.deptry.per_rule_ignores]
 DEP002 = ["pytest", "pytest-cov", "ruff", "mypy", "deptry", "bandit", "vulture", "zizmor"]
+DEP003 = ["yaml"]
 
 [tool.bandit]
 exclude_dirs = ["tests/validation", "tests/cli"]

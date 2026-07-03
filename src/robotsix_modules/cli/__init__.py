@@ -122,6 +122,51 @@ def _validate_one(
     )
 
 
+def _migrate_one(path: str, *, in_place: bool) -> ExitCode:
+    """Migrate *path* to convention-first format. Return exit code."""
+    import yaml  # type: ignore[import-untyped]  # transitive via robotsix-yaml-config
+
+    from robotsix_modules.validation.registration import compute_default_globs
+
+    taxonomy = _safe_load_yaml(path)
+    if taxonomy is None:
+        return ExitCode.FATAL
+
+    package: str | None = taxonomy.get("package")
+    if package is None:
+        logger.warning("no 'package' field in %s — nothing to migrate", path)
+        output = yaml.dump(
+            taxonomy,
+            default_flow_style=False,
+            sort_keys=False,
+            allow_unicode=True,
+        )
+        print(output, end="")
+        return ExitCode.OK
+
+    for module_entry in taxonomy.get("modules", []):
+        defaults = set(compute_default_globs(module_entry["id"], package))
+        existing: list[str] = module_entry.get("paths") or []
+        remaining = [p for p in existing if p not in defaults]
+        if not remaining:
+            module_entry.pop("paths", None)
+        elif remaining != existing:
+            module_entry["paths"] = remaining
+
+    output = yaml.dump(
+        taxonomy,
+        default_flow_style=False,
+        sort_keys=False,
+        allow_unicode=True,
+    )
+    if in_place:
+        Path(path).write_text(output, encoding="utf-8")
+        print(f"Wrote simplified taxonomy to {path}", file=sys.stderr)
+    else:
+        print(output, end="")
+    return ExitCode.OK
+
+
 def _check_registration_one(
     path: str, root: str, output_format: str = "text"
 ) -> ExitCode:
@@ -245,6 +290,32 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Output format for findings (default: text).",
     )
 
+    migrate_parser = subparsers.add_parser(
+        "migrate",
+        help=(
+            "Rewrite a modules.yaml to strip path entries covered by "
+            "convention defaults. NOTE: YAML comments are not preserved."
+        ),
+    )
+    migrate_parser.add_argument(
+        "-v",
+        "--verbose",
+        action="count",
+        default=0,
+        help="Increase verbosity (-v for info, -vv for debug).",
+    )
+    migrate_parser.add_argument(
+        "modules_yaml",
+        metavar="modules.yaml",
+        help="Path to the taxonomy YAML file.",
+    )
+    migrate_parser.add_argument(
+        "--in-place",
+        action="store_true",
+        default=False,
+        help="Overwrite the input file instead of printing to stdout.",
+    )
+
     return parser
 
 
@@ -259,6 +330,8 @@ def main(argv: list[str] | None = None) -> ExitCode:
         return _check_registration_one(args.modules_yaml, args.root, args.output_format)
     if args.command == "validate-paths":
         return _validate_paths_one(args.modules_yaml, args.root, args.output_format)
+    if args.command == "migrate":
+        return _migrate_one(args.modules_yaml, in_place=args.in_place)
     parser.error(f"unknown command: {args.command}")  # pragma: no cover
     return ExitCode.FATAL  # pragma: no cover - argparse exits before reaching here
 
