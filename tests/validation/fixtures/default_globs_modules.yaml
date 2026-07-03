@@ -1,8 +1,0 @@
-package: example_pkg
-modules:
-  - id: core
-    description: Fully conventional module — no explicit paths.
-  - id: extras
-    description: Module with only non-conventional paths.
-    paths:
-      - legacy/extras.py
