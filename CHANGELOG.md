@@ -10,6 +10,7 @@ and this project adheres to
 
 ### Removed
 
+- Register `src/robotsix_modules/_exceptions.py` in the `validation` module's path list in `docs/modules.yaml`.
 - Revert cosmetic `...` added by prior attempt to root `CONTRIBUTING.md`. The
   core deduplication (`docs/CONTRIBUTING.md` as symlink to `../CONTRIBUTING.md`)
   was already in place from a prior PR; no further changes needed.
