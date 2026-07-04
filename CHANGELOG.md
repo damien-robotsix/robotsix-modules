@@ -11,7 +11,7 @@ and this project adheres to
 ### Removed
 
 - Register `src/robotsix_modules/_exceptions.py` in the `validation` module's path list in `docs/modules.yaml`.
-- Deduplicate `docs/CODE_OF_CONDUCT.md` by replacing it with a symlink to `../CODE_OF_CONDUCT.md`, eliminating the 133-line byte-identical clone.)
+- Confirm `docs/CODE_OF_CONDUCT.md` is already a symlink (`-> ../CODE_OF_CONDUCT.md`, created in PR #133); no code change needed to eliminate the byte-identical clone.)
 - Revert cosmetic `...` added by prior attempt to root `CONTRIBUTING.md`. The
   core deduplication (`docs/CONTRIBUTING.md` as symlink to `../CONTRIBUTING.md`)
   was already in place from a prior PR; no further changes needed.
