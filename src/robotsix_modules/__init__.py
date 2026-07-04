@@ -9,10 +9,13 @@ Public API:
     validate_paths(taxonomy, repo_root) -> list[PathFinding]
     SCHEMA_PATH                     -> pathlib.Path
     __version__                     -> str
+    ConfigError                     — base class for configuration errors
     ConfigFileNotFoundError         — raised when a config file is missing
     ConfigParseError                — raised when a config file is invalid YAML
     ConfigStructureError            — raised when a config file structure is wrong
+    GitOperationError               — raised when a Git operation fails
     RobotsixModulesError            — base for all errors from this package
+    read_yaml_file(path)            -> dict
 """
 
 from __future__ import annotations

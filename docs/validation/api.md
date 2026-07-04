@@ -22,9 +22,4 @@
         - RobotsixModulesError       # ← add
         - read_yaml_file             # ← add
         - check_coverage
-        - validate_paths
-        - RegistrationFinding
-        - PathFinding
-        - SCHEMA_PATH
-        - __version__
 <!-- mdformat on -->

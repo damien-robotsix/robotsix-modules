@@ -12,8 +12,10 @@ from typing import Any
 
 import yaml
 
+from ._exceptions import ConfigError
 
-class YamlConfigError(Exception):
+
+class YamlConfigError(ConfigError):
     """Base for all YAML I/O errors raised by this package."""
 
 
