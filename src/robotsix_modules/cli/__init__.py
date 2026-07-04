@@ -11,9 +11,8 @@ from collections.abc import Callable, Generator
 from pathlib import Path
 from typing import Any
 
-from robotsix_yaml_config import YamlConfigError, YamlReadError, read_yaml_file
-
 from robotsix_modules import __version__, validate
+from robotsix_modules._yaml import YamlConfigError, YamlReadError, read_yaml_file
 from robotsix_modules.cli._exit_codes import ExitCode
 from robotsix_modules.validation import (
     check_coverage,
@@ -137,7 +136,7 @@ def _validate_one(
 
 def _migrate_one(path: str, *, in_place: bool) -> ExitCode:
     """Migrate *path* to convention-first format. Return exit code."""
-    import yaml  # transitive via robotsix-yaml-config
+    import yaml
 
     from robotsix_modules.validation.registration import compute_default_globs
 

@@ -6,8 +6,8 @@ import subprocess
 from pathlib import Path
 
 import pytest
-from robotsix_yaml_config import read_yaml_file
 
+from robotsix_modules._yaml import read_yaml_file
 from robotsix_modules.validation.registration import (
     _has_glob_metacharacters,
     check_coverage,

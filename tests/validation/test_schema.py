@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-from robotsix_yaml_config import read_yaml_file
-
 from robotsix_modules import SCHEMA_PATH, validate
+from robotsix_modules._yaml import read_yaml_file
 from robotsix_modules.validation.schema import load_schema
 
 

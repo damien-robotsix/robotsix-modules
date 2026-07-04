@@ -127,8 +127,7 @@ jobs:
         run: |
           uv venv --python 3.14 wheel-env
           uv pip install --python wheel-env \
-            dist/*.whl \
-            "robotsix-yaml-config @ git+https://github.com/damien-robotsix/robotsix-yaml-config.git@d302ee4ada88905efa48333894ed19519f9f7920"
+            dist/*.whl
       - name: Smoke-test the installed wheel
         run: |
           ./wheel-env/bin/python -c "import robotsix_modules; print('import ok:', robotsix_modules.__version__)"

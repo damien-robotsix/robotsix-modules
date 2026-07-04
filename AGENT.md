@@ -36,7 +36,7 @@ CLI flags on the `robotsix-modules` console script.
 
 ## Delegation — YAML I/O
 
-Use `robotsix_yaml_config.read_yaml_file` for any YAML I/O (e.g. reading
+Use `robotsix_modules._yaml.read_yaml_file` for any YAML I/O (e.g. reading
 `docs/modules.yaml`). Agents must **not** add a second YAML parser.
 
 ## CI invariants
