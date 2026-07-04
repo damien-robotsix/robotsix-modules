@@ -11,6 +11,7 @@ and this project adheres to
 ### Removed
 
 - Add custom exception hierarchy: `RobotsixModulesError` base class with typed subclasses `GitOperationError`, `ConfigError`, `ConfigFileNotFoundError`, `ConfigParseError`, and `ConfigStructureError`. Git-operation failures now raise `GitOperationError` instead of bare `RuntimeError`.
+- Add `.github/workflows/lint-workflows.yml` to run actionlint and zizmor on push/PR, using the shared reusable workflow from `robotsix-github-workflows`.
 - Remove the retired `robotsix-yaml-config` dependency. The package now uses
   PyYAML directly for all YAML I/O via its internal `_yaml` wrapper, matching
   the config-standard migration to `robotsix-config`.
