@@ -5,7 +5,6 @@ JSON-Schema-driven module-taxonomy validation for robotsix projects — see
 [`README.md`](https://github.com/damien-robotsix/robotsix-modules/blob/main/README.md) for what it does and how to use it. The guide below
 explains how to set up your environment, run the same checks CI runs, and submit
 a pull request.
-...
 
 ## Development environment setup
 
