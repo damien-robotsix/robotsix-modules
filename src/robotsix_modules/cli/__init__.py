@@ -11,8 +11,22 @@ from collections.abc import Callable, Generator
 from pathlib import Path
 from typing import Any
 
+from robotsix_modules._yaml import (
+    YamlParseError as _YamlParseError,
+)
+from robotsix_modules._yaml import (
+    YamlReadError as _YamlReadError,
+)
+from robotsix_modules._yaml import read_yaml_file
+
 from robotsix_modules import __version__, validate
-from robotsix_modules._yaml import YamlConfigError, YamlReadError, read_yaml_file
+from robotsix_modules._exceptions import (
+    ConfigFileNotFoundError,
+    ConfigParseError,
+    ConfigStructureError,
+    GitOperationError,
+    RobotsixModulesError,
+)
 from robotsix_modules.cli._exit_codes import ExitCode
 from robotsix_modules.validation import (
     check_coverage,
@@ -49,17 +63,17 @@ def _safe_load_yaml(path: str | Path, label: str = "") -> dict[str, Any] | None:
         logger.info("loading %s", path)
         target = Path(path)
         if not target.exists():
-            raise YamlReadError(f"file not found: {path}")
+            raise ConfigFileNotFoundError(f"file not found: {path}")
         result = read_yaml_file(target)
         logger.debug("loaded %d top-level keys from %s", len(result), path)
         return result
-    except YamlReadError:
+    except ConfigFileNotFoundError:
         if label:
             logger.error("%s file not found: %s", label, path)
         else:
             logger.error("file not found: %s", path)
         return None
-    except YamlConfigError as exc:
+    except (_YamlReadError, _YamlParseError, ConfigParseError, ConfigStructureError) as exc:
         if label:
             logger.error("invalid YAML in %s %s: %s", label, path, exc)
         else:
@@ -187,7 +201,7 @@ def _check_registration_one(
     def compute(taxonomy: dict[str, Any]) -> list[Any] | None:
         try:
             return check_registration(taxonomy, Path(root))
-        except RuntimeError as exc:
+        except GitOperationError as exc:
             logger.error("%s", exc)
             return None
 

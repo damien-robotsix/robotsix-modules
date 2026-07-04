@@ -13,6 +13,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
 
+from .._exceptions import GitOperationError
+
 logger = logging.getLogger("robotsix_modules")
 
 # ---------------------------------------------------------------------------
@@ -125,7 +127,7 @@ def _resolve_tracked_files(
         A list of repo-relative file paths.
 
     Raises:
-        RuntimeError: when *tracked_files* is ``None`` and ``git ls-files``
+        GitOperationError: when *tracked_files* is ``None`` and ``git ls-files``
             cannot be run successfully.
     """
     if tracked_files is not None:
@@ -142,14 +144,19 @@ def _resolve_tracked_files(
             check=False,
         )
     except FileNotFoundError as exc:
-        raise RuntimeError(
-            "git is not installed or not on PATH; cannot list tracked files"
+        raise GitOperationError(
+            "git is not installed or not on PATH; cannot list tracked files",
+            returncode=None,
         ) from exc
     except subprocess.TimeoutExpired as exc:
-        raise RuntimeError(f"git ls-files timed out after 60s in {repo_root}") from exc
+        raise GitOperationError(
+            f"git ls-files timed out after 60s in {repo_root}",
+            returncode=None,
+        ) from exc
     if result.returncode != 0:
-        raise RuntimeError(
-            f"git ls-files failed in {repo_root}: {result.stderr.strip()}"
+        raise GitOperationError(
+            f"git ls-files failed in {repo_root}: {result.stderr.strip()}",
+            returncode=result.returncode,
         )
     return [line.strip() for line in result.stdout.splitlines() if line.strip()]
 

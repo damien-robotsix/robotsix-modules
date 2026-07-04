@@ -20,6 +20,7 @@ from ._findings import (
     _find_unclassified,
     _resolve_tracked_files,
 )
+from .._exceptions import GitOperationError
 
 
 @dataclass(frozen=True)
@@ -106,7 +107,7 @@ def check_registration(
         entries, then *duplicate_registration* entries.
 
     Raises:
-        RuntimeError: when *tracked_files* is ``None`` and ``git ls-files``
+        GitOperationError: when *tracked_files* is ``None`` and ``git ls-files``
             cannot be run successfully (e.g. git not installed or *repo_root*
             is not a git repository).
     """
@@ -147,7 +148,7 @@ def check_coverage(
     """
     try:
         findings = check_registration(taxonomy, repo_root, tracked_files=tracked_files)
-    except RuntimeError:
+    except GitOperationError:
         return []
     return [f.message for f in findings if f.kind == "unclassified_file"]
 
