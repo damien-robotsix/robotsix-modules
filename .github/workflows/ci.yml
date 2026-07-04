@@ -23,6 +23,7 @@ jobs:
       mypy-advisory: false
 
   dependency-review:
+    name: Dependency review
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
@@ -37,6 +38,7 @@ jobs:
           fail-on-severity: moderate
 
   vulture:
+    name: Vulture dead code scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
@@ -49,10 +51,11 @@ jobs:
       - run: uv run vulture src/ vulture_whitelist.py
 
   zizmor:
+    name: Zizmor workflow audit
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      security-events: write
+      security-events: write  # needed for SARIF upload
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
         with:
@@ -69,6 +72,7 @@ jobs:
           category: zizmor
 
   gitleaks:
+    name: Gitleaks secrets scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
@@ -80,6 +84,7 @@ jobs:
       - run: uv run --with gitleaks gitleaks detect --source . --verbose --no-git
 
   validate-pyproject:
+    name: Validate pyproject.toml
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
@@ -91,6 +96,7 @@ jobs:
       - run: uv sync --locked --group dev && uv run validate-pyproject
 
   mkdocs-build:
+    name: MkDocs build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
@@ -103,6 +109,7 @@ jobs:
       - run: uv run mkdocs build --strict
 
   version-check:
+    name: Version consistency check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
@@ -128,7 +135,10 @@ jobs:
           fi
 
   wheel-install:
+    name: Wheel install smoketest
     runs-on: ubuntu-latest
+    env:
+      WORKSPACE: ${{ github.workspace }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
         with:
@@ -148,12 +158,13 @@ jobs:
           ./wheel-env/bin/python -c "import robotsix_modules; print('import ok:', robotsix_modules.__version__)"
           ./wheel-env/bin/robotsix-modules --help
           ./wheel-env/bin/robotsix-modules validate \
-            "${{ github.workspace }}/tests/cli/fixtures/valid_modules.yaml"
+            "$WORKSPACE/tests/cli/fixtures/valid_modules.yaml"
       - name: Dogfood — validate the real modules.yaml
         run: ./wheel-env/bin/robotsix-modules validate \
-          "${{ github.workspace }}/docs/modules.yaml"
+          "$WORKSPACE/docs/modules.yaml"
 
   sbom:
+    name: SBOM + audit
     runs-on: ubuntu-latest
     needs: [check]
     if: always()
