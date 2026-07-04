@@ -9,10 +9,23 @@ Public API:
     validate_paths(taxonomy, repo_root) -> list[PathFinding]
     SCHEMA_PATH                     -> pathlib.Path
     __version__                     -> str
+    ConfigFileNotFoundError         — raised when a config file is missing
+    ConfigParseError                — raised when a config file is invalid YAML
+    ConfigStructureError            — raised when a config file structure is wrong
+    RobotsixModulesError            — base for all errors from this package
 """
 
 from __future__ import annotations
 
+from robotsix_yaml_config import read_yaml_file
+
+from ._exceptions import (
+    ConfigError,
+    ConfigFileNotFoundError,
+    ConfigParseError,
+    ConfigStructureError,
+    RobotsixModulesError,
+)
 from .validation import (
     SCHEMA_PATH,
     PathFinding,
@@ -34,14 +47,20 @@ except Exception:
     __version__ = "0.0.0.dev0"  # fallback for uninstalled / dev context
 
 __all__ = [
+    "ConfigError",
+    "ConfigFileNotFoundError",
+    "ConfigParseError",
+    "ConfigStructureError",
     "PathFinding",
     "RegistrationFinding",
+    "RobotsixModulesError",
     "SCHEMA_PATH",
     "__version__",
     "check_coverage",
     "check_registration",
     "load_schema",
     "load_taxonomy",
+    "read_yaml_file",
     "validate",
     "validate_file",
     "validate_paths",
