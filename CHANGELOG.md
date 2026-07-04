@@ -10,6 +10,7 @@ and this project adheres to
 
 ### Removed
 
+- Updated `docs/schema-reference.md` to document the `package` field, correct the `paths` requirement from mandatory to optional (convention globs are synthesised from `package`), and refresh the complete example to match the current `docs/modules.yaml`.
 - Add `.github/workflows/lint-workflows.yml` to run actionlint and zizmor on push/PR, using the shared reusable workflow from `robotsix-github-workflows`.
 - Add custom exception hierarchy: `RobotsixModulesError` base class with typed subclasses `GitOperationError`, `ConfigError`, `ConfigFileNotFoundError`, `ConfigParseError`, and `ConfigStructureError`. Git-operation failures now raise `GitOperationError` instead of bare `RuntimeError`.
 - Remove the retired `robotsix-yaml-config` dependency. The package now uses
