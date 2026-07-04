@@ -9,12 +9,7 @@
         - validate
         - validate_file
         - check_registration
-        - check_coverage        # ← add this
-        - validate_paths
-        - RegistrationFinding
-        - PathFinding
-        - SCHEMA_PATH
-        - __version__
+        - check_coverage
         - validate_paths
         - RegistrationFinding
         - PathFinding
