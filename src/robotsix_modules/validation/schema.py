@@ -6,7 +6,7 @@ from importlib.resources import files
 from pathlib import Path
 from typing import Any
 
-from robotsix_yaml_config import read_yaml_file
+from robotsix_modules._yaml import read_yaml_file
 
 #: Filesystem path to the bundled JSON Schema resource.
 SCHEMA_PATH: Path = Path(

@@ -146,31 +146,9 @@ these steps in order:
    `twine` or token step is required. Confirm the `Publish to PyPI` workflow run
    succeeds.
 
-> **Install contract:** The PyPI artifact is **not** installable via a plain
-> `pip install robotsix-modules`. The runtime dependency `robotsix-yaml-config`
-> is Git-only (not published to PyPI), and `[tool.uv.sources]` is not emitted
-> into wheel metadata, so plain `pip` cannot resolve it. The supported install
-> paths are `uv` and `pip` with the git-URL form (see
-> [`README.md`](https://github.com/damien-robotsix/robotsix-modules/blob/main/README.md#install)). The long-term fix is to publish
-> `robotsix-yaml-config` to PyPI and replace the Git source with a version
-> constraint — tracked separately in the `robotsix-yaml-config` repository.
-
-## Upgrading the `robotsix-yaml-config` dependency
-
-Because `robotsix-yaml-config` is pinned by commit SHA in three places (outside
-of ordinary `uv`-managed version constraints), upgrading it requires updating
-all of the following in the same pull request:
-
-1. **`pyproject.toml`** — the `rev` value under `[tool.uv.sources]` for
-   `robotsix-yaml-config`.
-2. **`.github/workflows/ci.yml`** — the `@<sha>` suffix on the `wheel-install`
-   job's inline `pip install` URL (line 64).
-3. **`uv.lock`** — regenerate via `uv lock` after updating `pyproject.toml`. The
-   regenerated lockfile will carry the new commit in its `source` line for the
-   `robotsix-yaml-config` package.
-
-All three must point at the same commit; updating only one or two will cause
-either `uv sync --frozen` or the CI wheel-smoke job to fail.
+> **Install contract:** The PyPI artifact is installable via a plain
+> `pip install robotsix-modules`. All runtime dependencies are published
+> to PyPI.
 
 ## Dependabot
 
@@ -190,6 +168,12 @@ lockfile regeneration is needed.
 
 By contributing, you agree that your contributions are accepted under the
 project's MIT [LICENSE](https://github.com/damien-robotsix/robotsix-modules/blob/main/LICENSE).
+
+Please note that this project is governed by the
+[Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). All
+contributors are expected to uphold this code. Report unacceptable
+behavior to [damien.robotsix@gmail.com](mailto:damien.robotsix@gmail.com).
+://github.com/damien-robotsix/robotsix-modules/blob/main/LICENSE).
 
 Please note that this project is governed by the
 [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). All

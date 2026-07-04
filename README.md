@@ -12,10 +12,8 @@ small CLI + Python API to validate it.
 
 ## Install
 
-> **Note:** A plain `pip install robotsix-modules` from PyPI does **not**
-> currently resolve. The runtime dependency `robotsix-yaml-config` is Git-only
-> (not published to PyPI), and `pip` cannot fetch it from the published wheel
-> metadata. Use one of the supported install paths below.
+> **Note:** The package can be installed via `pip install robotsix-modules`
+> from PyPI. All runtime dependencies are published to PyPI.
 
 With `uv`, which resolves the `[tool.uv.sources]` Git entry:
 

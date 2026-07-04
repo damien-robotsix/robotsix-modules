@@ -5,9 +5,9 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from robotsix_yaml_config import YamlParseError, YamlReadError
 
 from robotsix_modules import load_taxonomy
+from robotsix_modules._yaml import YamlParseError, YamlReadError
 
 
 def test_load_taxonomy_valid(tmp_path: Path) -> None:

@@ -16,7 +16,8 @@ from pathlib import Path
 from typing import Any
 
 from jsonschema import Draft202012Validator
-from robotsix_yaml_config import YamlReadError, read_yaml_file
+
+from robotsix_modules._yaml import YamlReadError, read_yaml_file
 
 from ._findings import RegistrationFinding
 from .registration import (
