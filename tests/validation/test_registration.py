@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pytest
 
+from robotsix_modules._exceptions import GitOperationError
 from robotsix_modules._yaml import read_yaml_file
 from robotsix_modules.validation.registration import (
     _has_glob_metacharacters,
@@ -169,16 +170,16 @@ def test_tracked_files_override_no_git_call(tmp_path: Path) -> None:
 
 
 def test_git_ls_files_fails_non_repo(tmp_path: Path) -> None:
-    """git ls-files fails in a non-repo dir → RuntimeError."""
+    """git ls-files fails in a non-repo dir → GitOperationError."""
     # tmp_path is not a git repo.
-    with pytest.raises(RuntimeError, match="git ls-files failed"):
+    with pytest.raises(GitOperationError, match="git ls-files failed"):
         check_registration(SINGLE_MODULE_TAXONOMY, tmp_path)
 
 
-def test_git_not_installed_raises_runtime_error(
+def test_git_not_installed_raises_git_operation_error(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """git binary missing → clean RuntimeError instead of FileNotFoundError."""
+    """git binary missing → GitOperationError instead of FileNotFoundError."""
 
     def _raise_fnf(*_args: object, **_kwargs: object) -> None:
         raise FileNotFoundError(2, "No such file or directory", "git")
@@ -186,14 +187,14 @@ def test_git_not_installed_raises_runtime_error(
     monkeypatch.setattr(
         "robotsix_modules.validation._findings.subprocess.run", _raise_fnf
     )
-    with pytest.raises(RuntimeError, match="git is not installed or not on PATH"):
+    with pytest.raises(GitOperationError, match="git is not installed or not on PATH"):
         check_registration(SINGLE_MODULE_TAXONOMY, tmp_path)
 
 
-def test_git_ls_files_timeout_raises_runtime_error(
+def test_git_ls_files_timeout_raises_git_operation_error(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """git ls-files hanging past the timeout → clean RuntimeError."""
+    """git ls-files hanging past the timeout → GitOperationError."""
 
     def _raise_timeout(*_args: object, **_kwargs: object) -> None:
         raise subprocess.TimeoutExpired(cmd=["git", "ls-files"], timeout=60)
@@ -201,7 +202,7 @@ def test_git_ls_files_timeout_raises_runtime_error(
     monkeypatch.setattr(
         "robotsix_modules.validation._findings.subprocess.run", _raise_timeout
     )
-    with pytest.raises(RuntimeError, match="timed out"):
+    with pytest.raises(GitOperationError, match="timed out"):
         check_registration(SINGLE_MODULE_TAXONOMY, tmp_path)
 
 

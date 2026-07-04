@@ -11,19 +11,20 @@ from collections.abc import Callable, Generator
 from pathlib import Path
 from typing import Any
 
-from robotsix_yaml_config import (
+from robotsix_modules._yaml import (
     YamlParseError as _YamlParseError,
 )
-from robotsix_yaml_config import (
+from robotsix_modules._yaml import (
     YamlReadError as _YamlReadError,
 )
-from robotsix_yaml_config import read_yaml_file
+from robotsix_modules._yaml import read_yaml_file
 
 from robotsix_modules import __version__, validate
 from robotsix_modules._exceptions import (
     ConfigFileNotFoundError,
     ConfigParseError,
     ConfigStructureError,
+    GitOperationError,
     RobotsixModulesError,
 )
 from robotsix_modules.cli._exit_codes import ExitCode
@@ -200,7 +201,7 @@ def _check_registration_one(
     def compute(taxonomy: dict[str, Any]) -> list[Any] | None:
         try:
             return check_registration(taxonomy, Path(root))
-        except RuntimeError as exc:
+        except GitOperationError as exc:
             logger.error("%s", exc)
             return None
 

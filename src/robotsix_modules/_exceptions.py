@@ -1,9 +1,3 @@
-"""Custom exception hierarchy for robotsix-modules.
-
-Mirrors the structure of ``robotsix_yaml_config._errors`` so that callers
-can catch a single base type (``RobotsixModulesError``) without coupling
-to the YAML-config library's exception tree.
-"""
 """Custom exception hierarchy for robotsix-modules."""
 
 from __future__ import annotations
@@ -31,7 +25,6 @@ class GitOperationError(RobotsixModulesError):
         self.command = command
         self.returncode = returncode
         super().__init__(message)
-    """Base for all errors raised by robotsix-modules."""
 
 
 class ConfigError(RobotsixModulesError):
@@ -52,6 +45,7 @@ class ConfigStructureError(ConfigError):
 
 __all__ = [
     "RobotsixModulesError",
+    "GitOperationError",
     "ConfigError",
     "ConfigFileNotFoundError",
     "ConfigParseError",

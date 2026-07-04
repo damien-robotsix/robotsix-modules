@@ -17,13 +17,14 @@ Public API:
 
 from __future__ import annotations
 
-from robotsix_yaml_config import read_yaml_file
+from ._yaml import read_yaml_file
 
 from ._exceptions import (
     ConfigError,
     ConfigFileNotFoundError,
     ConfigParseError,
     ConfigStructureError,
+    GitOperationError,
     RobotsixModulesError,
 )
 from .validation import (
@@ -51,6 +52,7 @@ __all__ = [
     "ConfigFileNotFoundError",
     "ConfigParseError",
     "ConfigStructureError",
+    "GitOperationError",
     "PathFinding",
     "RegistrationFinding",
     "RobotsixModulesError",
