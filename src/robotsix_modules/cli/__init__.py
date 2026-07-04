@@ -11,14 +11,15 @@ from collections.abc import Callable, Generator
 from pathlib import Path
 from typing import Any
 
+from robotsix_yaml_config import (
+    YamlParseError as _YamlParseError,
+)
+from robotsix_yaml_config import (
+    YamlReadError as _YamlReadError,
+)
 from robotsix_yaml_config import read_yaml_file
 
 from robotsix_modules import __version__, validate
-from robotsix_yaml_config import (
-    YamlParseError as _YamlParseError,
-    YamlReadError as _YamlReadError,
-)
-
 from robotsix_modules._exceptions import (
     ConfigFileNotFoundError,
     ConfigParseError,
