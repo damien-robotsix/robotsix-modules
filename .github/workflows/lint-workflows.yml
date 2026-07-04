@@ -1,0 +1,13 @@
+name: Lint Workflows
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/lint-workflows.yml@ca29ef5dcd5816fd59230136e6eee93ef0e1a2c6  # main
+    with:
+      run-actionlint: true
+      run-zizmor: true
