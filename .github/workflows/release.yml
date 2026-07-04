@@ -14,4 +14,3 @@ jobs:
     uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-release.yml@5cd8c1facb02299da618979e7a55f1953f9c075a
     with:
       github-release: true
-    secrets: inherit
