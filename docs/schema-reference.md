@@ -6,11 +6,12 @@ page documents the structure that every `modules.yaml` must follow.
 
 ## Top-level structure
 
-The file must be a YAML object with a single required key:
+The file must be a YAML object with the following keys:
 
-| Key       | Type  | Required | Description                     |
-| --------- | ----- | -------- | ------------------------------- |
-| `modules` | array | yes      | Ordered list of module entries. |
+| Key       | Type   | Required | Description                     |
+| --------- | ------ | -------- | ------------------------------- |
+| `package` | string | no       | Python package name (underscore-separated, e.g. `robotsix_modules`). When set, module entries that omit `paths` inherit three convention globs: `src/<package>/<id>/**`, `tests/<id>/**`, `docs/<id>/**`. |
+| `modules` | array  | yes      | Ordered list of module entries. |
 
 No other top-level keys are permitted (`additionalProperties: false`).
 
@@ -51,12 +52,16 @@ One paragraph explaining what the module does and why it exists. Keep it concise
 ### `paths`
 
 - **Type:** array of strings
-- **Required:** yes
-- **Minimum items:** 1
+- **Required:** no
 
 Repo-relative glob patterns covering all source files, tests, docs, agent
 definitions, config snippets, and skills that belong to the module. Patterns use
 standard glob syntax (`*`, `**`, `?`).
+
+When `package` is set at the top level and a module omits `paths` (or sets it to
+`[]`), three convention globs are synthesised automatically:
+`src/<package>/<id>/**`, `tests/<id>/**`, `docs/<id>/**`. You only need to list
+files that fall outside these conventions.
 
 Every file in the repo should be claimed by exactly one module (this constraint
 is validated by `check_registration`).
@@ -77,13 +82,26 @@ a module has no internal dependencies.
 ## Complete example
 
 Below is the taxonomy file that `robotsix-modules` uses for its own source tree
-— three modules (`validation`, `cli`, `tests`) with one dependency (the CLI
-depends on `validation`):
+— four modules (`docs`, `validation`, `cli`, `tests`) with one dependency (the
+CLI depends on `validation`):
 
 ```yaml
 # Module taxonomy for robotsix-modules itself.
 # Validate with:  robotsix-modules validate docs/modules.yaml
+package: robotsix_modules
 modules:
+  - id: docs
+    description: >
+      Project-level documentation: MkDocs site config, homepage,
+      and the module taxonomy file itself.
+    paths:
+      - docs/index.md
+      - docs/modules.yaml
+      - docs/schema-reference.md
+      - docs/CONTRIBUTING.md
+      - docs/CODE_OF_CONDUCT.md
+      - .pre-commit-hooks.yaml
+
   - id: validation
     description: >
       Core module-taxonomy validation logic. Provides the public API
@@ -93,8 +111,10 @@ modules:
       (modules.schema.yaml), and schema-loading utilities.
     paths:
       - src/robotsix_modules/__init__.py
+      - src/robotsix_modules/_yaml.py
       - src/robotsix_modules/py.typed
       - src/robotsix_modules/validation/**
+      - tests/validation/**
       - docs/validation/**
 
   - id: cli
@@ -103,6 +123,8 @@ modules:
       `robotsix-modules` and `robotsix-modules-validate` entry points.
     paths:
       - src/robotsix_modules/cli/**
+      - tests/cli/**
+      - docs/cli/**
     dependencies:
       - validation
 
@@ -111,7 +133,7 @@ modules:
       Test suite covering the validation API, schema, CLI behaviour,
       and shared test fixtures.
     paths:
-      - tests/**
+      - tests/conftest.py
 ```
 
 ## Validation
