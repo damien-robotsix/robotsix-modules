@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,7 +15,7 @@ concurrency:
 jobs:
   docs:
     permissions:
-      contents: write
-      pages: write
-      id-token: write
+      contents: read  # needed to checkout the repo
+      pages: write  # needed to deploy to GitHub Pages
+      id-token: write  # needed for OIDC to deploy to Pages
     uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-docs.yml@5cd8c1facb02299da618979e7a55f1953f9c075a

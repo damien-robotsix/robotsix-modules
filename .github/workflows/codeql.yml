@@ -12,7 +12,7 @@ jobs:
     uses: damien-robotsix/robotsix-github-workflows/.github/workflows/codeql.yml@5fdc956e980cfb70ea36e33bc670a0376750dec6
     permissions:
       contents: read
-      security-events: write
+      security-events: write  # needed for SARIF upload
     with:
       languages: python
       queries: security-extended
