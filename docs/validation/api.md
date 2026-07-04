@@ -9,6 +9,7 @@
         - validate
         - validate_file
         - check_registration
+        - check_coverage
         - validate_paths
         - RegistrationFinding
         - PathFinding
