@@ -27,12 +27,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
-        with:
-          persist-credentials: false
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
+          sync-args: ""
       - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
         with:
           fail-on-severity: moderate
@@ -41,13 +39,9 @@ jobs:
     name: Vulture dead code scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
-        with:
-          persist-credentials: false
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-      - run: uv sync --locked --group dev
       - run: uv run vulture src/ vulture_whitelist.py
 
   zizmor:
@@ -57,13 +51,9 @@ jobs:
       contents: read
       security-events: write  # needed for SARIF upload
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
-        with:
-          persist-credentials: false
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-      - run: uv sync --locked --group dev
       - run: uv run zizmor --format sarif . --output zizmor-results.sarif
       - uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e  # v4.36.2
         if: always()
@@ -75,50 +65,38 @@ jobs:
     name: Gitleaks secrets scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
-        with:
-          persist-credentials: false
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
+          sync-args: ""
       - run: uv run --with gitleaks gitleaks detect --source . --verbose --no-git
 
   validate-pyproject:
     name: Validate pyproject.toml
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
-        with:
-          persist-credentials: false
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-      - run: uv sync --locked --group dev && uv run validate-pyproject
+      - run: uv run validate-pyproject
 
   mkdocs-build:
     name: MkDocs build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
-        with:
-          persist-credentials: false
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-      - run: uv sync --locked --group docs
+          sync-args: "--locked --group docs"
       - run: uv run mkdocs build --strict
 
   version-check:
     name: Version consistency check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
-        with:
-          persist-credentials: false
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-      - run: uv sync --locked --group dev
       - name: Check version consistency
         run: |
           PYPROJECT=$(uv run python -c "from tomllib import load; print(load(open('pyproject.toml','rb'))['project']['version'])")
@@ -140,12 +118,10 @@ jobs:
     env:
       WORKSPACE: ${{ github.workspace }}
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
-        with:
-          persist-credentials: false
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
+          sync-args: ""
       - name: Build wheel
         run: uv build --wheel
       - name: Install wheel into a clean environment
@@ -169,13 +145,11 @@ jobs:
     needs: [check]
     if: always()
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
-        with:
-          persist-credentials: false
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-      - run: uv sync --locked && uv audit
+          sync-args: "--locked"
+      - run: uv audit
       - run: uv export --format cyclonedx1.5 --output-file sbom.json
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
