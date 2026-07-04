@@ -10,6 +10,9 @@ and this project adheres to
 
 ### Removed
 
+- Revert cosmetic `...` added by prior attempt to root `CONTRIBUTING.md`. The
+  core deduplication (`docs/CONTRIBUTING.md` as symlink to `../CONTRIBUTING.md`)
+  was already in place from a prior PR; no further changes needed.
 - Updated `docs/schema-reference.md` to document the `package` field, correct the `paths` requirement from mandatory to optional (convention globs are synthesised from `package`), and refresh the complete example to match the current `docs/modules.yaml`.
 - Add `.github/workflows/lint-workflows.yml` to run actionlint and zizmor on push/PR, using the shared reusable workflow from `robotsix-github-workflows`.
 - Add custom exception hierarchy: `RobotsixModulesError` base class with typed subclasses `GitOperationError`, `ConfigError`, `ConfigFileNotFoundError`, `ConfigParseError`, and `ConfigStructureError`. Git-operation failures now raise `GitOperationError` instead of bare `RuntimeError`.
