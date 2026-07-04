@@ -8,11 +8,13 @@ and this project adheres to
 
 ## 0.0.0 (unreleased)
 
-### Added
+### Removed
 
-- Removed the retired `robotsix-yaml-config` dependency. The package now uses
+- Remove the retired `robotsix-yaml-config` dependency. The package now uses
   PyYAML directly for all YAML I/O via its internal `_yaml` wrapper, matching
   the config-standard migration to `robotsix-config`.
+
+### Added
 - Add `paths` globs to the `cli` module in `docs/modules.yaml` to properly claim its source, test, and doc files.
 - Classify validation subpackage files under the `validation` module in `docs/modules.yaml` (11 files now claimed via glob paths).
 - Resolve mypy strict-mode errors in test files: add type annotations to conftest helpers, add `types-PyYAML` dev dependency, and fix TestMigrate type signatures.

@@ -15,7 +15,7 @@ small CLI + Python API to validate it.
 > **Note:** The package can be installed via `pip install robotsix-modules`
 > from PyPI. All runtime dependencies are published to PyPI.
 
-With `uv`, which resolves the `[tool.uv.sources]` Git entry:
+With `uv`:
 
 ```console
 uv add "robotsix-modules @ git+https://github.com/damien-robotsix/robotsix-modules@v0.2.0"

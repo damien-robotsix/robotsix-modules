@@ -23,6 +23,7 @@ modules:
       (modules.schema.yaml), and schema-loading utilities.
     paths:
       - src/robotsix_modules/__init__.py
+      - src/robotsix_modules/_yaml.py
       - src/robotsix_modules/py.typed
       - src/robotsix_modules/validation/**
       - tests/validation/**

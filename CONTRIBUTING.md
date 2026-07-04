@@ -173,9 +173,3 @@ Please note that this project is governed by the
 [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). All
 contributors are expected to uphold this code. Report unacceptable
 behavior to [damien.robotsix@gmail.com](mailto:damien.robotsix@gmail.com).
-://github.com/damien-robotsix/robotsix-modules/blob/main/LICENSE).
-
-Please note that this project is governed by the
-[Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). All
-contributors are expected to uphold this code. Report unacceptable
-behavior to [damien.robotsix@gmail.com](mailto:damien.robotsix@gmail.com).
