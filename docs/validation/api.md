@@ -9,6 +9,18 @@
         - validate
         - validate_file
         - check_registration
+        - validate_paths
+        - RegistrationFinding
+        - PathFinding
+        - SCHEMA_PATH
+        - __version__
+        - ConfigError               # ← add
+        - ConfigFileNotFoundError    # ← add
+        - ConfigParseError           # ← add
+        - ConfigStructureError       # ← add
+        - GitOperationError          # ← add
+        - RobotsixModulesError       # ← add
+        - read_yaml_file             # ← add
         - check_coverage
         - validate_paths
         - RegistrationFinding
