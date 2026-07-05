@@ -37,6 +37,13 @@ jobs:
 
   vulture:
     name: Vulture dead code scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup
+        with:
+          python-version: "3.14"
+      - run: uv run vulture src/ vulture_whitelist.py
+
   changelog-fragment:
     name: Changelog fragment check
     runs-on: ubuntu-latest
@@ -45,7 +52,6 @@ jobs:
         with:
           python-version: "3.14"
       - run: uv run towncrier check
-      - run: uv run vulture src/ vulture_whitelist.py
 
   zizmor:
     name: Zizmor workflow audit
