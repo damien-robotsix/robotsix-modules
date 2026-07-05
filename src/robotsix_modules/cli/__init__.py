@@ -17,7 +17,6 @@ from robotsix_modules._exceptions import (
     ConfigParseError,
     ConfigStructureError,
     GitOperationError,
-    RobotsixModulesError,
 )
 from robotsix_modules._yaml import (
     YamlParseError as _YamlParseError,
@@ -72,7 +71,12 @@ def _safe_load_yaml(path: str | Path, label: str = "") -> dict[str, Any] | None:
         else:
             logger.error("file not found: %s", path)
         return None
-    except (_YamlReadError, _YamlParseError, ConfigParseError, ConfigStructureError) as exc:
+    except (
+        _YamlReadError,
+        _YamlParseError,
+        ConfigParseError,
+        ConfigStructureError,
+    ) as exc:
         if label:
             logger.error("invalid YAML in %s %s: %s", label, path, exc)
         else:
