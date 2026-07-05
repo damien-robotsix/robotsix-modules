@@ -2,6 +2,38 @@
 # Validate with:  robotsix-modules validate docs/modules.yaml
 package: robotsix_modules
 modules:
+  - id: root
+    description: >
+      Root-level project files: package config, CI workflows, issue
+      templates, linting / security tooling config, VCS ignore rules,
+      mill periodic tasks, shell scripts, and other repo-scoped
+      metadata files.
+    paths:
+      - README.md
+      - CHANGELOG.md
+      - LICENSE
+      - SECURITY.md
+      - CODE_OF_CONDUCT.md
+      - CONTRIBUTING.md
+      - pyproject.toml
+      - mkdocs.yml
+      - uv.lock
+      - .gitignore
+      - .gitleaks.toml
+      - .markdownlint-cli2.jsonc
+      - .pre-commit-config.yaml
+      - vulture_whitelist.py
+      - AGENT.md
+      - .github/dependabot.yml
+      - .github/actions/setup/action.yml
+      - .github/workflows/**
+      - .github/ISSUE_TEMPLATE/**
+      - .github/PULL_REQUEST_TEMPLATE.md
+      - .robotsix-mill/**
+      - scripts/**
+    dependencies:
+      - docs
+
   - id: docs
     description: >
       Project-level documentation: MkDocs site config, homepage,

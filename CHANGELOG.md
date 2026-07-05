@@ -10,6 +10,7 @@ and this project adheres to
 
 ### Removed
 
+- Register root-level `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `.robotsix-mill/**`, and `scripts/**` under the `root` module's path list in `docs/modules.yaml`, closing remaining `unclassified_file` findings from `check-registration`.
 - Register `src/robotsix_modules/_exceptions.py` in the `validation` module's path list in `docs/modules.yaml`.
 - Revert cosmetic `...` added by prior attempt to root `CONTRIBUTING.md`. The
   core deduplication (`docs/CONTRIBUTING.md` as symlink to `../CONTRIBUTING.md`)
