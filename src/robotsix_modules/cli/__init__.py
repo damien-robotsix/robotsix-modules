@@ -25,7 +25,6 @@ from robotsix_modules._yaml import (
     YamlReadError as _YamlReadError,
 )
 from robotsix_modules._yaml import read_yaml_file
-
 from robotsix_modules.cli._exit_codes import ExitCode
 from robotsix_modules.validation import (
     check_coverage,
