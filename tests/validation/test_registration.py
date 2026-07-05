@@ -9,6 +9,7 @@ import pytest
 
 from robotsix_modules._exceptions import GitOperationError
 from robotsix_modules._yaml import read_yaml_file
+from robotsix_modules.validation import FindingKind
 from robotsix_modules.validation.registration import (
     _has_glob_metacharacters,
     check_coverage,
@@ -100,7 +101,7 @@ def test_unclassified_file(tmp_path: Path) -> None:
     assert len(findings) == 1
     _assert_finding(
         findings,
-        kind="unclassified_file",
+        kind=FindingKind.UNCLASSIFIED_FILE,
         file="orphan.txt",
         module_id=None,
         other_module_id=None,
@@ -124,7 +125,7 @@ def test_duplicate_registration(tmp_path: Path) -> None:
     f = findings[0]
     _assert_finding(
         findings,
-        kind="duplicate_registration",
+        kind=FindingKind.DUPLICATE_REGISTRATION,
         file="shared/util.py",
         message_contains="multiple modules",
     )
@@ -146,7 +147,7 @@ def test_stale_path(tmp_path: Path) -> None:
     assert len(findings) == 1
     _assert_finding(
         findings,
-        kind="stale_path",
+        kind=FindingKind.STALE_PATH,
         module_id="gone",
         file=None,
         message_contains="nonexistent/**",
@@ -226,9 +227,9 @@ def test_ordering_unclassified_then_stale_then_duplicates(tmp_path: Path) -> Non
     )
     kinds = [f.kind for f in findings]
     assert kinds == [
-        "unclassified_file",
-        "stale_path",
-        "duplicate_registration",
+        FindingKind.UNCLASSIFIED_FILE,
+        FindingKind.STALE_PATH,
+        FindingKind.DUPLICATE_REGISTRATION,
     ]
 
 
@@ -246,7 +247,7 @@ def test_sparse_checkout_unclassified(tmp_path: Path) -> None:
     assert len(findings) == 1
     _assert_finding(
         findings,
-        kind="unclassified_file",
+        kind=FindingKind.UNCLASSIFIED_FILE,
         file="src/example/ghost.py",
     )
 
@@ -270,7 +271,7 @@ def test_multiple_stale_paths(tmp_path: Path) -> None:
         tmp_path,
         tracked_files=["present/a.txt"],
     )
-    stale = [f for f in findings if f.kind == "stale_path"]
+    stale = [f for f in findings if f.kind == FindingKind.STALE_PATH]
     assert len(stale) == 2
     stale_patterns = {f.message for f in stale}
     assert any("gone/**" in m for m in stale_patterns)
@@ -320,7 +321,7 @@ def test_literal_path_not_found(tmp_path: Path) -> None:
     findings = validate_paths(taxonomy, tmp_path)
     assert len(findings) == 1
     f = findings[0]
-    assert f.kind == "path_not_found"
+    assert f.kind == FindingKind.PATH_NOT_FOUND
     assert f.module_id == "lit"
     assert f.path == "src/missing.py"
     assert "does not exist" in f.message.lower()
@@ -342,7 +343,7 @@ def test_glob_empty(tmp_path: Path) -> None:
     findings = validate_paths(taxonomy, tmp_path)
     assert len(findings) == 1
     f = findings[0]
-    assert f.kind == "glob_empty"
+    assert f.kind == FindingKind.GLOB_EMPTY
     assert f.module_id == "g"
     assert f.path == "nothing/**"
     assert "matches no files" in f.message.lower()
@@ -363,7 +364,7 @@ def test_validate_paths_collects_all_errors(tmp_path: Path) -> None:
     findings = validate_paths(taxonomy, tmp_path)
     assert len(findings) == 2
     kinds = {f.kind for f in findings}
-    assert kinds == {"path_not_found", "glob_empty"}
+    assert kinds == {FindingKind.PATH_NOT_FOUND, FindingKind.GLOB_EMPTY}
 
 
 def test_literal_path_directory(tmp_path: Path) -> None:
@@ -420,7 +421,7 @@ def test_no_paths_no_package_files_unclassified(tmp_path: Path) -> None:
         tracked_files=["src/example_pkg/core/main.py"],
     )
     assert len(findings) == 1
-    assert findings[0].kind == "unclassified_file"
+    assert findings[0].kind == FindingKind.UNCLASSIFIED_FILE
     assert findings[0].file == "src/example_pkg/core/main.py"
 
 
@@ -438,7 +439,7 @@ def test_default_globs_no_stale_finding(tmp_path: Path) -> None:
         tmp_path,
         tracked_files=["src/example_pkg/core/lib.py"],
     )
-    stale = [f for f in findings if f.kind == "stale_path"]
+    stale = [f for f in findings if f.kind == FindingKind.STALE_PATH]
     assert stale == []
 
 

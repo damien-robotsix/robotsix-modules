@@ -11,6 +11,13 @@ from collections.abc import Callable, Generator
 from pathlib import Path
 from typing import Any
 
+from robotsix_modules import __version__, validate
+from robotsix_modules._exceptions import (
+    ConfigFileNotFoundError,
+    ConfigParseError,
+    ConfigStructureError,
+    GitOperationError,
+)
 from robotsix_modules._yaml import (
     YamlParseError as _YamlParseError,
 )
@@ -18,15 +25,6 @@ from robotsix_modules._yaml import (
     YamlReadError as _YamlReadError,
 )
 from robotsix_modules._yaml import read_yaml_file
-
-from robotsix_modules import __version__, validate
-from robotsix_modules._exceptions import (
-    ConfigFileNotFoundError,
-    ConfigParseError,
-    ConfigStructureError,
-    GitOperationError,
-    RobotsixModulesError,
-)
 from robotsix_modules.cli._exit_codes import ExitCode
 from robotsix_modules.validation import (
     check_coverage,
@@ -73,7 +71,12 @@ def _safe_load_yaml(path: str | Path, label: str = "") -> dict[str, Any] | None:
         else:
             logger.error("file not found: %s", path)
         return None
-    except (_YamlReadError, _YamlParseError, ConfigParseError, ConfigStructureError) as exc:
+    except (
+        _YamlReadError,
+        _YamlParseError,
+        ConfigParseError,
+        ConfigStructureError,
+    ) as exc:
         if label:
             logger.error("invalid YAML in %s %s: %s", label, path, exc)
         else:

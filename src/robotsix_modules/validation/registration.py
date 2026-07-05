@@ -10,9 +10,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any
 
+from .._exceptions import GitOperationError
 from ._findings import (
+    FindingKind,
     RegistrationFinding,
     _build_file_claimants,
     _find_duplicates,
@@ -20,7 +22,6 @@ from ._findings import (
     _find_unclassified,
     _resolve_tracked_files,
 )
-from .._exceptions import GitOperationError
 
 
 @dataclass(frozen=True)
@@ -36,7 +37,7 @@ class PathFinding:
             failed validation.
     """
 
-    kind: Literal["path_not_found", "glob_empty"]
+    kind: FindingKind
     message: str
     module_id: str
     path: str
@@ -150,7 +151,7 @@ def check_coverage(
         findings = check_registration(taxonomy, repo_root, tracked_files=tracked_files)
     except GitOperationError:
         return []
-    return [f.message for f in findings if f.kind == "unclassified_file"]
+    return [f.message for f in findings if f.kind == FindingKind.UNCLASSIFIED_FILE]
 
 
 def validate_paths(
@@ -185,7 +186,7 @@ def validate_paths(
                 if not matches:
                     findings.append(
                         PathFinding(
-                            kind="glob_empty",
+                            kind=FindingKind.GLOB_EMPTY,
                             message=(
                                 f"Module '{module_id}' glob '{path_entry}' "
                                 "matches no files on disk"
@@ -198,7 +199,7 @@ def validate_paths(
                 if not (repo_root / path_entry).exists():
                     findings.append(
                         PathFinding(
-                            kind="path_not_found",
+                            kind=FindingKind.PATH_NOT_FOUND,
                             message=(
                                 f"Module '{module_id}' path '{path_entry}' "
                                 "does not exist on disk"

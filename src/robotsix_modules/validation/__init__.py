@@ -19,7 +19,7 @@ from jsonschema import Draft202012Validator
 
 from robotsix_modules._yaml import YamlReadError, read_yaml_file
 
-from ._findings import RegistrationFinding
+from ._findings import FindingKind, RegistrationFinding
 from .registration import (
     PathFinding,
     check_coverage,
@@ -30,6 +30,7 @@ from .registration import (
 from .schema import SCHEMA_PATH, load_schema
 
 __all__ = [
+    "FindingKind",
     "PathFinding",
     "RegistrationFinding",
     "SCHEMA_PATH",

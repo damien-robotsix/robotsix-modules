@@ -20,8 +20,6 @@ Public API:
 
 from __future__ import annotations
 
-from ._yaml import read_yaml_file
-
 from ._exceptions import (
     ConfigError,
     ConfigFileNotFoundError,
@@ -30,8 +28,10 @@ from ._exceptions import (
     GitOperationError,
     RobotsixModulesError,
 )
+from ._yaml import read_yaml_file
 from .validation import (
     SCHEMA_PATH,
+    FindingKind,
     PathFinding,
     RegistrationFinding,
     check_coverage,
@@ -55,6 +55,7 @@ __all__ = [
     "ConfigFileNotFoundError",
     "ConfigParseError",
     "ConfigStructureError",
+    "FindingKind",
     "GitOperationError",
     "PathFinding",
     "RegistrationFinding",
