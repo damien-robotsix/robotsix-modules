@@ -46,7 +46,7 @@ The `.pre-commit-config.yaml` runs: `ruff` (lint + format), `mypy`, `bandit`,
 `docs/modules.yaml` against the bundled JSON Schema).
 
 The CI pipeline (`.github/workflows/ci.yml`) additionally enforces: coverage
-threshold, `check-registration` via the reusable `python-ci.yml` workflow,
+threshold, `check-registration` via a dedicated `check-registration` job,
 version consistency across `pyproject.toml` / `CHANGELOG.md` / `README.md` /
 `SECURITY.md`, a smoketest wheel install, and a `uv audit` / SBOM step.
 

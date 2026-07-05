@@ -19,6 +19,8 @@ echo "=== uv audit ==="
 uv audit
 echo "=== pytest ==="
 uv run pytest --cov --cov-report=xml --cov-report=term-missing
+echo "=== check-registration ==="
+uv run robotsix-modules check-registration docs/modules.yaml --root .
 echo "=== mkdocs build --strict ==="
 uv run --group docs mkdocs build --strict
 echo "=== all checks passed ==="

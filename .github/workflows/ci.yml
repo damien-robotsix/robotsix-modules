@@ -112,6 +112,15 @@ jobs:
             exit 1
           fi
 
+  check-registration:
+    name: Check module registration
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup
+        with:
+          python-version: "3.14"
+      - run: uv run robotsix-modules check-registration docs/modules.yaml --root .
+
   wheel-install:
     name: Wheel install smoketest
     runs-on: ubuntu-latest
