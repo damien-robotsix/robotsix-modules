@@ -18,6 +18,7 @@ from conftest import (
 from robotsix_modules import SCHEMA_PATH, __version__, validate_file
 from robotsix_modules.cli import main, validate_main
 from robotsix_modules.cli._exit_codes import ExitCode
+from robotsix_modules.validation import FindingKind
 
 FIXTURES = Path(__file__).parent / "fixtures"
 VALID = str(FIXTURES / "valid_modules.yaml")
@@ -627,7 +628,7 @@ class TestCheckRegistration:
         if expect_findings:
             assert payload["findings"]
             finding = payload["findings"][0]
-            assert finding["kind"] == "unclassified_file"
+            assert finding["kind"] == FindingKind.UNCLASSIFIED_FILE
             assert "message" in finding
             assert finding["file"] == "orphan.txt"
         else:

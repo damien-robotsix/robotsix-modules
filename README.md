@@ -79,7 +79,7 @@ for f in findings:
 
 ```python
 finding = RegistrationFinding(
-    kind="unclassified_file",
+    kind=FindingKind.UNCLASSIFIED_FILE,
     message="File 'src/orphan.py' is not claimed by any module",
     file="src/orphan.py",
 )

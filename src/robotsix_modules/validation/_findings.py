@@ -10,8 +10,9 @@ from __future__ import annotations
 import logging
 import subprocess  # nosec B404
 from dataclasses import dataclass
+from enum import StrEnum
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any
 
 from .._exceptions import GitOperationError
 
@@ -20,6 +21,16 @@ logger = logging.getLogger("robotsix_modules")
 # ---------------------------------------------------------------------------
 # Finding types
 # ---------------------------------------------------------------------------
+
+
+class FindingKind(StrEnum):
+    """Canonical kinds for registration and path-validation findings."""
+
+    UNCLASSIFIED_FILE = "unclassified_file"
+    STALE_PATH = "stale_path"
+    DUPLICATE_REGISTRATION = "duplicate_registration"
+    PATH_NOT_FOUND = "path_not_found"
+    GLOB_EMPTY = "glob_empty"
 
 
 @dataclass(frozen=True)
@@ -37,7 +48,7 @@ class RegistrationFinding:
             only).
     """
 
-    kind: Literal["unclassified_file", "stale_path", "duplicate_registration"]
+    kind: FindingKind
     message: str
     file: str | None = None
     module_id: str | None = None
@@ -171,7 +182,7 @@ def _find_unclassified(
     for path in unclassified:
         findings.append(
             RegistrationFinding(
-                kind="unclassified_file",
+                kind=FindingKind.UNCLASSIFIED_FILE,
                 message=f"File '{path}' is not claimed by any module",
                 file=path,
             )
@@ -193,7 +204,7 @@ def _find_stale_paths(
         for pattern in sorted(stale_entries):
             findings.append(
                 RegistrationFinding(
-                    kind="stale_path",
+                    kind=FindingKind.STALE_PATH,
                     message=(
                         f"Module '{module_id}' path '{pattern}' matches "
                         "no files on disk"
@@ -219,7 +230,7 @@ def _find_duplicates(
         ids = duplicates[path]
         findings.append(
             RegistrationFinding(
-                kind="duplicate_registration",
+                kind=FindingKind.DUPLICATE_REGISTRATION,
                 message=(
                     f"File '{path}' is claimed by multiple modules: " + ", ".join(ids)
                 ),
