@@ -14,12 +14,12 @@
         - PathFinding
         - SCHEMA_PATH
         - __version__
-        - ConfigError               # ← add
-        - ConfigFileNotFoundError    # ← add
-        - ConfigParseError           # ← add
-        - ConfigStructureError       # ← add
-        - GitOperationError          # ← add
-        - RobotsixModulesError       # ← add
-        - read_yaml_file             # ← add
+        - ConfigError
+        - ConfigFileNotFoundError
+        - ConfigParseError
+        - ConfigStructureError
+        - GitOperationError
+        - RobotsixModulesError
+        - read_yaml_file
         - check_coverage
 <!-- mdformat on -->
