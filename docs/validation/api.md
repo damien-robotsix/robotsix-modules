@@ -9,10 +9,17 @@
         - validate
         - validate_file
         - check_registration
-        - check_coverage
         - validate_paths
         - RegistrationFinding
         - PathFinding
         - SCHEMA_PATH
         - __version__
+        - ConfigError
+        - ConfigFileNotFoundError
+        - ConfigParseError
+        - ConfigStructureError
+        - GitOperationError
+        - RobotsixModulesError
+        - read_yaml_file
+        - check_coverage
 <!-- mdformat on -->
