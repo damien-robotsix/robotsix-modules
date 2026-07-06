@@ -10,6 +10,7 @@ and this project adheres to
 
 ### Removed
 
+- Remove all periodic mill workflows from `.robotsix-mill/periodic/` to pause auto-generated ticket flooding (audit, survey, completeness_check, test_gap, security_posture, and others). Workflows can be restored individually by re-adding their `.yaml` files.
 - Enforce `check-registration` in CI (new `check-registration` job in `ci.yml`) and in the local `scripts/check` script, closing a gap where unregistered files could silently drift out of sync with `docs/modules.yaml`.
 - Introduce `FindingKind(StrEnum)` in `src/robotsix_modules/validation/_findings.py` to replace magic-string finding kinds (`"unclassified_file"`, `"stale_path"`, `"duplicate_registration"`, `"path_not_found"`, `"glob_empty"`). All source, test, and README usage sites now reference the enum members instead of raw string literals.
 - Register root-level `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `.robotsix-mill/**`, and `scripts/**` under the `root` module's path list in `docs/modules.yaml`, closing remaining `unclassified_file` findings from `check-registration`.
