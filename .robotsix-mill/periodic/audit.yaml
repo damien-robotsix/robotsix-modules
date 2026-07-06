@@ -1,7 +1,0 @@
-# Per-repo periodic workflow: the PRESENCE of this file enables the
-# `audit` meta-audit periodic for robotsix-modules. Schedule
-# (interval: 1d), model, tool list, and system prompt are all
-# inherited from the mill's built-in
-# agent_definitions/periodic/audit.yaml via partial-merge — this
-# file only needs `name`.
-name: audit
