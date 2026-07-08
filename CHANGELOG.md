@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Add `towncrier-check` pre-commit hook (repo: local) to validate changelog fragments.
 - Deduplicate `CODE_OF_CONDUCT.md`: keep single canonical copy at repo root,
   remove `docs/` symlink, and use a MkDocs build-time hook to supply the
   file during documentation builds.

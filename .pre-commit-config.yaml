@@ -47,6 +47,12 @@ repos:
         entry: vulture src/ vulture_whitelist.py
         language: system
         pass_filenames: false
+      - id: towncrier-check
+        name: towncrier check
+        entry: towncrier check
+        language: system
+        pass_filenames: false
+        always_run: true
   - repo: .
     rev: ""
     hooks:
