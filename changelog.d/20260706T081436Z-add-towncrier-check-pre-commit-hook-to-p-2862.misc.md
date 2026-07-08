@@ -1,0 +1,1 @@
+Add towncrier-check pre-commit hook to .pre-commit-config.yaml
