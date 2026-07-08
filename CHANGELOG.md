@@ -10,7 +10,6 @@ and this project adheres to
 
 ### Removed
 
-- Added `scripts/release` convenience script that validates a version, runs `towncrier build`, and prints the next release steps.
 - Deduplicate `CODE_OF_CONDUCT.md`: keep single canonical copy at repo root,
   remove `docs/` symlink, and use a MkDocs build-time hook to supply the
   file during documentation builds.
