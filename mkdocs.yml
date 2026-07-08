@@ -9,6 +9,8 @@ validation:
   anchors: warn
 theme:
   name: material
+hooks:
+  - mkdocs_hooks.py
 plugins:
   - search
   - mkdocstrings:

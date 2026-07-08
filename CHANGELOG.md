@@ -10,6 +10,9 @@ and this project adheres to
 
 ### Removed
 
+- Deduplicate `CODE_OF_CONDUCT.md`: keep single canonical copy at repo root,
+  remove `docs/` symlink, and use a MkDocs build-time hook to supply the
+  file during documentation builds.
 - Remove all periodic mill workflows from `.robotsix-mill/periodic/` to pause auto-generated ticket flooding (audit, survey, completeness_check, test_gap, security_posture, and others). Workflows can be restored individually by re-adding their `.yaml` files.
 - Enforce `check-registration` in CI (new `check-registration` job in `ci.yml`) and in the local `scripts/check` script, closing a gap where unregistered files could silently drift out of sync with `docs/modules.yaml`.
 - Introduce `FindingKind(StrEnum)` in `src/robotsix_modules/validation/_findings.py` to replace magic-string finding kinds (`"unclassified_file"`, `"stale_path"`, `"duplicate_registration"`, `"path_not_found"`, `"glob_empty"`). All source, test, and README usage sites now reference the enum members instead of raw string literals.

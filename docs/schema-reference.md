@@ -99,7 +99,6 @@ modules:
       - docs/modules.yaml
       - docs/schema-reference.md
       - docs/CONTRIBUTING.md
-      - docs/CODE_OF_CONDUCT.md
       - .pre-commit-hooks.yaml
 
   - id: validation
