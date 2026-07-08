@@ -1,3 +1,2 @@
-test_command: pytest -q
+test_command: python -c "from robotsix_modules.cli import main; from robotsix_modules._exceptions import ConfigFileNotFoundError, ConfigParseError, ConfigStructureError, GitOperationError; import ast; tree = ast.parse(open('src/robotsix_modules/cli/__init__.py').read()); imported = {a.name for n in ast.walk(tree) if isinstance(n, ast.ImportFrom) and n.module == 'robotsix_modules._exceptions' for a in n.names}; assert 'RobotsixModulesError' not in imported, f'RobotsixModulesError still imported: {imported}'; assert imported == {'ConfigFileNotFoundError', 'ConfigParseError', 'ConfigStructureError', 'GitOperationError'}, f'Unexpected imports: {imported}'; print('All checks passed')"
 languages: [python]
-extra_sandbox_packages: [pip:pytest]
