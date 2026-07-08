@@ -10,6 +10,7 @@ and this project adheres to
 
 ### Removed
 
+- Added `towncrier>=25.8.0` to dev dependencies and configured `[tool.towncrier]` for changelog management.
 - Deduplicate `CODE_OF_CONDUCT.md`: keep single canonical copy at repo root,
   remove `docs/` symlink, and use a MkDocs build-time hook to supply the
   file during documentation builds.
