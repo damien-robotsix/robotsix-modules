@@ -30,6 +30,7 @@ and this project adheres to
   the config-standard migration to `robotsix-config`.
 
 ### Added
+- Added `towncrier>=25.8.0` to dev dependencies and configured `[tool.towncrier]` for changelog management.
 - Add `paths` globs to the `cli` module in `docs/modules.yaml` to properly claim its source, test, and doc files.
 - Classify validation subpackage files under the `validation` module in `docs/modules.yaml` (11 files now claimed via glob paths).
 - Resolve mypy strict-mode errors in test files: add type annotations to conftest helpers, add `types-PyYAML` dev dependency, and fix TestMigrate type signatures.

@@ -13,7 +13,7 @@ authors = [{ name = "Damien Robotsix" }]
 dependencies = ["PyYAML>=6", "jsonschema>=4"]
 
 [dependency-groups]
-dev = ["pytest>=9.1.1", "pytest-cov>=5", "ruff>=0.15.20", "mypy>=1.15", "deptry>=0.20", "bandit[toml]>=1.9.4", "vulture", "validate-pyproject>=0.25", "validate-pyproject-schema-store[all]", "zizmor", "types-PyYAML"]
+dev = ["pytest>=9.1.1", "pytest-cov>=5", "ruff>=0.15.20", "mypy>=1.15", "deptry>=0.20", "bandit[toml]>=1.9.4", "vulture", "validate-pyproject>=0.25", "validate-pyproject-schema-store[all]", "zizmor", "types-PyYAML", "towncrier>=25.8.0"]
 docs = ["mkdocs-material", "mkdocstrings[python]"]
 
 [project.optional-dependencies]
@@ -82,3 +82,53 @@ source = ["robotsix_modules"]
 
 [tool.coverage.report]
 fail_under = 80
+
+[tool.towncrier]
+package = "robotsix-modules"
+package_dir = "src"
+filename = "CHANGELOG.md"
+directory = "changelog.d"
+title_format = "## [{version}]"
+template = "towncrier:default.md"
+start_string = "<!-- towncrier release notes start -->"
+issue_format = "[#{issue}](https://github.com/damien-robotsix/robotsix-modules/issues/{issue})"
+
+[[tool.towncrier.type]]
+directory = "feature"
+name = "Features"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "bugfix"
+name = "Bug Fixes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "change"
+name = "Changes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "deprecation"
+name = "Deprecations"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "removal"
+name = "Removals"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "security"
+name = "Security"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "doc"
+name = "Documentation"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "misc"
+name = "Miscellaneous"
+showcontent = false
