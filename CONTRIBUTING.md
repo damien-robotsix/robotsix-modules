@@ -120,24 +120,28 @@ these steps in order:
    > - `README.md` — the `vX.Y.Z` strings in install examples (3 occurrences).
    > - `SECURITY.md` — the `**vX.Y.Z**` supported-version string.
 
-2. Add a matching entry at the top of the entries in `CHANGELOG.md`, using the
-   existing [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format (a
-   `## [<version>]` heading with `### Added` / `### Changed` / `### Fixed`
-   subsections as appropriate). The version in the heading must match the new
-   `pyproject.toml` version.
-
-3. Commit both changes and push to `main` (e.g. a `Release v<version>` commit).
-   Make sure CI is green on `main` first — run the lint, format, type-check, and
-   test gate documented above before tagging.
-
-4. Create a GitHub Release whose tag follows the `v{version}` convention
-   (version `0.3.0` → tag `v0.3.0`). Use the `gh` CLI:
+2. Build the changelog entry from the accumulated news fragments with
+   [towncrier](https://towncrier.readthedocs.io/):
 
    ```console
-   gh release create v<version> --title v<version> --notes "..."
+   uv run towncrier build --yes --version X.Y.Z
    ```
 
-   or create it through the GitHub web UI.
+   This updates `CHANGELOG.md` with the fragments under `changelog.d/` and
+   deletes those fragment files.
+
+3. Commit the updated `CHANGELOG.md` and the deleted fragment files, push to
+   `main`, and confirm CI is green.
+
+4. Create a GitHub Release whose tag follows the `v{version}` convention
+   (version `0.3.0` → tag `v0.3.0`). Use `gh release create` with draft release
+   notes produced by towncrier:
+
+   ```console
+   gh release create v<version> \
+     --title "v<version>" \
+     --notes "$(uv run towncrier build --draft --version X.Y.Z 2>/dev/null | tail -n +6)"
+   ```
 
 5. Publishing the GitHub Release fires `.github/workflows/release.yml`, which
    calls the `damien-robotsix/robotsix-mill` reusable `python-release.yml`
