@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Create `changelog.d/` directory for towncrier-managed changelog fragments.
 - Add `towncrier-check` pre-commit hook (repo: local) to validate changelog fragments.
 - Updated the release checklist in `CONTRIBUTING.md` to use the towncrier-based
   workflow: `towncrier build --yes` to generate the changelog, commit the
