@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Enable baseline periodic agents (`test_gap`, `bc_check`, `security_posture`) via `.robotsix-mill/periodic/` presence files.
 - Create `changelog.d/` directory for towncrier-managed changelog fragments.
 - Add `towncrier-check` pre-commit hook (repo: local) to validate changelog fragments.
 - Updated the release checklist in `CONTRIBUTING.md` to use the towncrier-based
