@@ -54,16 +54,7 @@ def _has_glob_metacharacters(pattern: str) -> bool:
 
 
 def _glob_paths(repo_root: Path, pattern: str) -> list[Path]:
-    """Expand *pattern* under *repo_root* with version-portable semantics.
-
-    A pattern ending in a bare ``**`` segment is rewritten to ``**/*`` so
-    that it matches files recursively on every supported Python version.
-    On Python 3.13+ ``Path.glob`` treats a trailing ``**`` as matching both
-    files and directories, but on Python 3.12 it matches directories only;
-    rewriting to ``**/*`` yields the 3.13 behaviour everywhere.
-    """
-    if pattern == "**" or pattern.endswith("/**"):
-        pattern = f"{pattern}/*"
+    """Expand *pattern* under *repo_root* via Path.glob."""
     return list(repo_root.glob(pattern))
 
 
