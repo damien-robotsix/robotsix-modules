@@ -1,0 +1,1 @@
+robotsix-modules: Enable module_curator periodic workflow
