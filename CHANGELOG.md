@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Enable `module_curator` periodic agent to curate the reference `docs/modules.yaml` taxonomy
 - Remove Python 3.12 version-portable `**` glob rewrite workaround from `_glob_paths`.
   The project now requires Python >=3.14 where `Path.glob("**")` natively matches files.
 - Enable baseline periodic agents (`test_gap`, `bc_check`, `security_posture`) via `.robotsix-mill/periodic/` presence files.
