@@ -1,0 +1,1 @@
+Classify changelog.d/: assign changelog fragment files to existing module or propose a new one
