@@ -18,6 +18,7 @@
         - ConfigFileNotFoundError
         - ConfigParseError
         - ConfigStructureError
+        - FindingKind
         - GitOperationError
         - RobotsixModulesError
         - read_yaml_file

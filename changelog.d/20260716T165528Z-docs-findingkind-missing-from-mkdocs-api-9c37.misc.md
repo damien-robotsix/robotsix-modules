@@ -1,0 +1,1 @@
+docs: `FindingKind` missing from mkdocs API reference in `docs/validation/api.md`
