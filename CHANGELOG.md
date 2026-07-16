@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- `ConfigStructureError` is now raised by `read_yaml_file` when the parsed YAML root is not a mapping (previously `YamlParseError` was raised for both invalid-YAML and non-mapping cases). Fixed a stale `InvalidConfigStructureError` docstring reference in `load_taxonomy`.
 - Add `FindingKind` to `docs/validation/api.md` members list to ensure it renders in the generated API docs and avoids broken cross-references.
 - Enable `completeness_check` periodic agent to scan internal wiring of the robotsix-modules tool itself.
 - Added `changelog.d/**` to the `root` module's paths in `docs/modules.yaml`.

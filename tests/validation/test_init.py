@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from robotsix_modules import load_taxonomy
+from robotsix_modules import ConfigStructureError, load_taxonomy
 from robotsix_modules._yaml import YamlParseError, YamlReadError
 
 
@@ -27,3 +27,10 @@ def test_load_taxonomy_invalid_yaml(tmp_path: Path) -> None:
     broken.write_text("key: [unclosed", encoding="utf-8")
     with pytest.raises(YamlParseError):
         load_taxonomy(broken)
+
+
+def test_load_taxonomy_not_a_mapping(tmp_path: Path) -> None:
+    not_a_map = tmp_path / "list.yaml"
+    not_a_map.write_text("- item1\n- item2\n", encoding="utf-8")
+    with pytest.raises(ConfigStructureError):
+        load_taxonomy(not_a_map)
