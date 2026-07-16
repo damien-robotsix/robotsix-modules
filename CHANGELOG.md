@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Add `FindingKind` to `docs/validation/api.md` members list to ensure it renders in the generated API docs and avoids broken cross-references.
 - Enable `completeness_check` periodic agent to scan internal wiring of the robotsix-modules tool itself.
 - Added `changelog.d/**` to the `root` module's paths in `docs/modules.yaml`.
 - Enable `module_curator` periodic agent to curate the reference `docs/modules.yaml` taxonomy
