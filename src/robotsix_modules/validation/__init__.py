@@ -51,7 +51,7 @@ def load_taxonomy(path: str | Path) -> dict[str, Any]:
     Raises:
         YamlReadError: when ``path`` does not exist or cannot be read.
         YamlParseError: when the file is not valid YAML.
-        InvalidConfigStructureError: when the parsed content is not a mapping.
+        ConfigStructureError: when the parsed content is not a mapping.
     """
     target = Path(path)
     if not target.exists():
