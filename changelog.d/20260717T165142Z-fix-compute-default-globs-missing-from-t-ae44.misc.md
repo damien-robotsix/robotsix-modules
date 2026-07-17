@@ -1,0 +1,1 @@
+fix: `compute_default_globs` missing from top-level re-export and API docs (sibling-pattern gap vs check_coverage/check_registration/validate_paths)

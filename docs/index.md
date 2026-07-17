@@ -31,5 +31,7 @@ if errors:
   registered path and every registered file belongs to a module
 - **`validate_paths(taxonomy, repo_root)`** — check that module paths resolve to
   real files
+- **`compute_default_globs(module_id, package)`** — return the three convention
+  globs for a module in a package
 
 See the [API Reference](validation/api.md) for full details.

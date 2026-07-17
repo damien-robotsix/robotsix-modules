@@ -23,4 +23,5 @@
         - RobotsixModulesError
         - read_yaml_file
         - check_coverage
+        - compute_default_globs
 <!-- mdformat on -->
