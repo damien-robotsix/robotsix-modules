@@ -29,6 +29,8 @@ if errors:
 - **`validate_file(path)`** — load and validate a taxonomy file in one step
 - **`check_registration(taxonomy, repo_root)`** — check that every module has a
   registered path and every registered file belongs to a module
+- **`check_coverage(taxonomy, repo_root)`** — convenience wrapper: report whether
+  every git-tracked file is claimed by at least one module
 - **`validate_paths(taxonomy, repo_root)`** — check that module paths resolve to
   real files
 - **`compute_default_globs(module_id, package)`** — return the three convention
