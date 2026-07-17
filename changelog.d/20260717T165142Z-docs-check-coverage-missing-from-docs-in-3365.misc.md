@@ -1,0 +1,1 @@
+docs: `check_coverage` missing from `docs/index.md` public API list while its siblings are listed
