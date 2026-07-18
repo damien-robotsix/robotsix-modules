@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Move `.pre-commit-hooks.yaml` from the `docs` module to the `root` module in `docs/modules.yaml` (the file is a repo-root pre-commit hook manifest, not documentation).
 - Add `repo_description_sync` periodic workflow to keep the forge description aligned with the README.
 - Enable `state_sync` periodic workflow to cross-reference `FindingKind` enum members against string-literal reference sites across the codebase.
 - Enable `audit` periodic agent (`.robotsix-mill/periodic/audit.yaml`)

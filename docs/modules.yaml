@@ -24,6 +24,7 @@ modules:
       - .gitleaks.toml
       - .markdownlint-cli2.jsonc
       - .pre-commit-config.yaml
+      - .pre-commit-hooks.yaml
       - vulture_whitelist.py
       - AGENT.md
       - .github/dependabot.yml
@@ -45,8 +46,6 @@ modules:
       - docs/modules.yaml
       - docs/schema-reference.md
       - docs/CONTRIBUTING.md
-
-      - .pre-commit-hooks.yaml
 
   - id: validation
     description: >
