@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Add `repo_description_sync` periodic workflow to keep the forge description aligned with the README.
 - Enable `audit` periodic agent (`.robotsix-mill/periodic/audit.yaml`)
 - Re-export `compute_default_globs` from the top-level `robotsix_modules` package and document it in the API reference and quick-start index.
 - Add `check_coverage` to the Public API list in `docs/index.md`
