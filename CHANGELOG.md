@@ -13,6 +13,7 @@ and this project adheres to
 ### Removed
 
 - Enable `audit` periodic agent (`.robotsix-mill/periodic/audit.yaml`)
+- Add `copy_paste` periodic workflow (`.robotsix-mill/periodic/copy_paste.yaml`) to detect copy-paste duplication across the repository via jscpd.
 - Re-export `compute_default_globs` from the top-level `robotsix_modules` package and document it in the API reference and quick-start index.
 - Add `check_coverage` to the Public API list in `docs/index.md`
 - `ConfigStructureError` is now raised by `read_yaml_file` when the parsed YAML root is not a mapping (previously `YamlParseError` was raised for both invalid-YAML and non-mapping cases). Fixed a stale `InvalidConfigStructureError` docstring reference in `load_taxonomy`.
