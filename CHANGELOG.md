@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Add `repo_description_sync` periodic workflow to keep the forge description aligned with the README.
 - Enable `audit` periodic agent (`.robotsix-mill/periodic/audit.yaml`)
 - Add `copy_paste` periodic workflow (`.robotsix-mill/periodic/copy_paste.yaml`) to detect copy-paste duplication across the repository via jscpd.
 - Re-export `compute_default_globs` from the top-level `robotsix_modules` package and document it in the API reference and quick-start index.
