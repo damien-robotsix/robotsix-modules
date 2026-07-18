@@ -12,6 +12,9 @@ and this project adheres to
 
 ### Removed
 
+- Bump `mirrors-mypy` pre-commit hook from v2.1.0 to v2.3.0 to align with the
+  `mypy>=2.2.0` dev dependency, ensuring consistent type-checking across all
+  environments.
 - Move `.pre-commit-hooks.yaml` from the `docs` module to the `root` module in `docs/modules.yaml` (the file is a repo-root pre-commit hook manifest, not documentation).
 - Add `repo_description_sync` periodic workflow to keep the forge description aligned with the README.
 - Enable `state_sync` periodic workflow to cross-reference `FindingKind` enum members against string-literal reference sites across the codebase.
