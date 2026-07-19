@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Add periodic docstring_coverage agent config to `.robotsix-mill/periodic/docstring_coverage.yaml`.
 - `read_yaml_file` now raises `ConfigParseError` (instead of the internal `YamlParseError`) when a file contains invalid YAML, matching the public API contract documented in the package docstring.
 - Enable the `changelog_autofill` periodic task to auto-commit changelog entries for PRs with a failing changelog CI check.
 - Fixed duplicate `run:` key in `.github/actions/setup/action.yml` that caused `UV_MALWARE_CHECK` env var to be ignored during `uv sync`
