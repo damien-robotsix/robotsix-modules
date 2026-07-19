@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Fixed duplicate `run:` key in `.github/actions/setup/action.yml` that caused `UV_MALWARE_CHECK` env var to be ignored during `uv sync`
 - Bump `mirrors-mypy` pre-commit hook from v2.1.0 to v2.3.0 to align with the
   `mypy>=2.2.0` dev dependency, ensuring consistent type-checking across all
   environments.
