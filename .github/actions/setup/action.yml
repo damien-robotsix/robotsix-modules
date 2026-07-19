@@ -19,4 +19,7 @@ runs:
         python-version: ${{ inputs.python-version }}
     - if: ${{ inputs.sync-args != '' }}
       shell: bash
+      env:
+        UV_MALWARE_CHECK: "1"
+      run: uv sync ${{ inputs.sync-args }}
       run: uv sync ${{ inputs.sync-args }}
