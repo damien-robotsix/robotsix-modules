@@ -12,7 +12,7 @@ from typing import Any
 
 import yaml
 
-from ._exceptions import ConfigError, ConfigStructureError
+from ._exceptions import ConfigError, ConfigParseError, ConfigStructureError
 
 
 class YamlConfigError(ConfigError):
@@ -32,7 +32,7 @@ def read_yaml_file(path: Path) -> dict[str, Any]:
 
     Raises:
         YamlReadError: file missing or unreadable.
-        YamlParseError: invalid YAML.
+        ConfigParseError: invalid YAML.
         ConfigStructureError: root is not a mapping.
     """
     try:
@@ -43,7 +43,7 @@ def read_yaml_file(path: Path) -> dict[str, Any]:
     try:
         result = yaml.safe_load(raw)
     except yaml.YAMLError as exc:
-        raise YamlParseError(str(exc)) from exc
+        raise ConfigParseError(str(exc)) from exc
 
     if not isinstance(result, dict):
         raise ConfigStructureError(

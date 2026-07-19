@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from robotsix_modules import ConfigStructureError, load_taxonomy
-from robotsix_modules._yaml import YamlParseError, YamlReadError
+from robotsix_modules import ConfigParseError, ConfigStructureError, load_taxonomy
+from robotsix_modules._yaml import YamlReadError
 
 
 def test_load_taxonomy_valid(tmp_path: Path) -> None:
@@ -25,7 +25,7 @@ def test_load_taxonomy_not_found() -> None:
 def test_load_taxonomy_invalid_yaml(tmp_path: Path) -> None:
     broken = tmp_path / "broken.yaml"
     broken.write_text("key: [unclosed", encoding="utf-8")
-    with pytest.raises(YamlParseError):
+    with pytest.raises(ConfigParseError):
         load_taxonomy(broken)
 
 

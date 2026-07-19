@@ -19,9 +19,6 @@ from robotsix_modules._exceptions import (
     GitOperationError,
 )
 from robotsix_modules._yaml import (
-    YamlParseError as _YamlParseError,
-)
-from robotsix_modules._yaml import (
     YamlReadError as _YamlReadError,
 )
 from robotsix_modules._yaml import read_yaml_file
@@ -73,7 +70,6 @@ def _safe_load_yaml(path: str | Path, label: str = "") -> dict[str, Any] | None:
         return None
     except (
         _YamlReadError,
-        _YamlParseError,
         ConfigParseError,
         ConfigStructureError,
     ) as exc:
