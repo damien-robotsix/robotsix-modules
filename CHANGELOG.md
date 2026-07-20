@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Removed the unused `YamlParseError` exception class from `_yaml.py`, which was never raised or imported anywhere in the codebase.
 - Enable `survey` periodic agent with `.robotsix-mill/periodic/survey.yaml`.
 - Add periodic docstring_coverage agent config to `.robotsix-mill/periodic/docstring_coverage.yaml`.
 - Add `.robotsix-mill/periodic/health.yaml` to enable the health periodic agent, which inspects the codebase across eight dimensions (test coverage, linting, dependency freshness, CI completeness, documentation, etc.) and proposes draft tickets for newly-discovered gaps.
