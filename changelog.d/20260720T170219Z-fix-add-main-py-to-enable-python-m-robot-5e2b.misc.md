@@ -1,0 +1,1 @@
+fix: add __main__.py to enable `python -m robotsix_modules`
