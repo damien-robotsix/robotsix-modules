@@ -1,0 +1,1 @@
+Add changelog fragment reminder to PR template checklist
