@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Add ``__main__.py`` shim so ``python -m robotsix_modules`` works (delegates to ``cli:main()``).
 - Updated the "Complete example" in `docs/schema-reference.md` to match the
   current `docs/modules.yaml`: added the `root` module, moved
   `.pre-commit-hooks.yaml` from `docs` to `root`, and added `_exceptions.py`
