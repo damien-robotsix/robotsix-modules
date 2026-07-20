@@ -23,10 +23,6 @@ class YamlReadError(YamlConfigError):
     """Raised when a file cannot be found or read."""
 
 
-class YamlParseError(YamlConfigError):
-    """Raised when a file is not valid YAML."""
-
-
 def read_yaml_file(path: Path) -> dict[str, Any]:
     """Read *path* and return its content as a parsed mapping.
 
