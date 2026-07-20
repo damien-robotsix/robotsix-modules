@@ -82,14 +82,49 @@ a module has no internal dependencies.
 ## Complete example
 
 Below is the taxonomy file that `robotsix-modules` uses for its own source tree
-— four modules (`docs`, `validation`, `cli`, `tests`) with one dependency (the
-CLI depends on `validation`):
+— five modules (`root`, `docs`, `validation`, `cli`, `tests`) with dependencies
+(`root` depends on `docs`; `cli` depends on `validation`):
 
 ```yaml
 # Module taxonomy for robotsix-modules itself.
 # Validate with:  robotsix-modules validate docs/modules.yaml
 package: robotsix_modules
 modules:
+  - id: root
+    description: >
+      Root-level project files: package config, CI workflows, issue
+      templates, linting / security tooling config, VCS ignore rules,
+      mill periodic tasks, shell scripts, and other repo-scoped
+      metadata files.
+    paths:
+      - README.md
+      - CHANGELOG.md
+      - changelog.d/**
+      - LICENSE
+      - SECURITY.md
+      - CODE_OF_CONDUCT.md
+      - CONTRIBUTING.md
+      - pyproject.toml
+      - mkdocs.yml
+      - mkdocs_hooks.py
+      - uv.lock
+      - .gitignore
+      - .gitleaks.toml
+      - .markdownlint-cli2.jsonc
+      - .pre-commit-config.yaml
+      - .pre-commit-hooks.yaml
+      - vulture_whitelist.py
+      - AGENT.md
+      - .github/dependabot.yml
+      - .github/actions/setup/action.yml
+      - .github/workflows/**
+      - .github/ISSUE_TEMPLATE/**
+      - .github/PULL_REQUEST_TEMPLATE.md
+      - .robotsix-mill/**
+      - scripts/**
+    dependencies:
+      - docs
+
   - id: docs
     description: >
       Project-level documentation: MkDocs site config, homepage,
@@ -99,7 +134,6 @@ modules:
       - docs/modules.yaml
       - docs/schema-reference.md
       - docs/CONTRIBUTING.md
-      - .pre-commit-hooks.yaml
 
   - id: validation
     description: >
@@ -112,6 +146,7 @@ modules:
       - src/robotsix_modules/__init__.py
       - src/robotsix_modules/_yaml.py
       - src/robotsix_modules/py.typed
+      - src/robotsix_modules/_exceptions.py
       - src/robotsix_modules/validation/**
       - tests/validation/**
       - docs/validation/**

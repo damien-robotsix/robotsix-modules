@@ -12,6 +12,10 @@ and this project adheres to
 
 ### Removed
 
+- Updated the "Complete example" in `docs/schema-reference.md` to match the
+  current `docs/modules.yaml`: added the `root` module, moved
+  `.pre-commit-hooks.yaml` from `docs` to `root`, and added `_exceptions.py`
+  to the `validation` module paths.
 - Removed the unused `YamlParseError` exception class from `_yaml.py`, which was never raised or imported anywhere in the codebase.
 - Enable `survey` periodic agent with `.robotsix-mill/periodic/survey.yaml`.
 - Add periodic docstring_coverage agent config to `.robotsix-mill/periodic/docstring_coverage.yaml`.
