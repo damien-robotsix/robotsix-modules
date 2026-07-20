@@ -14,6 +14,7 @@ and this project adheres to
 
 - Enable `survey` periodic agent with `.robotsix-mill/periodic/survey.yaml`.
 - Add periodic docstring_coverage agent config to `.robotsix-mill/periodic/docstring_coverage.yaml`.
+- Add `.robotsix-mill/periodic/health.yaml` to enable the health periodic agent, which inspects the codebase across eight dimensions (test coverage, linting, dependency freshness, CI completeness, documentation, etc.) and proposes draft tickets for newly-discovered gaps.
 - `read_yaml_file` now raises `ConfigParseError` (instead of the internal `YamlParseError`) when a file contains invalid YAML, matching the public API contract documented in the package docstring.
 - Enable the `changelog_autofill` periodic task to auto-commit changelog entries for PRs with a failing changelog CI check.
 - Fixed duplicate `run:` key in `.github/actions/setup/action.yml` that caused `UV_MALWARE_CHECK` env var to be ignored during `uv sync`
