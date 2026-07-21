@@ -100,6 +100,61 @@ uv run pre-commit run --all-files
 - Open your pull request against the `main` branch. CI runs on every pull
   request, so all checks must pass before a change can be merged.
 
+## Creating a changelog fragment
+
+Every pull request that changes user-visible behavior (features, bug fixes,
+deprecations, removals, documentation) needs a changelog fragment. The fragment
+is a single file in `changelog.d/` whose filename determines what section of the
+changelog it appears under.
+
+### Filename format
+
+```
+<TIMESTAMP>-<SHORT-DESCRIPTION>.<TYPE>.md
+```
+
+- `TIMESTAMP` — current UTC timestamp in `YYYYMMDDTHHMMSSZ` format.
+- `SHORT-DESCRIPTION` — kebab-case slug (e.g. `fix-auth-timeout`).
+- `TYPE` — one of the following:
+
+| Type | Section heading | When to use |
+|------|----------------|-------------|
+| `feature` | Features | New user-facing functionality, new CLI subcommands, new public API surfaces |
+| `bugfix` | Bug Fixes | Fixes for incorrect behavior, crashes, or unexpected errors |
+| `change` | Changes | Modifications to existing behavior that are not strictly bug fixes |
+| `deprecation` | Deprecations | Marking a feature as deprecated |
+| `removal` | Removals | Removing a deprecated feature |
+| `security` | Security | Security-related fixes or improvements |
+| `doc` | Documentation | Changes to documentation only (README, CONTRIBUTING, docstrings) |
+| `misc` | (hidden) | Internal tooling, CI, dependency bumps, refactoring with no user impact |
+
+> **Note:** The `misc` type has `showcontent = false`, meaning its entries do
+> not appear in the rendered changelog. Use it only for internal changes that
+> users don't need to know about.
+
+### Using towncrier create
+
+Instead of manually naming the file, you can use:
+
+```console
+uv run towncrier create changelog.d/PULL_NUMBER.feature.md
+```
+
+Replace `feature` with the correct type from the table above.
+
+### Examples
+
+```
+# New CLI subcommand
+20260721T130000Z-add-migrate-subcommand.feature.md
+
+# Fix crash on empty modules.yaml
+20260721T130000Z-fix-crash-on-empty-yaml.bugfix.md
+
+# Internal refactor with no user impact
+20260721T130000Z-refactor-validate-loop.misc.md
+```
+
 ## Releasing a new version
 
 Releases are cut by maintainers and published to PyPI automatically. Follow

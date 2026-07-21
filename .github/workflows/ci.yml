@@ -52,6 +52,29 @@ jobs:
         with:
           python-version: "3.14"
       - run: uv run towncrier check
+      - name: Validate fragment types
+        run: |
+          python -c "
+          import tomllib, sys, re
+          from pathlib import Path
+          with open('pyproject.toml', 'rb') as f:
+              d = tomllib.load(f)
+          types = {t['directory'] for t in d.get('tool', {}).get('towncrier', {}).get('type', [])}
+          errors = []
+          for p in Path('changelog.d').iterdir():
+              if p.name == '.gitkeep' or p.is_dir():
+                  continue
+          # Match <timestamp>-<slug>.<type>.md
+          m = re.match(r'.+?\.(\w+)\.md$', p.name)
+          if m and m.group(1) not in types:
+              errors.append(f'{p.name}: unknown type \"{m.group(1)}\" (valid: {sorted(types)})')
+          if errors:
+              print('Fragment type validation failed:', file=sys.stderr)
+              for e in errors:
+                  print(f'  {e}', file=sys.stderr)
+              sys.exit(1)
+          print('All fragment types valid.')
+          "
 
   zizmor:
     name: Zizmor workflow audit

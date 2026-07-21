@@ -1,0 +1,1 @@
+Add fragment type guidance to CONTRIBUTING.md and validate types in CI
