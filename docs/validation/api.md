@@ -13,6 +13,7 @@
         - RegistrationFinding
         - PathFinding
         - SCHEMA_PATH
+        - YamlReadError
         - __version__
         - ConfigError
         - ConfigFileNotFoundError

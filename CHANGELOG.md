@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Exported `YamlReadError` via `robotsix_modules.__all__` so callers of `load_taxonomy()` can catch it without importing from the private `_yaml` module.
 - Added fragment-type guidance to CONTRIBUTING.md and PR template, and CI validation
   to catch unknown fragment types before merge, preventing invisible changelog entries
   when `towncrier build` is run for the first release.

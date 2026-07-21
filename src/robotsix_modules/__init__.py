@@ -15,6 +15,7 @@ Public API:
     ConfigStructureError            — raised when a config file structure is wrong
     GitOperationError               — raised when a Git operation fails
     RobotsixModulesError            — base for all errors from this package
+    YamlReadError                   — raised when a YAML file is missing or unreadable
     read_yaml_file(path)            -> dict
 """
 
@@ -28,7 +29,7 @@ from ._exceptions import (
     GitOperationError,
     RobotsixModulesError,
 )
-from ._yaml import read_yaml_file
+from ._yaml import YamlReadError, read_yaml_file
 from .validation import (
     SCHEMA_PATH,
     FindingKind,
@@ -62,6 +63,7 @@ __all__ = [
     "RegistrationFinding",
     "RobotsixModulesError",
     "SCHEMA_PATH",
+    "YamlReadError",
     "__version__",
     "check_coverage",
     "check_registration",
