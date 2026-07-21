@@ -12,6 +12,9 @@ and this project adheres to
 
 ### Removed
 
+- Added fragment-type guidance to CONTRIBUTING.md and PR template, and CI validation
+  to catch unknown fragment types before merge, preventing invisible changelog entries
+  when `towncrier build` is run for the first release.
 - Add ``__main__.py`` shim so ``python -m robotsix_modules`` works (delegates to ``cli:main()``).
 - Updated the "Complete example" in `docs/schema-reference.md` to match the
   current `docs/modules.yaml`: added the `root` module, moved
