@@ -1,0 +1,1 @@
+fix: `YamlReadError` raised by public `load_taxonomy()` but missing from top-level `__all__` and API docs
