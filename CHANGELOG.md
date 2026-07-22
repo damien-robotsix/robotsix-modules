@@ -13,6 +13,7 @@ and this project adheres to
 ### Removed
 
 - Pin `vulture` dev dependency to `>=2.16` in `pyproject.toml` to match the version locked in `uv.lock` and prevent silent breakage on regeneration.
+- Add `--strict-markers` to pytest `addopts` in `pyproject.toml` to catch unregistered marker typos.
 - Expose CHANGELOG.md as a Changelog page on the MkDocs site via the existing hook pattern (on_pre_build copy, on_post_build remove) and a new nav entry.
 - Classify `changelog.d/.gitkeep` under the `root` module in `docs/modules.yaml` so the registration check passes.
 - Exported `YamlReadError` via `robotsix_modules.__all__` so callers of `load_taxonomy()` can catch it without importing from the private `_yaml` module.
