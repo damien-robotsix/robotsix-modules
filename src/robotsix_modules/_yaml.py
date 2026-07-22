@@ -15,11 +15,7 @@ import yaml
 from ._exceptions import ConfigError, ConfigParseError, ConfigStructureError
 
 
-class YamlConfigError(ConfigError):
-    """Base for all YAML I/O errors raised by this package."""
-
-
-class YamlReadError(YamlConfigError):
+class YamlReadError(ConfigError):
     """Raised when a file cannot be found or read."""
 
 
