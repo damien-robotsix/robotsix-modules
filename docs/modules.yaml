@@ -12,6 +12,7 @@ modules:
       - README.md
       - CHANGELOG.md
       - changelog.d/**
+      - changelog.d/.gitkeep
       - LICENSE
       - SECURITY.md
       - CODE_OF_CONDUCT.md
