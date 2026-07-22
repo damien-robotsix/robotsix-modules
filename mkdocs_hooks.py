@@ -5,17 +5,19 @@ from pathlib import Path
 
 
 def on_pre_build(config):
-    """Copy root CODE_OF_CONDUCT.md into docs/ so the nav entry resolves."""
+    """Copy root files into docs/ so the nav entries resolve."""
     root = Path(config.config_file_path).parent
-    src = root / "CODE_OF_CONDUCT.md"
-    dst = root / "docs" / "CODE_OF_CONDUCT.md"
-    if src.exists() and not dst.exists():
-        shutil.copy2(src, dst)
+    for name in ("CODE_OF_CONDUCT.md", "CHANGELOG.md"):
+        src = root / name
+        dst = root / "docs" / name
+        if src.exists() and not dst.exists():
+            shutil.copy2(src, dst)
 
 
 def on_post_build(config):
-    """Remove the generated doc so nothing lingers on disk."""
+    """Remove the generated docs so nothing lingers on disk."""
     root = Path(config.config_file_path).parent
-    generated = root / "docs" / "CODE_OF_CONDUCT.md"
-    if generated.exists():
-        generated.unlink()
+    for name in ("CODE_OF_CONDUCT.md", "CHANGELOG.md"):
+        generated = root / "docs" / name
+        if generated.exists():
+            generated.unlink()

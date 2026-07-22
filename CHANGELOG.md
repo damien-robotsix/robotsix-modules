@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Expose CHANGELOG.md as a Changelog page on the MkDocs site via the existing hook pattern (on_pre_build copy, on_post_build remove) and a new nav entry.
 - Classify `changelog.d/.gitkeep` under the `root` module in `docs/modules.yaml` so the registration check passes.
 - Exported `YamlReadError` via `robotsix_modules.__all__` so callers of `load_taxonomy()` can catch it without importing from the private `_yaml` module.
 - Added fragment-type guidance to CONTRIBUTING.md and PR template, and CI validation
