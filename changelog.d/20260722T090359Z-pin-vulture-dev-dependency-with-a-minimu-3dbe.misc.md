@@ -1,0 +1,1 @@
+Pin `vulture` dev dependency with a minimum version constraint
