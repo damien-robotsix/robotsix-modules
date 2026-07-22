@@ -1,0 +1,1 @@
+Expose CHANGELOG.md as a Changelog page in the docs site nav

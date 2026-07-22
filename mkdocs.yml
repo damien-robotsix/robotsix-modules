@@ -22,6 +22,7 @@ plugins:
             show_root_heading: true
 nav:
   - Home: index.md
+  - Changelog: CHANGELOG.md
   - Schema Reference: schema-reference.md
   - CLI: cli/usage.md
   - API Reference: validation/api.md
