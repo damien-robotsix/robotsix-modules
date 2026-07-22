@@ -65,6 +65,7 @@ and this project adheres to
 - Register root-level `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `.robotsix-mill/**`, and `scripts/**` under the `root` module's path list in `docs/modules.yaml`, closing remaining `unclassified_file` findings from `check-registration`.
 - Remove unused `RobotsixModulesError` import from `robotsix_modules.cli`.)
 - Register `src/robotsix_modules/_exceptions.py` in the `validation` module's path list in `docs/modules.yaml`.
+- Confirm `docs/CODE_OF_CONDUCT.md` is already a symlink (`-> ../CODE_OF_CONDUCT.md`, created in PR #133); no code change needed to eliminate the byte-identical clone.)
 - Revert cosmetic `...` added by prior attempt to root `CONTRIBUTING.md`. The
   core deduplication (`docs/CONTRIBUTING.md` as symlink to `../CONTRIBUTING.md`)
   was already in place from a prior PR; no further changes needed.
