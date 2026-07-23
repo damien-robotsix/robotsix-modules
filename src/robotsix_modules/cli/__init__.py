@@ -366,7 +366,7 @@ def main(argv: list[str] | None = None) -> ExitCode:
     return ExitCode.FATAL  # pragma: no cover - argparse exits before reaching here
 
 
-def _validate_paths(
+def _validate_schema_batch(
     paths: list[str], schema_path: str | None
 ) -> Generator[tuple[ExitCode, list[str]]]:
     """Yield ``(exit_code, errors)`` for each taxonomy path.
@@ -445,7 +445,7 @@ def validate_main(argv: list[str] | None = None) -> ExitCode:
     exit_code: ExitCode = ExitCode.OK
     all_errors: list[str] = []
 
-    for path_code, errors in _validate_paths(args.paths, args.schema):
+    for path_code, errors in _validate_schema_batch(args.paths, args.schema):
         exit_code = max(exit_code, path_code)
         _emit_results(errors, args.output_format, all_errors)
 
