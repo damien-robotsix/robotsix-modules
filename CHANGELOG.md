@@ -12,6 +12,9 @@ and this project adheres to
 
 ### Removed
 
+- Add `[tool.uv] exclude-newer = "7 days"` to prevent CI from
+  resolving packages published in the last 7 days, closing the
+  window between a malicious upload and its advisory publication.
 - Pin `vulture` dev dependency to `>=2.16` in `pyproject.toml` to match the version locked in `uv.lock` and prevent silent breakage on regeneration.
 - Add `--strict-markers` to pytest `addopts` in `pyproject.toml` to catch unregistered marker typos.
 - Expose CHANGELOG.md as a Changelog page on the MkDocs site via the existing hook pattern (on_pre_build copy, on_post_build remove) and a new nav entry.
