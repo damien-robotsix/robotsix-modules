@@ -390,6 +390,17 @@ def _validate_paths(
         yield (ExitCode.ERRORS if errors else ExitCode.OK), errors
 
 
+def _emit_results(
+    errors: list[str], output_format: str, accumulator: list[str]
+) -> None:
+    """Emit *errors* to *accumulator* (JSON) or stderr (text)."""
+    if output_format == "json":
+        accumulator.extend(errors)
+    else:
+        for message in errors:
+            print(message, file=sys.stderr)
+
+
 def validate_main(argv: list[str] | None = None) -> ExitCode:
     """Lightweight pre-commit wrapper: ``robotsix-modules-validate``.
 
@@ -436,11 +447,7 @@ def validate_main(argv: list[str] | None = None) -> ExitCode:
 
     for path_code, errors in _validate_paths(args.paths, args.schema):
         exit_code = max(exit_code, path_code)
-        if args.output_format == "json":
-            all_errors.extend(errors)
-        else:
-            for message in errors:
-                print(message, file=sys.stderr)
+        _emit_results(errors, args.output_format, all_errors)
 
     # Supplement schema validation with a coverage check (once, not per-path).
     if exit_code != ExitCode.FATAL:
@@ -452,11 +459,7 @@ def validate_main(argv: list[str] | None = None) -> ExitCode:
                 break  # only need one valid taxonomy for coverage
         if coverage_errors:
             exit_code = ExitCode.ERRORS
-            if args.output_format == "json":
-                all_errors.extend(coverage_errors)
-            else:
-                for msg in coverage_errors:
-                    print(msg, file=sys.stderr)
+            _emit_results(coverage_errors, args.output_format, all_errors)
 
     if args.output_format == "json":
         json.dump({"errors": all_errors}, sys.stdout)
