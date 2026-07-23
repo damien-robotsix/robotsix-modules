@@ -37,6 +37,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+        with:
+          egress-policy: audit
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -49,6 +53,10 @@ jobs:
     name: Vulture dead code scan
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+        with:
+          egress-policy: audit
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -58,6 +66,10 @@ jobs:
     name: Changelog fragment check
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+        with:
+          egress-policy: audit
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -93,6 +105,10 @@ jobs:
       contents: read
       security-events: write  # needed for SARIF upload
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+        with:
+          egress-policy: audit
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -107,6 +123,10 @@ jobs:
     name: Gitleaks secrets scan
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+        with:
+          egress-policy: audit
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -117,6 +137,10 @@ jobs:
     name: Validate pyproject.toml
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+        with:
+          egress-policy: audit
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -126,6 +150,10 @@ jobs:
     name: MkDocs build
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+        with:
+          egress-policy: audit
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -136,6 +164,10 @@ jobs:
     name: Version consistency check
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+        with:
+          egress-policy: audit
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -158,6 +190,10 @@ jobs:
     name: Check module registration
     runs-on: ubuntu-latest
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+        with:
+          egress-policy: audit
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -169,6 +205,10 @@ jobs:
     env:
       WORKSPACE: ${{ github.workspace }}
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+        with:
+          egress-policy: audit
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
@@ -196,6 +236,10 @@ jobs:
     needs: [check]
     if: always()
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+        with:
+          egress-policy: audit
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
