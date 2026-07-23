@@ -22,6 +22,16 @@ jobs:
       run-bandit: true
       mypy-advisory: false
 
+  lockfile-check:
+    name: Lockfile check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup
+        with:
+          python-version: "3.14"
+          sync-args: ""
+      - run: uv lock --check
+
   dependency-review:
     name: Dependency review
     runs-on: ubuntu-latest
