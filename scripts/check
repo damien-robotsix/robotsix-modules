@@ -1,16 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
-echo "=== ruff check ==="
-uv run ruff check .
-echo "=== ruff format ==="
-uv run ruff format --check .
-echo "=== mypy ==="
-uv run mypy src tests
-echo "=== markdownlint ==="
-uv run --with pre-commit pre-commit run markdownlint-cli2 --all-files
-echo "=== mdformat ==="
-uv run --with pre-commit pre-commit run mdformat --all-files
+echo "=== lint ==="
+"$(dirname "$0")/lint"
 echo "=== deptry ==="
 uv run deptry .
 echo "=== bandit ==="

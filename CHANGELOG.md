@@ -15,6 +15,7 @@ and this project adheres to
 - Add `[tool.uv] exclude-newer = "7 days"` to prevent CI from
   resolving packages published in the last 7 days, closing the
   window between a malicious upload and its advisory publication.
+- Deduplicate `scripts/check` and `scripts/lint` by having `scripts/check` call `scripts/lint` for the shared toolchain (ruff check, ruff format, mypy, markdownlint, mdformat), keeping only the CI-unique steps (deptry, bandit, uv audit, pytest, check-registration, mkdocs build) directly.
 - Extract `_emit_results` helper in `validate_main` to eliminate duplicated output-format dispatch logic, reducing nesting depth from 5 to 3.
 - Removed unused `YamlConfigError` class from `_yaml.py` (the sole subclass `YamlReadError` now inherits directly from `ConfigError`).
 - Rename `_validate_paths` → `_validate_schema_batch` in `src/robotsix_modules/cli/__init__.py` to clarify that the function runs schema validation (not path validation) across multiple files.
