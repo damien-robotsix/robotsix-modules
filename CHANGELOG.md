@@ -17,6 +17,7 @@ and this project adheres to
   window between a malicious upload and its advisory publication.
 - Extract `_emit_results` helper in `validate_main` to eliminate duplicated output-format dispatch logic, reducing nesting depth from 5 to 3.
 - Removed unused `YamlConfigError` class from `_yaml.py` (the sole subclass `YamlReadError` now inherits directly from `ConfigError`).
+- Rename `_validate_paths` → `_validate_schema_batch` in `src/robotsix_modules/cli/__init__.py` to clarify that the function runs schema validation (not path validation) across multiple files.
 - Pin `vulture` dev dependency to `>=2.16` in `pyproject.toml` to match the version locked in `uv.lock` and prevent silent breakage on regeneration.
 - Add `--strict-markers` to pytest `addopts` in `pyproject.toml` to catch unregistered marker typos.
 - Expose CHANGELOG.md as a Changelog page on the MkDocs site via the existing hook pattern (on_pre_build copy, on_post_build remove) and a new nav entry.
