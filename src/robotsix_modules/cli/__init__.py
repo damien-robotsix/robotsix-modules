@@ -354,16 +354,25 @@ def main(argv: list[str] | None = None) -> ExitCode:
     parser = _build_parser()
     args = parser.parse_args(argv)
     _configure_logging(args.verbose)
-    if args.command == "validate":
-        return _validate_one(args.path, args.schema, args.output_format, root=args.root)
-    if args.command == "check-registration":
-        return _check_registration_one(args.modules_yaml, args.root, args.output_format)
-    if args.command == "validate-paths":
-        return _validate_paths_one(args.modules_yaml, args.root, args.output_format)
-    if args.command == "migrate":
-        return _migrate_one(args.modules_yaml, in_place=args.in_place)
-    parser.error(f"unknown command: {args.command}")  # pragma: no cover
-    return ExitCode.FATAL  # pragma: no cover - argparse exits before reaching here
+    try:
+        if args.command == "validate":
+            return _validate_one(
+                args.path, args.schema, args.output_format, root=args.root
+            )
+        if args.command == "check-registration":
+            return _check_registration_one(
+                args.modules_yaml, args.root, args.output_format
+            )
+        if args.command == "validate-paths":
+            return _validate_paths_one(args.modules_yaml, args.root, args.output_format)
+        if args.command == "migrate":
+            return _migrate_one(args.modules_yaml, in_place=args.in_place)
+        parser.error(f"unknown command: {args.command}")  # pragma: no cover
+        return ExitCode.FATAL  # pragma: no cover - argparse exits before reaching here
+    except Exception:
+        logger.exception("unexpected error during command '%s'", args.command)
+        print("ERROR: internal error \u2014 see details above", file=sys.stderr)
+        return ExitCode.FATAL
 
 
 def _validate_schema_batch(
@@ -442,29 +451,34 @@ def validate_main(argv: list[str] | None = None) -> ExitCode:
 
     _configure_logging(args.verbose)
 
-    exit_code: ExitCode = ExitCode.OK
-    all_errors: list[str] = []
+    try:
+        exit_code: ExitCode = ExitCode.OK
+        all_errors: list[str] = []
 
-    for path_code, errors in _validate_schema_batch(args.paths, args.schema):
-        exit_code = max(exit_code, path_code)
-        _emit_results(errors, args.output_format, all_errors)
+        for path_code, errors in _validate_schema_batch(args.paths, args.schema):
+            exit_code = max(exit_code, path_code)
+            _emit_results(errors, args.output_format, all_errors)
 
-    # Supplement schema validation with a coverage check (once, not per-path).
-    if exit_code != ExitCode.FATAL:
-        coverage_errors: list[str] = []
-        for path in args.paths:
-            taxonomy = _safe_load_yaml(path)
-            if taxonomy is not None:
-                coverage_errors.extend(check_coverage(taxonomy, Path(args.root)))
-                break  # only need one valid taxonomy for coverage
-        if coverage_errors:
-            exit_code = ExitCode.ERRORS
-            _emit_results(coverage_errors, args.output_format, all_errors)
+        # Supplement schema validation with a coverage check (once, not per-path).
+        if exit_code != ExitCode.FATAL:
+            coverage_errors: list[str] = []
+            for path in args.paths:
+                taxonomy = _safe_load_yaml(path)
+                if taxonomy is not None:
+                    coverage_errors.extend(check_coverage(taxonomy, Path(args.root)))
+                    break  # only need one valid taxonomy for coverage
+            if coverage_errors:
+                exit_code = ExitCode.ERRORS
+                _emit_results(coverage_errors, args.output_format, all_errors)
 
-    if args.output_format == "json":
-        json.dump({"errors": all_errors}, sys.stdout)
+        if args.output_format == "json":
+            json.dump({"errors": all_errors}, sys.stdout)
 
-    return exit_code
+        return exit_code
+    except Exception:
+        logger.exception("unexpected error during validate_main")
+        print("ERROR: internal error \u2014 see details above", file=sys.stderr)
+        return ExitCode.FATAL
 
 
 if __name__ == "__main__":  # pragma: no cover

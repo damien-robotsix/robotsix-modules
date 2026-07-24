@@ -12,6 +12,9 @@ and this project adheres to
 
 ### Removed
 
+- Add exception barrier to `main()` and `validate_main()` so unexpected
+  runtime errors produce a user-friendly message and `ExitCode.FATAL` (2)
+  instead of a raw Python traceback.
 - Replace `language: system` pre-commit hooks (vulture, towncrier-check) with
   `language: python` + `additional_dependencies` for deterministic, isolated
   environments. Added `pre-commit>=4.4.0` to dev dependencies.

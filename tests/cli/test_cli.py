@@ -983,3 +983,44 @@ def test_root_flag_respected(
     needs_git: bool,
 ) -> None:
     run_root_flag_respected_test(capsys, tmp_path, subcommand, needs_git=needs_git)
+
+
+# ===================================================================
+# Exception barrier
+# ===================================================================
+
+
+def test_main_unexpected_exception_returns_fatal(
+    capsys: pytest.CaptureFixture[str],
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    """A bug in validation logic returns ExitCode.FATAL (2), not a raw traceback."""
+
+    def _broken_validate(*args: Any, **kwargs: Any) -> Any:
+        raise TypeError("simulated bug in validation")
+
+    monkeypatch.setattr("robotsix_modules.cli.validate", _broken_validate)
+    code = main(["validate", VALID, "--root", str(tmp_path)])
+    assert code == ExitCode.FATAL
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert "internal error" in captured.err.lower()
+
+
+def test_validate_main_unexpected_exception_returns_fatal(
+    capsys: pytest.CaptureFixture[str],
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    """A bug in validate_main logic returns ExitCode.FATAL (2), not a raw traceback."""
+
+    def _broken_batch(*args: Any, **kwargs: Any) -> Any:
+        raise ValueError("simulated bug in validate_main")
+
+    monkeypatch.setattr("robotsix_modules.cli._validate_schema_batch", _broken_batch)
+    code = validate_main([VALID, "--root", str(tmp_path)])
+    assert code == ExitCode.FATAL
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert "internal error" in captured.err.lower()
