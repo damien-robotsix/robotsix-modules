@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Enable `module_size` periodic workflow to monitor source/test file sizes and propose split tickets for oversized modules.
 - Add exception barrier to `main()` and `validate_main()` so unexpected
   runtime errors produce a user-friendly message and `ExitCode.FATAL` (2)
   instead of a raw Python traceback.
