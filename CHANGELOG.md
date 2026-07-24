@@ -12,6 +12,9 @@ and this project adheres to
 
 ### Removed
 
+- Replace `language: system` pre-commit hooks (vulture, towncrier-check) with
+  `language: python` + `additional_dependencies` for deterministic, isolated
+  environments. Added `pre-commit>=4.4.0` to dev dependencies.
 - Add `[tool.uv] exclude-newer = "7 days"` to prevent CI from
   resolving packages published in the last 7 days, closing the
   window between a malicious upload and its advisory publication.

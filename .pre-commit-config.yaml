@@ -44,13 +44,17 @@ repos:
     hooks:
       - id: vulture
         name: vulture
-        entry: vulture src/ vulture_whitelist.py
-        language: system
+        entry: vulture
+        args: [src/, vulture_whitelist.py]
+        language: python
+        additional_dependencies: [vulture]
         pass_filenames: false
       - id: towncrier-check
         name: towncrier check
-        entry: towncrier check
-        language: system
+        entry: towncrier
+        args: [check]
+        language: python
+        additional_dependencies: [towncrier]
         pass_filenames: false
         always_run: true
   - repo: .
