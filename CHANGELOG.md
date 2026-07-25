@@ -10,6 +10,10 @@ and this project adheres to
 
 ## 0.0.0 (unreleased)
 
+### Added
+
+- Add CI job `lowest-deps-test` that runs the test suite against the lowest compatible dependency versions (`uv sync --resolution lowest`), catching minimum-version gaps in declared ranges.
+
 ### Removed
 
 - Deduplicate repeated CLI argument definitions (`--verbose`, `--output-format`, `--root`) across subcommands by extracting them into a shared `_add_common_args` helper in `src/robotsix_modules/cli/__init__.py`.
