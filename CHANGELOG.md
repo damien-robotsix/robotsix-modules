@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Deduplicate repeated CLI argument definitions (`--verbose`, `--output-format`, `--root`) across subcommands by extracting them into a shared `_add_common_args` helper in `src/robotsix_modules/cli/__init__.py`.
 - Remove dead internal periodic config files (`state_sync.yaml` and `security_posture.yaml`) that were silently rejected by the mill loader.
 - Enable `module_size` periodic workflow to monitor source/test file sizes and propose split tickets for oversized modules.
 - Add exception barrier to `main()` and `validate_main()` so unexpected
