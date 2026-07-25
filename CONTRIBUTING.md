@@ -21,7 +21,7 @@ and dependencies.
 2. Install the project together with the `dev` extra:
 
    ```console
-   uv sync --group dev
+   uv sync --group dev --group test
    ```
 
 CI installs the exact same dependency set from the committed `uv.lock` with:

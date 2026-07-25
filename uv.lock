@@ -869,8 +869,6 @@ dev = [
     { name = "deptry" },
     { name = "mypy" },
     { name = "pre-commit" },
-    { name = "pytest" },
-    { name = "pytest-cov" },
     { name = "ruff" },
     { name = "towncrier" },
     { name = "types-pyyaml" },
@@ -882,6 +880,10 @@ dev = [
 docs = [
     { name = "mkdocs-material" },
     { name = "mkdocstrings", extra = ["python"] },
+]
+test = [
+    { name = "pytest" },
+    { name = "pytest-cov" },
 ]
 
 [package.metadata]
@@ -897,8 +899,6 @@ dev = [
     { name = "deptry", specifier = ">=0.20" },
     { name = "mypy", specifier = ">=2.3.0" },
     { name = "pre-commit", specifier = ">=4.4.0" },
-    { name = "pytest", specifier = ">=9.1.1" },
-    { name = "pytest-cov", specifier = ">=5" },
     { name = "ruff", specifier = ">=0.15.22" },
     { name = "towncrier", specifier = ">=25.8.0" },
     { name = "types-pyyaml" },
@@ -910,6 +910,10 @@ dev = [
 docs = [
     { name = "mkdocs-material" },
     { name = "mkdocstrings", extras = ["python"] },
+]
+test = [
+    { name = "pytest", specifier = ">=9.1.1" },
+    { name = "pytest-cov", specifier = ">=5" },
 ]
 
 [[package]]
