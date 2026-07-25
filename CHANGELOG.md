@@ -10,6 +10,10 @@ and this project adheres to
 
 ## 0.0.0 (unreleased)
 
+### Added
+
+- Add CI job `lowest-deps-test` that runs the test suite against the lowest compatible dependency versions (`uv sync --resolution lowest`), catching minimum-version gaps in declared ranges.
+
 ### Removed
 
 - Remove dead internal periodic config files (`state_sync.yaml` and `security_posture.yaml`) that were silently rejected by the mill loader.

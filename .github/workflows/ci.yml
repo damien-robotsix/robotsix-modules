@@ -23,6 +23,20 @@ jobs:
       run-bandit: true
       mypy-advisory: false
 
+  lowest-deps-test:
+    name: Lowest compatible dependency test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+        with:
+          egress-policy: audit
+      - uses: ./.github/actions/setup
+        with:
+          python-version: "3.14"
+          sync-args: "--resolution lowest --group dev --group test"
+      - run: uv run pytest
+
   lockfile-check:
     name: Lockfile check
     runs-on: ubuntu-latest
