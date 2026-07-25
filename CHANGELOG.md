@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Removed
 
+- Remove dead internal periodic config files (`state_sync.yaml` and `security_posture.yaml`) that were silently rejected by the mill loader.
 - Enable `module_size` periodic workflow to monitor source/test file sizes and propose split tickets for oversized modules.
 - Add exception barrier to `main()` and `validate_main()` so unexpected
   runtime errors produce a user-friendly message and `ExitCode.FATAL` (2)
