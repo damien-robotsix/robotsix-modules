@@ -34,6 +34,37 @@ PROG = "robotsix-modules"
 logger = logging.getLogger("robotsix_modules")
 
 
+def _add_common_args(
+    parser: argparse.ArgumentParser,
+    *,
+    verbose: bool = True,
+    output_format: bool = True,
+    root: bool = True,
+) -> None:
+    """Add common CLI arguments to a (sub)parser."""
+    if verbose:
+        parser.add_argument(
+            "-v",
+            "--verbose",
+            action="count",
+            default=0,
+            help="Increase verbosity (-v for info, -vv for debug).",
+        )
+    if output_format:
+        parser.add_argument(
+            "--output-format",
+            choices=["text", "json"],
+            default="text",
+            help="Output format for findings (default: text).",
+        )
+    if root:
+        parser.add_argument(
+            "--root",
+            default=".",
+            help="Repository root directory (default: .).",
+        )
+
+
 def _configure_logging(verbosity: int) -> None:
     """Map a verbosity count to a logging level and add a stderr handler."""
     level = logging.WARNING
@@ -238,13 +269,7 @@ def _build_parser() -> argparse.ArgumentParser:
     validate_parser = subparsers.add_parser(
         "validate", help="Validate a module-taxonomy file."
     )
-    validate_parser.add_argument(
-        "-v",
-        "--verbose",
-        action="count",
-        default=0,
-        help="Increase verbosity (-v for info, -vv for debug).",
-    )
+    _add_common_args(validate_parser)
     validate_parser.add_argument("path", help="Path to the taxonomy YAML file.")
     validate_parser.add_argument(
         "--schema",
@@ -252,72 +277,27 @@ def _build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Override the bundled JSON Schema with the given file.",
     )
-    validate_parser.add_argument(
-        "--output-format",
-        choices=["text", "json"],
-        default="text",
-        help="Output format for findings (default: text).",
-    )
-    validate_parser.add_argument(
-        "--root",
-        default=".",
-        help="Repository root directory (default: .).",
-    )
 
     check_reg_parser = subparsers.add_parser(
         "check-registration",
         help="Check that every tracked file is claimed by exactly one module.",
     )
-    check_reg_parser.add_argument(
-        "-v",
-        "--verbose",
-        action="count",
-        default=0,
-        help="Increase verbosity (-v for info, -vv for debug).",
-    )
+    _add_common_args(check_reg_parser)
     check_reg_parser.add_argument(
         "modules_yaml",
         metavar="modules.yaml",
         help="Path to the taxonomy YAML file.",
-    )
-    check_reg_parser.add_argument(
-        "--root",
-        default=".",
-        help="Repository root directory (default: .).",
-    )
-    check_reg_parser.add_argument(
-        "--output-format",
-        choices=["text", "json"],
-        default="text",
-        help="Output format for findings (default: text).",
     )
 
     validate_paths_parser = subparsers.add_parser(
         "validate-paths",
         help="Check that every module path entry resolves to at least one file.",
     )
-    validate_paths_parser.add_argument(
-        "-v",
-        "--verbose",
-        action="count",
-        default=0,
-        help="Increase verbosity (-v for info, -vv for debug).",
-    )
+    _add_common_args(validate_paths_parser)
     validate_paths_parser.add_argument(
         "modules_yaml",
         metavar="modules.yaml",
         help="Path to the taxonomy YAML file.",
-    )
-    validate_paths_parser.add_argument(
-        "--root",
-        default=".",
-        help="Repository root directory (default: .).",
-    )
-    validate_paths_parser.add_argument(
-        "--output-format",
-        choices=["text", "json"],
-        default="text",
-        help="Output format for findings (default: text).",
     )
 
     migrate_parser = subparsers.add_parser(
@@ -327,13 +307,7 @@ def _build_parser() -> argparse.ArgumentParser:
             "convention defaults. NOTE: YAML comments are not preserved."
         ),
     )
-    migrate_parser.add_argument(
-        "-v",
-        "--verbose",
-        action="count",
-        default=0,
-        help="Increase verbosity (-v for info, -vv for debug).",
-    )
+    _add_common_args(migrate_parser, output_format=False, root=False)
     migrate_parser.add_argument(
         "modules_yaml",
         metavar="modules.yaml",
@@ -418,13 +392,7 @@ def validate_main(argv: list[str] | None = None) -> ExitCode:
     ``robotsix-modules validate``.
     """
     parser = argparse.ArgumentParser(prog=f"{PROG}-validate")
-    parser.add_argument(
-        "-v",
-        "--verbose",
-        action="count",
-        default=0,
-        help="Increase verbosity (-v for info, -vv for debug).",
-    )
+    _add_common_args(parser)
     parser.add_argument(
         "paths",
         nargs="+",
@@ -435,17 +403,6 @@ def validate_main(argv: list[str] | None = None) -> ExitCode:
         dest="schema",
         default=None,
         help="Override the bundled JSON Schema with the given file.",
-    )
-    parser.add_argument(
-        "--output-format",
-        choices=["text", "json"],
-        default="text",
-        help="Output format for findings (default: text).",
-    )
-    parser.add_argument(
-        "--root",
-        default=".",
-        help="Repository root directory (default: .).",
     )
     args = parser.parse_args(argv)
 
