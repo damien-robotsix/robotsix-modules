@@ -248,6 +248,9 @@ jobs:
   sbom:
     name: SBOM + audit
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write  # needed for SARIF upload
     needs: [check]
     if: always()
     steps:
