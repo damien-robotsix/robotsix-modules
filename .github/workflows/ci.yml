@@ -248,6 +248,9 @@ jobs:
   sbom:
     name: SBOM + audit
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write  # needed for SARIF upload
     needs: [check]
     if: always()
     steps:
@@ -259,7 +262,12 @@ jobs:
         with:
           python-version: "3.14"
           sync-args: "--locked"
-      - run: uv audit
+      - run: uv audit --output-format sarif --output-file uv-audit.sarif
+      - uses: github/codeql-action/upload-sarif@99df26d4f13ea111d4ec1a7dddef6063f76b97e9  # v4.37.0
+        if: always()
+        with:
+          sarif_file: uv-audit.sarif
+          category: uv-audit
       - run: uv export --format cyclonedx1.5 --output-file sbom.json
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
