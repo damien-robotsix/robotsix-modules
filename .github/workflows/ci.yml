@@ -214,6 +214,89 @@ jobs:
           python-version: "3.14"
       - run: uv run robotsix-modules check-registration docs/modules.yaml --root .
 
+  schema-reference-sync:
+    name: Schema-reference example sync check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+        with:
+          egress-policy: audit
+      - uses: ./.github/actions/setup
+        with:
+          python-version: "3.14"
+      - name: Check schema-reference example matches modules.yaml
+        run: |
+          python -c "
+          import re, sys
+          from pathlib import Path
+          import yaml
+
+          # Read modules.yaml
+          actual = yaml.safe_load(Path('docs/modules.yaml').read_text())
+
+          # Extract the "Complete example" YAML block from schema-reference.md
+          md_text = Path('docs/schema-reference.md').read_text()
+          # Find all fenced YAML blocks; select the one containing 'package: robotsix_modules'
+          blocks = list(re.finditer(r'\`\`\`yaml\n(.*?)\n\`\`\`', md_text, re.DOTALL))
+          example_block = None
+          for m in blocks:
+              if 'package: robotsix_modules' in m.group(1):
+                  example_block = m.group(1)
+                  break
+          if example_block is None:
+              print('ERROR: could not find "Complete example" YAML block in docs/schema-reference.md', file=sys.stderr)
+              sys.exit(1)
+          example = yaml.safe_load(example_block)
+
+          # Compare modules: match by id, compare paths and dependencies
+          actual_by_id = {m['id']: m for m in actual['modules']}
+          example_by_id = {m['id']: m for m in example['modules']}
+
+          errors = []
+          all_ids = sorted(set(actual_by_id) | set(example_by_id))
+          for mid in all_ids:
+              a = actual_by_id.get(mid)
+              e = example_by_id.get(mid)
+              if a is None:
+                  errors.append(f'module {mid!r}: present in example but not in modules.yaml')
+                  continue
+              if e is None:
+                  errors.append(f'module {mid!r}: present in modules.yaml but not in example')
+                  continue
+              # Compare paths (order-normalised)
+              a_paths = sorted(a.get('paths', []))
+              e_paths = sorted(e.get('paths', []))
+              if a_paths != e_paths:
+                  only_actual = sorted(set(a_paths) - set(e_paths))
+                  only_example = sorted(set(e_paths) - set(a_paths))
+                  details = []
+                  if only_actual:
+                      details.append(f'in modules.yaml but not in example: {only_actual}')
+                  if only_example:
+                      details.append(f'in example but not in modules.yaml: {only_example}')
+                  errors.append(f'module {mid!r}: paths mismatch — ' + '; '.join(details))
+              # Compare dependencies (order-normalised)
+              a_deps = sorted(a.get('dependencies', []))
+              e_deps = sorted(e.get('dependencies', []))
+              if a_deps != e_deps:
+                  only_actual = sorted(set(a_deps) - set(e_deps))
+                  only_example = sorted(set(e_deps) - set(a_deps))
+                  details = []
+                  if only_actual:
+                      details.append(f'in modules.yaml but not in example: {only_actual}')
+                  if only_example:
+                      details.append(f'in example but not in modules.yaml: {only_example}')
+                  errors.append(f'module {mid!r}: dependencies mismatch — ' + '; '.join(details))
+
+          if errors:
+              print('Schema-reference example is out of sync with modules.yaml:', file=sys.stderr)
+              for err in errors:
+                  print(f'  {err}', file=sys.stderr)
+              sys.exit(1)
+          print('Schema-reference example matches modules.yaml.')
+          "
+
   wheel-install:
     name: Wheel install smoketest
     runs-on: ubuntu-latest
