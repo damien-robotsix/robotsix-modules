@@ -100,6 +100,7 @@ modules:
       - README.md
       - CHANGELOG.md
       - changelog.d/**
+      - changelog.d/.gitkeep
       - LICENSE
       - SECURITY.md
       - CODE_OF_CONDUCT.md
@@ -156,6 +157,7 @@ modules:
       Command-line interface for robotsix-modules. Provides the
       `robotsix-modules` and `robotsix-modules-validate` entry points.
     paths:
+      - src/robotsix_modules/__main__.py
       - src/robotsix_modules/cli/**
       - tests/cli/**
       - docs/cli/**
