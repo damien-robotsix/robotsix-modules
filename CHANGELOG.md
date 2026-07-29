@@ -12,6 +12,10 @@ and this project adheres to
 
 ### Added
 
+- Update AGENT.md pre-commit hook list to accurately reflect the current
+  `.pre-commit-config.yaml`: replace `detect-secrets` with `gitleaks`, and
+  add missing hooks (`zizmor`, `towncrier check`, `validate-pyproject`,
+  `mdformat`, `markdownlint-cli2`, `pre-commit-hooks` suite).
 - Add CI job `lowest-deps-test` that runs the test suite against the lowest compatible dependency versions (`uv sync --resolution lowest`), catching minimum-version gaps in declared ranges.
 
 ### Removed
