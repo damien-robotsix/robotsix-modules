@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from .._exceptions import GitOperationError
+from ._paths import _glob_paths, compute_default_globs
 
 logger = logging.getLogger("robotsix_modules")
 
@@ -75,9 +76,6 @@ def _expand_module_paths(
     is the subset of *path_entries* whose glob expansion matched zero files
     on disk.
     """
-    # Lazy import to avoid circular dependency with registration._glob_paths.
-    from .registration import _glob_paths
-
     claimed: set[str] = set()
     stale: set[str] = set()
 
@@ -108,9 +106,6 @@ def _build_file_claimants(
     Only paths expanded via ``Path.glob`` that correspond to actual on-disk
     files are included.
     """
-    # lazy import to avoid circular dependency
-    from .registration import compute_default_globs
-
     package: str | None = taxonomy.get("package")
     file_to_modules: dict[str, list[str]] = {}
     for module_entry in taxonomy.get("modules", []):

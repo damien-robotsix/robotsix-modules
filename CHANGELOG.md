@@ -12,6 +12,9 @@ and this project adheres to
 
 ### Added
 
+- Extract `_glob_paths`, `_has_glob_metacharacters`, and `compute_default_globs`
+  from `registration.py` into a new private `_paths.py` module to resolve a
+  circular dependency with `_findings.py`.
 - Update AGENT.md pre-commit hook list to accurately reflect the current
   `.pre-commit-config.yaml`: replace `detect-secrets` with `gitleaks`, and
   add missing hooks (`zizmor`, `towncrier check`, `validate-pyproject`,
