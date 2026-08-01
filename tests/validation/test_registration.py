@@ -11,32 +11,12 @@ from robotsix_modules._exceptions import GitOperationError
 from robotsix_modules._yaml import read_yaml_file
 from robotsix_modules.validation import FindingKind
 from robotsix_modules.validation.registration import (
-    _has_glob_metacharacters,
     check_coverage,
     check_registration,
-    compute_default_globs,
     validate_paths,
 )
 
 FIXTURES = Path(__file__).parent / "fixtures"
-
-# ---------------------------------------------------------------------------
-# _has_glob_metacharacters
-# ---------------------------------------------------------------------------
-
-
-@pytest.mark.parametrize(
-    ("path", "expected"),
-    [
-        ("src/foo.py", False),
-        ("src/**/*.py", True),
-        ("src/chapter?.md", True),
-        ("src/[Ff]oo.py", True),
-    ],
-)
-def test_has_glob_metacharacters(path: str, expected: bool) -> None:
-    assert _has_glob_metacharacters(path) is expected
-
 
 # ---------------------------------------------------------------------------
 # check_registration
@@ -380,14 +360,8 @@ def test_validate_paths_no_modules(tmp_path: Path) -> None:
 
 
 # ---------------------------------------------------------------------------
-# compute_default_globs
+# default_globs integration with check_registration
 # ---------------------------------------------------------------------------
-
-
-def test_compute_default_globs() -> None:
-    """Compute the three convention globs for a module_id/package pair."""
-    result = compute_default_globs("cli", "my_pkg")
-    assert result == ["src/my_pkg/cli/**", "tests/cli/**", "docs/cli/**"]
 
 
 def test_default_globs_cover_conventional_files(tmp_path: Path) -> None:
