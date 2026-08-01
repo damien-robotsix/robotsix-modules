@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import subprocess
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -109,3 +111,50 @@ def test_validate_main_unexpected_exception_returns_fatal(
     captured = capsys.readouterr()
     assert captured.out == ""
     assert "internal error" in captured.err.lower()
+
+
+# ---------------------------------------------------------------------------
+# ``python -m robotsix_modules`` exit-code forwarding
+# ---------------------------------------------------------------------------
+
+
+def test_module_entry_valid_yaml_exit_zero(tmp_path: Path) -> None:
+    """``python -m robotsix_modules validate`` on valid YAML exits 0."""
+    proc = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "robotsix_modules",
+            "validate",
+            VALID,
+            "--root",
+            str(tmp_path),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 0, f"stderr: {proc.stderr}"
+
+
+def test_module_entry_missing_file_exit_nonzero() -> None:
+    """``python -m robotsix_modules validate`` on missing file exits nonzero."""
+    proc = subprocess.run(
+        [sys.executable, "-m", "robotsix_modules", "validate", "does-not-exist.yaml"],
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode != 0, f"returncode={proc.returncode}, stderr: {proc.stderr}"
+    assert "file not found" in proc.stderr
+
+
+def test_module_entry_invalid_yaml_exit_nonzero(tmp_path: Path) -> None:
+    """``python -m robotsix_modules validate`` on broken YAML exits nonzero."""
+    bad = tmp_path / "broken.yaml"
+    bad.write_text("key: [unclosed", encoding="utf-8")
+    proc = subprocess.run(
+        [sys.executable, "-m", "robotsix_modules", "validate", str(bad)],
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode != 0, f"returncode={proc.returncode}, stderr: {proc.stderr}"
+    assert "invalid YAML" in proc.stderr

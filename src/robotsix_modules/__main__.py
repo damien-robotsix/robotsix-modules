@@ -1,5 +1,7 @@
 """Allow ``python -m robotsix_modules``."""
 
+import sys
+
 from robotsix_modules.cli import main
 
-main()
+sys.exit(main())
