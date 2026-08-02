@@ -86,7 +86,7 @@ relative_files = true
 source = ["robotsix_modules"]
 
 [tool.coverage.report]
-fail_under = 80
+fail_under = 90
 
 [tool.towncrier]
 package = "robotsix-modules"

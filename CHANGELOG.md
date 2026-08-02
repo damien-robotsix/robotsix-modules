@@ -13,6 +13,7 @@ and this project adheres to
 ### Added
 
 - Add `mypy_baseline` periodic workflow to track mypy error counts over time and detect type regressions.
+- Align local coverage threshold with CI: raise `[tool.coverage.report] fail_under` from 80 to 90 in `pyproject.toml` and update documentation references in `CONTRIBUTING.md` accordingly.
 - Extract `_glob_paths`, `_has_glob_metacharacters`, and `compute_default_globs`
   from `registration.py` into a new private `_paths.py` module to resolve a
   circular dependency with `_findings.py`.
