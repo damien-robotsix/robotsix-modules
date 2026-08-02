@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Added
 
+- Add `mypy_baseline` periodic workflow to track mypy error counts over time and detect type regressions.
 - Extract `_glob_paths`, `_has_glob_metacharacters`, and `compute_default_globs`
   from `registration.py` into a new private `_paths.py` module to resolve a
   circular dependency with `_findings.py`.
