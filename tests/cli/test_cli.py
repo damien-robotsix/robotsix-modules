@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -153,6 +154,99 @@ def test_module_entry_invalid_yaml_exit_nonzero(tmp_path: Path) -> None:
     bad.write_text("key: [unclosed", encoding="utf-8")
     proc = subprocess.run(
         [sys.executable, "-m", "robotsix_modules", "validate", str(bad)],
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode != 0, f"returncode={proc.returncode}, stderr: {proc.stderr}"
+    assert "invalid YAML" in proc.stderr
+
+
+# ---------------------------------------------------------------------------
+# Installed console-script entry points
+# (``robotsix-modules``, ``robotsix-modules-validate``)
+# ---------------------------------------------------------------------------
+
+
+def _resolve_script(name: str) -> str:
+    script = shutil.which(name)
+    if script is None:
+        pytest.skip(f"{name} not found on PATH (package not installed)")
+    return script
+
+
+# -- robotsix-modules -------------------------------------------------------
+
+
+def test_script_modules_valid_yaml_exit_zero(tmp_path: Path) -> None:
+    """``robotsix-modules validate`` on valid YAML exits 0."""
+    script = _resolve_script("robotsix-modules")
+    proc = subprocess.run(
+        [script, "validate", VALID, "--root", str(tmp_path)],
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 0, f"stderr: {proc.stderr}"
+
+
+def test_script_modules_missing_file_exit_nonzero() -> None:
+    """``robotsix-modules validate`` on missing file exits nonzero."""
+    script = _resolve_script("robotsix-modules")
+    proc = subprocess.run(
+        [script, "validate", "does-not-exist.yaml"],
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode != 0, f"returncode={proc.returncode}, stderr: {proc.stderr}"
+    assert "file not found" in proc.stderr
+
+
+def test_script_modules_invalid_yaml_exit_nonzero(tmp_path: Path) -> None:
+    """``robotsix-modules validate`` on broken YAML exits nonzero."""
+    script = _resolve_script("robotsix-modules")
+    bad = tmp_path / "broken.yaml"
+    bad.write_text("key: [unclosed", encoding="utf-8")
+    proc = subprocess.run(
+        [script, "validate", str(bad)],
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode != 0, f"returncode={proc.returncode}, stderr: {proc.stderr}"
+    assert "invalid YAML" in proc.stderr
+
+
+# -- robotsix-modules-validate ----------------------------------------------
+
+
+def test_script_validate_valid_yaml_exit_zero(tmp_path: Path) -> None:
+    """``robotsix-modules-validate`` on valid YAML exits 0."""
+    script = _resolve_script("robotsix-modules-validate")
+    proc = subprocess.run(
+        [script, VALID, "--root", str(tmp_path)],
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 0, f"stderr: {proc.stderr}"
+
+
+def test_script_validate_missing_file_exit_nonzero() -> None:
+    """``robotsix-modules-validate`` on missing file exits nonzero."""
+    script = _resolve_script("robotsix-modules-validate")
+    proc = subprocess.run(
+        [script, "does-not-exist.yaml"],
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode != 0, f"returncode={proc.returncode}, stderr: {proc.stderr}"
+    assert "file not found" in proc.stderr
+
+
+def test_script_validate_invalid_yaml_exit_nonzero(tmp_path: Path) -> None:
+    """``robotsix-modules-validate`` on broken YAML exits nonzero."""
+    script = _resolve_script("robotsix-modules-validate")
+    bad = tmp_path / "broken.yaml"
+    bad.write_text("key: [unclosed", encoding="utf-8")
+    proc = subprocess.run(
+        [script, str(bad)],
         capture_output=True,
         text=True,
     )
