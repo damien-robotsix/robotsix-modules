@@ -56,6 +56,12 @@ threshold, `check-registration` via a dedicated `check-registration` job,
 version consistency across `pyproject.toml` / `CHANGELOG.md` / `README.md` /
 `SECURITY.md`, a smoketest wheel install, and a `uv audit` / SBOM step.
 
+> **Rule:** Never let `[tool.coverage.report] fail_under` in `pyproject.toml`
+> drift from the `coverage-threshold` input passed to the `python-ci.yml`
+> `check` job in `.github/workflows/ci.yml` — when changing one, update the
+> other to the same value so the local `pytest --cov` gate always reproduces
+> the CI gate.
+
 Any new source or test file must pass all of these gates.
 
 ## Project layout
