@@ -31,7 +31,6 @@ robotsix-modules = "robotsix_modules.cli:main"
 robotsix-modules-validate = "robotsix_modules.cli:validate_main"
 
 [tool.uv]
-exclude-newer = "7 days"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/robotsix_modules"]

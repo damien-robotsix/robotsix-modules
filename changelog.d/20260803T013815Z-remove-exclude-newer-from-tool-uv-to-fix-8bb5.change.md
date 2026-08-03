@@ -1,0 +1,1 @@
+Remove `exclude-newer = "7 days"` from `[tool.uv]` in `pyproject.toml` to fix Dependabot resolution failures when package updates are published within the 7-day window (e.g., `ruff` 0.16.1). The lock file already guarantees reproducibility.
