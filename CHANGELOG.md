@@ -12,6 +12,7 @@ and this project adheres to
 
 ### Added
 
+- Added version pins to previously unpinned dependencies in `pyproject.toml` and `.pre-commit-config.yaml` to prevent supply-chain breakage from unvetted releases
 - Remove `exclude-newer = "7 days"` from `[tool.uv]` in `pyproject.toml` to fix Dependabot resolution failures when package updates are published within the 7-day window (e.g., `ruff` 0.16.1). The lock file already guarantees reproducibility.
 - Add `mypy_baseline` periodic workflow to track mypy error counts over time and detect type regressions.
 - Align local coverage threshold with CI: raise `[tool.coverage.report] fail_under` from 80 to 90 in `pyproject.toml` and update documentation references in `CONTRIBUTING.md` accordingly.
