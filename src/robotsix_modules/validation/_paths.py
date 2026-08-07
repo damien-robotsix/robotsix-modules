@@ -96,6 +96,37 @@ DEFAULT_EXCLUDED_PATHS: tuple[str, ...] = (
     "CHANGELOG.md",
     # Mill's own per-repo control files
     ".robotsix-mill/**",
+    # Packaging and dependency manifests
+    "pyproject.toml",
+    "setup.py",
+    "setup.cfg",
+    "uv.lock",
+    "package.json",
+    "package-lock.json",
+    "CITATION.cff",
+    ".release-please-manifest.json",
+    "release-please-config.json",
+    # Build, run and deploy descriptors
+    "Dockerfile",
+    "Dockerfile.*",
+    "docker-compose*.yml",
+    "docker-compose*.yaml",
+    "Makefile",
+    "justfile",
+    # Documentation tooling
+    "mkdocs.yml",
+    "README.md",
+    "AGENT.md",
+    "AGENTS.md",
+    # Coverage and scanning configuration
+    "codecov.yml",
+    ".codecov.yml",
+    ".gitleaks.toml",
+    ".markdownlint.json",
+    "vulture_whitelist.py",
+    # Sample environment files — templates, never loaded at runtime
+    ".env.example",
+    ".env.*.example",
 )
 
 
