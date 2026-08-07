@@ -127,6 +127,10 @@ DEFAULT_EXCLUDED_PATHS: tuple[str, ...] = (
     # Sample environment files — templates, never loaded at runtime
     ".env.example",
     ".env.*.example",
+    # Dependency-update automation
+    "renovate.json",
+    ".renovaterc",
+    ".renovaterc.json",
     # Code ownership and review routing
     "CODEOWNERS",
     ".github/CODEOWNERS",
