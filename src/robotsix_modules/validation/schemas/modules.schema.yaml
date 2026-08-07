@@ -29,9 +29,9 @@ properties:
       minLength: 1
     description: >-
       Repo-relative globs whose files are exempt from the
-      ``check-registration`` completeness requirement. Replaces the built-in
-      repo-health defaults entirely when present, so an empty list restores
-      full coverage. A taxonomy inventories LOGICAL MODULES; linter configs,
+      ``check-registration`` completeness requirement. EXTENDS the built-in
+      repo-health defaults — name only this repo's extra scaffolding and
+      inherit the rest. A taxonomy inventories LOGICAL MODULES; linter configs,
       CI workflows and per-PR changelog fragments are repo scaffolding and
       say nothing about how the software is decomposed. Claiming an excluded
       file remains legal — exclusion only relaxes the requirement to claim it.

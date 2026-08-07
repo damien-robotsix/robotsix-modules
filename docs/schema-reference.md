@@ -12,7 +12,7 @@ The file must be a YAML object with the following keys:
 | --------- | ------ | -------- | ------------------------------- |
 | `package` | string | no       | Python package name (underscore-separated, e.g. `robotsix_modules`). When set, module entries that omit `paths` inherit three convention globs: `src/<package>/<id>/**`, `tests/<id>/**`, `docs/<id>/**`. |
 | `modules` | array  | yes      | Ordered list of module entries. |
-| `excluded_paths` | array | no | Repo-relative globs exempt from the `check-registration` completeness requirement. Replaces the built-in repo-health defaults entirely when present. |
+| `excluded_paths` | array | no | Repo-relative globs exempt from the `check-registration` completeness requirement. Extends the built-in repo-health defaults. |
 
 No other top-level keys are permitted (`additionalProperties: false`).
 
@@ -26,12 +26,11 @@ about how the software is decomposed.
 
 `check-registration` therefore skips a built-in set of repo-health paths
 (`.github/**`, `changelog.d/**`, `.pre-commit-config.yaml`, `LICENSE*`, and
-similar — see `DEFAULT_EXCLUDED_PATHS`). Setting `excluded_paths` **replaces**
-that set rather than extending it, so:
+similar — see `DEFAULT_EXCLUDED_PATHS`). Setting `excluded_paths` **extends**
+that set, so a repo names only its own extra scaffolding:
 
 ```yaml
-excluded_paths: []          # every tracked file must be claimed
-excluded_paths: ["vendor/**"]  # only vendor/ is exempt; defaults no longer apply
+excluded_paths: ["vendor/**"]   # vendor/ AND all the defaults are exempt
 ```
 
 Claiming an excluded file is still legal — exclusion relaxes the requirement to

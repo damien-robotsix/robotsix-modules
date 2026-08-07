@@ -183,8 +183,12 @@ def _find_unclassified(
     Repo-health scaffolding is skipped: see
     :data:`~._paths.DEFAULT_EXCLUDED_PATHS` for why a taxonomy of *logical
     modules* should not be asked to account for linter configs or per-PR
-    changelog fragments. *excluded_paths* replaces the defaults entirely when
-    given, so a repo can opt back into full coverage by passing an empty list.
+    changelog fragments. *excluded_paths* EXTENDS those defaults — a repo names
+    only its own extra scaffolding and inherits the rest. Replacing them
+    instead would force every consumer to restate the full default list to
+    exempt a single additional file, which the first real consumer
+    (robotsix-ui, needing tsconfig.json and vite.config.ts) showed is
+    untenable.
 
     Claiming an excluded file is still allowed and is not an error — that keeps
     the change non-breaking for taxonomies that already list scaffolding.

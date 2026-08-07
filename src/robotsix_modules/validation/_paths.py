@@ -127,6 +127,20 @@ DEFAULT_EXCLUDED_PATHS: tuple[str, ...] = (
     # Sample environment files — templates, never loaded at runtime
     ".env.example",
     ".env.*.example",
+    # Code ownership and review routing
+    "CODEOWNERS",
+    ".github/CODEOWNERS",
+    # JS/TS toolchain configuration
+    "tsconfig.json",
+    "tsconfig.*.json",
+    "vite.config.*",
+    "vitest.config.*",
+    "rollup.config.*",
+    "webpack.config.*",
+    "babel.config.*",
+    ".browserslistrc",
+    # The taxonomy describes the repo's modules; it is not itself one
+    "docs/modules.yaml",
 )
 
 
