@@ -12,8 +12,37 @@ The file must be a YAML object with the following keys:
 | --------- | ------ | -------- | ------------------------------- |
 | `package` | string | no       | Python package name (underscore-separated, e.g. `robotsix_modules`). When set, module entries that omit `paths` inherit three convention globs: `src/<package>/<id>/**`, `tests/<id>/**`, `docs/<id>/**`. |
 | `modules` | array  | yes      | Ordered list of module entries. |
+| `excluded_paths` | array | no | Repo-relative globs exempt from the `check-registration` completeness requirement. Replaces the built-in repo-health defaults entirely when present. |
 
 No other top-level keys are permitted (`additionalProperties: false`).
+
+### `excluded_paths` and repo health
+
+A taxonomy inventories a repository's **logical modules** — their
+descriptions, the files they own, and the dependencies between them. Linter
+configs, CI workflows, licence texts and per-PR changelog fragments are none of
+those: they are repo scaffolding, uniform across the fleet, and they say nothing
+about how the software is decomposed.
+
+`check-registration` therefore skips a built-in set of repo-health paths
+(`.github/**`, `changelog.d/**`, `.pre-commit-config.yaml`, `LICENSE*`, and
+similar — see `DEFAULT_EXCLUDED_PATHS`). Setting `excluded_paths` **replaces**
+that set rather than extending it, so:
+
+```yaml
+excluded_paths: []          # every tracked file must be claimed
+excluded_paths: ["vendor/**"]  # only vendor/ is exempt; defaults no longer apply
+```
+
+Claiming an excluded file is still legal — exclusion relaxes the requirement to
+claim it, it does not forbid doing so. That keeps existing taxonomies that
+already list scaffolding working unchanged.
+
+**Why this exists.** Towncrier writes one fragment file per pull request, so
+without an exemption every changelog entry became a taxonomy edit, and
+"register this fragment in `docs/modules.yaml`" became a recurring ticket class.
+On one robotsix repo, 404 of 658 tracked files (61%) were scaffolding the
+taxonomy was obliged to account for.
 
 **Minimal skeleton:**
 

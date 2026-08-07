@@ -90,7 +90,7 @@ def check_registration(
     file_to_modules = _build_file_claimants(taxonomy, repo_root)
     tracked_set = set(tracked)
     return (
-        _find_unclassified(tracked_set, file_to_modules)
+        _find_unclassified(tracked_set, file_to_modules, taxonomy.get("excluded_paths"))
         + _find_stale_paths(taxonomy, repo_root)
         + _find_duplicates(file_to_modules, tracked_set)
     )

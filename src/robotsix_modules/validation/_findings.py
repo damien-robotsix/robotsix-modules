@@ -9,13 +9,19 @@ from __future__ import annotations
 
 import logging
 import subprocess  # nosec B404
+from collections.abc import Sequence
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
 from .._exceptions import GitOperationError
-from ._paths import _glob_paths, compute_default_globs
+from ._paths import (
+    DEFAULT_EXCLUDED_PATHS,
+    _glob_paths,
+    compute_default_globs,
+    is_excluded,
+)
 
 logger = logging.getLogger("robotsix_modules")
 
@@ -170,10 +176,26 @@ def _resolve_tracked_files(
 def _find_unclassified(
     tracked_set: set[str],
     file_to_modules: dict[str, list[str]],
+    excluded_paths: Sequence[str] | None = None,
 ) -> list[RegistrationFinding]:
-    """Return findings for tracked files not claimed by any module."""
+    """Return findings for tracked files not claimed by any module.
+
+    Repo-health scaffolding is skipped: see
+    :data:`~._paths.DEFAULT_EXCLUDED_PATHS` for why a taxonomy of *logical
+    modules* should not be asked to account for linter configs or per-PR
+    changelog fragments. *excluded_paths* replaces the defaults entirely when
+    given, so a repo can opt back into full coverage by passing an empty list.
+
+    Claiming an excluded file is still allowed and is not an error — that keeps
+    the change non-breaking for taxonomies that already list scaffolding.
+    """
+    patterns = (
+        DEFAULT_EXCLUDED_PATHS if excluded_paths is None else tuple(excluded_paths)
+    )
     findings: list[RegistrationFinding] = []
-    unclassified = sorted(tracked_set - set(file_to_modules))
+    unclassified = sorted(
+        f for f in (tracked_set - set(file_to_modules)) if not is_excluded(f, patterns)
+    )
     for path in unclassified:
         findings.append(
             RegistrationFinding(

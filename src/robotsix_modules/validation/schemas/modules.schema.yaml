@@ -22,6 +22,19 @@ properties:
       Python package name (underscore-separated, e.g. ``robotsix_modules``).
       When set, module entries that omit ``paths`` inherit three convention
       globs: ``src/<package>/<id>/**``, ``tests/<id>/**``, ``docs/<id>/**``.
+  excluded_paths:
+    type: array
+    items:
+      type: string
+      minLength: 1
+    description: >-
+      Repo-relative globs whose files are exempt from the
+      ``check-registration`` completeness requirement. Replaces the built-in
+      repo-health defaults entirely when present, so an empty list restores
+      full coverage. A taxonomy inventories LOGICAL MODULES; linter configs,
+      CI workflows and per-PR changelog fragments are repo scaffolding and
+      say nothing about how the software is decomposed. Claiming an excluded
+      file remains legal — exclusion only relaxes the requirement to claim it.
   modules:
     type: array
     description: "Ordered list of module entries."

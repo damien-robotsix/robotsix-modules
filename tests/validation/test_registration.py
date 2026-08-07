@@ -515,3 +515,114 @@ def test_check_coverage_ignores_stale_and_duplicates(tmp_path: Path) -> None:
     # File is duplicated but NOT unclassified — so check_coverage should
     # return no errors (duplicates and stale paths are ignored).
     assert errors == []
+
+
+# ---------------------------------------------------------------------------
+# repo-health exclusions
+# ---------------------------------------------------------------------------
+
+
+def _stage(tmp_path: Path, *paths: str) -> None:
+    """Create each repo-relative path on disk.
+
+    check_registration expands module globs against the filesystem, so a
+    taxonomy path only claims a file that actually exists.
+    """
+    for rel in paths:
+        target = tmp_path / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.touch()
+
+
+class TestRepoHealthExclusions:
+    """Scaffolding is exempt from the completeness requirement.
+
+    A taxonomy inventories logical modules. Linter configs, CI workflows and
+    per-PR changelog fragments are repo health — they say nothing about how the
+    software is decomposed, and demanding they be claimed turned every
+    towncrier fragment into a taxonomy edit.
+    """
+
+    def test_scaffolding_is_not_reported_unclassified(self, tmp_path: Path) -> None:
+        tracked = [
+            "src/example/mod.py",
+            ".github/workflows/ci.yml",
+            ".pre-commit-config.yaml",
+            "changelog.d/20260807-thing.bugfix.md",
+            "LICENSE",
+            ".robotsix-mill/config.yaml",
+        ]
+        _stage(tmp_path, *tracked)
+        findings = check_registration(
+            SINGLE_MODULE_TAXONOMY, tmp_path, tracked_files=tracked
+        )
+        unclassified = [f for f in findings if f.kind == FindingKind.UNCLASSIFIED_FILE]
+        assert unclassified == []
+
+    def test_real_source_files_are_still_reported(self, tmp_path: Path) -> None:
+        """The guard keeps its teeth where it matters."""
+        _stage(tmp_path, "src/example/mod.py", "src/orphan/stray.py")
+        findings = check_registration(
+            SINGLE_MODULE_TAXONOMY,
+            tmp_path,
+            tracked_files=["src/example/mod.py", "src/orphan/stray.py"],
+        )
+        unclassified = [f for f in findings if f.kind == FindingKind.UNCLASSIFIED_FILE]
+        assert [f.file for f in unclassified] == ["src/orphan/stray.py"]
+
+    def test_taxonomy_can_replace_the_defaults(self, tmp_path: Path) -> None:
+        """An explicit list REPLACES the defaults rather than extending them."""
+        taxonomy = {**SINGLE_MODULE_TAXONOMY, "excluded_paths": ["vendor/**"]}
+        _stage(tmp_path, "vendor/lib.js", ".pre-commit-config.yaml")
+        findings = check_registration(
+            taxonomy,
+            tmp_path,
+            tracked_files=["vendor/lib.js", ".pre-commit-config.yaml"],
+        )
+        unclassified = [
+            f.file for f in findings if f.kind == FindingKind.UNCLASSIFIED_FILE
+        ]
+        # vendor/ is now exempt; the default scaffolding exemption is gone.
+        assert unclassified == [".pre-commit-config.yaml"]
+
+    def test_empty_list_restores_full_coverage(self, tmp_path: Path) -> None:
+        """A repo that wants every file claimed can opt back in."""
+        taxonomy = {**SINGLE_MODULE_TAXONOMY, "excluded_paths": []}
+        _stage(tmp_path, "LICENSE", "src/example/mod.py")
+        findings = check_registration(
+            taxonomy, tmp_path, tracked_files=["LICENSE", "src/example/mod.py"]
+        )
+        unclassified = [
+            f.file for f in findings if f.kind == FindingKind.UNCLASSIFIED_FILE
+        ]
+        assert unclassified == ["LICENSE"]
+
+    def test_nested_scaffolding_matches_across_separators(self, tmp_path: Path) -> None:
+        """`**` must cross directory separators, as it does in module paths."""
+        findings = check_registration(
+            SINGLE_MODULE_TAXONOMY,
+            tmp_path,
+            tracked_files=[".github/workflows/nested/deep/thing.yml"],
+        )
+        assert [f for f in findings if f.kind == FindingKind.UNCLASSIFIED_FILE] == []
+
+    def test_claiming_an_excluded_file_is_still_allowed(self, tmp_path: Path) -> None:
+        """Non-breaking: taxonomies that already list scaffolding keep working
+        and must not start reporting a duplicate or a stale path."""
+        taxonomy = {
+            "modules": [
+                {
+                    "id": "example",
+                    "description": "x",
+                    "paths": ["src/example/**", "LICENSE"],
+                }
+            ]
+        }
+        _stage(tmp_path, "LICENSE", "src/example/mod.py")
+        findings = check_registration(
+            taxonomy, tmp_path, tracked_files=["LICENSE", "src/example/mod.py"]
+        )
+        assert [f for f in findings if f.kind == FindingKind.UNCLASSIFIED_FILE] == []
+        assert [
+            f for f in findings if f.kind == FindingKind.DUPLICATE_REGISTRATION
+        ] == []
