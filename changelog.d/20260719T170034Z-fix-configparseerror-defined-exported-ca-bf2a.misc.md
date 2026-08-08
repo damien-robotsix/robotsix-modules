@@ -1,1 +1,0 @@
-fix: `ConfigParseError` defined/exported/caught but never raised (dead code, sibling of resolved `ConfigStructureError`)

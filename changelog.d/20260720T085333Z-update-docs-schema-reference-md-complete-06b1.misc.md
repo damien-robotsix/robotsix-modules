@@ -1,1 +1,0 @@
-Update `docs/schema-reference.md` "Complete example" to match the canonical `docs/modules.yaml`

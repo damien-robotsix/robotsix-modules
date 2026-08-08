@@ -1,1 +1,0 @@
-Add towncrier to dev dependencies and configure [tool.towncrier] in pyproject.toml

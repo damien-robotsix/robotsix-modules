@@ -1,1 +1,0 @@
-Move `.pre-commit-hooks.yaml` from `docs` module to `root` module in `docs/modules.yaml`

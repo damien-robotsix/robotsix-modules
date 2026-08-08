@@ -1,1 +1,0 @@
-Remove unused `**`→`**/*` rewrite in `_glob_paths` (version-portable shim obsolete on Python >=3.14)
