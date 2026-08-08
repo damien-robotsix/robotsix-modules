@@ -1,1 +1,0 @@
-fix: `ConfigStructureError` is defined/exported/caught but never raised (dead code + stale docstring)

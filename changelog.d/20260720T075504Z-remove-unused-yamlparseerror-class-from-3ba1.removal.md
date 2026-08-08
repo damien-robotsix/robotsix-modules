@@ -1,1 +1,0 @@
-Remove unused YamlParseError class from _yaml.py

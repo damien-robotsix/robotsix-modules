@@ -1,1 +1,0 @@
-Add `--strict-markers` to pytest config in pyproject.toml

@@ -1,1 +1,0 @@
-Align pre-commit mypy version with `pyproject.toml` dev dependency constraint

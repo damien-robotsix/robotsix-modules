@@ -1,1 +1,0 @@
-Rename changelog fragment from .misc.md to .removal.md

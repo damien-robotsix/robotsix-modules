@@ -1,1 +1,0 @@
-Classify changelog.d/.gitkeep: assign to root module (leftover from changelog.d registration)

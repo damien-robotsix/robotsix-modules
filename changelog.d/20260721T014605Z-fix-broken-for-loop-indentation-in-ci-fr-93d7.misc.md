@@ -1,1 +1,0 @@
-Fix broken for-loop indentation in CI fragment type validation

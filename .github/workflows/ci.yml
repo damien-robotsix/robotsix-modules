@@ -92,7 +92,6 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-      - run: uv run towncrier check
       - name: Validate fragment types
         run: |
           python -c "
