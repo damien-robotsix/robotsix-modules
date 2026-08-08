@@ -34,7 +34,7 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-          sync-args: "--resolution lowest --group dev --group test"
+          sync-args: "--resolution lowest-direct --group dev --group test"
       - run: uv run pytest
 
   lockfile-check:
