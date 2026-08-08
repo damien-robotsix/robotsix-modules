@@ -1,6 +1,8 @@
 name: Setup
+description: 'Check out the repository, install uv and Python, and sync the project environment.'
 inputs:
   python-version:
+    description: 'Python version for uv to install and use.'
     required: true
     type: string
   sync-args:

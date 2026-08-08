@@ -1,0 +1,1 @@
+Add the required `description` to the `Setup` composite action. Without it GitHub rejects the workflow during parsing, so `CI`, `CodeQL` and `Docs` had produced `startup_failure` — no jobs, no logs, no check runs — since 2026-08-03, and pull requests reported CLEAN because no checks existed to report.
