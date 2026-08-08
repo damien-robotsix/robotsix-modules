@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from conftest import run_missing_file_test
 
 from robotsix_modules.cli import main
 from robotsix_modules.cli._exit_codes import ExitCode
@@ -200,17 +201,8 @@ class TestMigrate:
         result = self._load_yaml(p)
         assert result["modules"][0]["paths"] == expected_paths
 
-    # ------------------------------------------------------------------
-    # error-path test (structurally different — no YAML file written)
-    # ------------------------------------------------------------------
-
     def test_migrate_missing_file_exits_two(
         self,
         capsys: pytest.CaptureFixture[str],
-        tmp_path: Path,
     ) -> None:
-        missing = tmp_path / "nonexistent.yaml"
-        code = main(["migrate", str(missing)])
-        captured = capsys.readouterr()
-        assert code == ExitCode.FATAL
-        assert "file not found" in captured.err
+        run_missing_file_test(capsys, "migrate")
