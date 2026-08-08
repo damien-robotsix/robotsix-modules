@@ -7,6 +7,26 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- towncrier release notes start -->
+## [0.4.0](https://github.com/damien-robotsix/robotsix-modules/compare/v0.3.0...v0.4.0) (2026-08-08)
+
+
+### Features
+
+* **ci:** wire the shared auto-release workflow ([#277](https://github.com/damien-robotsix/robotsix-modules/issues/277)) ([22ccc44](https://github.com/damien-robotsix/robotsix-modules/commit/22ccc44e6b0ec0729b8ef5cc8c49e00fd6b2cd20))
+* exempt repo-health paths from the registration check ([#271](https://github.com/damien-robotsix/robotsix-modules/issues/271)) ([9204a1f](https://github.com/damien-robotsix/robotsix-modules/commit/9204a1f04df12a1eea2df559ffeed103f0fbaf91))
+* **release:** adopt release-please, retire towncrier ([#280](https://github.com/damien-robotsix/robotsix-modules/issues/280)) ([7ac1818](https://github.com/damien-robotsix/robotsix-modules/commit/7ac18184ec695091ab77425078a342b163764ac2))
+
+
+### Bug Fixes
+
+* excluded_paths extends the defaults instead of replacing them ([#272](https://github.com/damien-robotsix/robotsix-modules/issues/272)) ([588627e](https://github.com/damien-robotsix/robotsix-modules/commit/588627e59d358ce9d06e42dbb7bbab9eb29cd37f))
+* exempt renovate config from the registration check ([#273](https://github.com/damien-robotsix/robotsix-modules/issues/273)) ([26b645f](https://github.com/damien-robotsix/robotsix-modules/commit/26b645ffccbfa795fa15dbfb63930f9936c1994c))
+
+
+### Reverts
+
+* **ci:** drop auto-release.yml — superseded by release-please ([#278](https://github.com/damien-robotsix/robotsix-modules/issues/278)) ([bf102e0](https://github.com/damien-robotsix/robotsix-modules/commit/bf102e022b86f00d48316383c621ceff368aacd7))
+
 ## [0.3.0]
 
 ### Features
