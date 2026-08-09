@@ -11,6 +11,7 @@ modules:
     paths:
       - README.md
       - CHANGELOG.md
+      - changelog.d/**
       - release-please-config.json
       - .release-please-manifest.json
       - LICENSE
