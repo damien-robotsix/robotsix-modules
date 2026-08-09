@@ -29,6 +29,13 @@ validates that every tracked source and test file is registered in
 `docs/modules.yaml`. This check is enforced in CI — any new source module
 **must** be registered there.
 
+> **Rule:** Any hook added to `.pre-commit-hooks.yaml` must ship with
+> structural self-tests in `tests/cli/test_pre_commit_hook.py` (asserting
+> `id`, `name`, `entry`, `description`, `language: python`,
+> `files`/`types_or`, and entry-to-`[project.scripts]` match), plus a
+> `pre-commit try-repo` integration test so the published manifest is
+> exercised the way downstream remote-repo consumers use it.
+
 ## Configuration
 
 No `BaseSettings`, no env vars, no YAML config files. The only config surface is
