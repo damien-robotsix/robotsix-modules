@@ -31,6 +31,7 @@ robotsix-modules = "robotsix_modules.cli:main"
 robotsix-modules-validate = "robotsix_modules.cli:validate_main"
 
 [tool.uv]
+default-groups = ["dev", "test"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/robotsix_modules"]
