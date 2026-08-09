@@ -185,6 +185,10 @@ and this project adheres to
   PyYAML directly for all YAML I/O via its internal `_yaml` wrapper, matching
   the config-standard migration to `robotsix-config`.
 
+### Fixed
+- Fixed stale docstring in `robotsix_modules.validation.schemas` package init referencing non-existent `robotsix_modules.schemas` path.
+- Stale GitHub org URLs in `CONTRIBUTING.md` and `.github/ISSUE_TEMPLATE/config.yml` replaced `robotsix/robotsix-modules` → `damien-robotsix/robotsix-modules`.
+
 ### Added
 - Added `towncrier>=25.8.0` to dev dependencies and configured `[tool.towncrier]` for changelog management.
 - Add `paths` globs to the `cli` module in `docs/modules.yaml` to properly claim its source, test, and doc files.
@@ -295,12 +299,6 @@ and this project adheres to
   reducing nesting depth and eliminating the duplicated `for path in args.paths`
   loop.
 - Updated dev dependencies: ruff 0.15.16 → 0.15.18, pip-audit 2.10.0 → 2.10.1.
-
-## 0.0.0 (unreleased)
-
-### Fixed
-- Fixed stale docstring in `robotsix_modules.validation.schemas` package init referencing non-existent `robotsix_modules.schemas` path.
-- Stale GitHub org URLs in `CONTRIBUTING.md` and `.github/ISSUE_TEMPLATE/config.yml` replaced `robotsix/robotsix-modules` → `damien-robotsix/robotsix-modules`.
 
 ## [0.2.0]
 
