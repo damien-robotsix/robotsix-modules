@@ -7,6 +7,13 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- towncrier release notes start -->
+## [0.4.2](https://github.com/damien-robotsix/robotsix-modules/compare/v0.4.1...v0.4.2) (2026-08-09)
+
+
+### Bug Fixes
+
+* **ci:** add the required description to the Setup composite action ([#274](https://github.com/damien-robotsix/robotsix-modules/issues/274)) ([bc1f944](https://github.com/damien-robotsix/robotsix-modules/commit/bc1f944927a0b468235da89053110ab28e17f17d))
+
 ## [0.4.1](https://github.com/damien-robotsix/robotsix-modules/compare/v0.4.0...v0.4.1) (2026-08-09)
 
 
