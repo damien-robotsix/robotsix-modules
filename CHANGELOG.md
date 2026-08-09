@@ -7,6 +7,13 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- towncrier release notes start -->
+## [0.4.1](https://github.com/damien-robotsix/robotsix-modules/compare/v0.4.0...v0.4.1) (2026-08-09)
+
+
+### Bug Fixes
+
+* **release:** don't fail lock-sync when the release branch is gone ([#282](https://github.com/damien-robotsix/robotsix-modules/issues/282)) ([8ef1e83](https://github.com/damien-robotsix/robotsix-modules/commit/8ef1e8343ed82ff5f1d08439ee71fd1f3ee619d8))
+
 ## [0.4.0](https://github.com/damien-robotsix/robotsix-modules/compare/v0.3.0...v0.4.0) (2026-08-08)
 
 
