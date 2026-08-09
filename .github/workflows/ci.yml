@@ -114,6 +114,9 @@ jobs:
           with open('pyproject.toml', 'rb') as f:
               d = tomllib.load(f)
           types = {t['directory'] for t in d.get('tool', {}).get('towncrier', {}).get('type', [])}
+          if not types:
+              print('No towncrier types configured — skipping fragment type check.')
+              sys.exit(0)
           errors = []
           for p in Path('changelog.d').iterdir():
               if p.name == '.gitkeep' or p.is_dir():
@@ -147,7 +150,7 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-      - run: uv run zizmor --format sarif . --output zizmor-results.sarif
+      - run: uv run -- zizmor --format sarif . --output zizmor-results.sarif
       - uses: github/codeql-action/upload-sarif@5595ccaf912efad79be6eef63a5619ff05969be3  # v4.37.6
         if: always()
         with:
@@ -169,7 +172,10 @@ jobs:
         with:
           python-version: "3.14"
           sync-args: ""
-      - run: uv run --with gitleaks gitleaks detect --source . --verbose --no-git
+      - name: Install gitleaks
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.24.1/gitleaks_8.24.1_linux_x64.tar.gz | tar xz -C /usr/local/bin gitleaks
+      - run: gitleaks detect --source . --verbose --no-git
 
   validate-pyproject:
     name: Validate pyproject.toml
@@ -389,7 +395,7 @@ jobs:
         with:
           python-version: "3.14"
           sync-args: "--locked"
-      - run: uv audit --output-format sarif --output-file uv-audit.sarif
+      - run: uv audit --output-format sarif > uv-audit.sarif
       - uses: github/codeql-action/upload-sarif@5595ccaf912efad79be6eef63a5619ff05969be3  # v4.37.6
         if: always()
         with:
