@@ -14,10 +14,9 @@ concurrency:
 
 jobs:
   check:
-    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-ci.yml@5cd8c1facb02299da618979e7a55f1953f9c075a
+    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-ci.yml@86dae89b637dad27ddba0aaa5f9430e083288365  # main
     with:
       python-version: "3.14"
-      sync-args: "--locked --group dev --group test"
       cov-package: "robotsix_modules"
       coverage-threshold: "90"
       run-bandit: true
@@ -361,4 +360,4 @@ jobs:
           path: sbom.json
 
   security:
-    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-security.yml@5cd8c1facb02299da618979e7a55f1953f9c075a
+    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-security.yml@86dae89b637dad27ddba0aaa5f9430e083288365  # main
