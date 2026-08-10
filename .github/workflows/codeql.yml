@@ -9,7 +9,7 @@ on:
 permissions: {}
 jobs:
   analyze:
-    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/codeql.yml@5fdc956e980cfb70ea36e33bc670a0376750dec6
+    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/codeql.yml@7c73ae5fd1b3be90c97b25a6d6a0ebf129571237
     permissions:
       contents: read
       security-events: write  # needed for SARIF upload
