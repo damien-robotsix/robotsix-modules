@@ -899,7 +899,7 @@ dev = [
     { name = "towncrier", specifier = ">=25.8.0" },
     { name = "types-pyyaml", specifier = ">=6.0.12" },
     { name = "validate-pyproject", specifier = ">=0.25" },
-    { name = "validate-pyproject-schema-store", extras = ["all"], specifier = ">=2026.6.26" },
+    { name = "validate-pyproject-schema-store", extras = ["all"], specifier = ">=2026.8.5" },
     { name = "vulture", specifier = ">=2.16" },
     { name = "zizmor", specifier = ">=1.29.0" },
 ]
@@ -1117,11 +1117,11 @@ all = [
 
 [[package]]
 name = "validate-pyproject-schema-store"
-version = "2026.6.26"
+version = "2026.8.5"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/27/be/36b00bb6ef8436bfe7f2d82309a69ff26ac34a410d289451182b7fd4361c/validate_pyproject_schema_store-2026.6.26.tar.gz", hash = "sha256:3902cb54c81a235edf10d404c860bedd7e32bea49ec6bdf45f33b0228d8110ba", size = 190699, upload-time = "2026-06-26T11:14:21.048Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/87/aa/1c6c3e59510adc01ef11402bca6c0ff986a3625a7b19c80398c38fac6c88/validate_pyproject_schema_store-2026.8.5.tar.gz", hash = "sha256:f3debea283957e2594b7ad568bfd2d6d19e7c8216f23338740686cbb164168a8", size = 197717, upload-time = "2026-08-05T10:48:26.186Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/66/a0/e4724040447595c4a8e361728d502d8bc70133096f916962a7bbb1ddbd7e/validate_pyproject_schema_store-2026.6.26-py3-none-any.whl", hash = "sha256:fc4d9766c3bd751d931650d4330983b721f044308f1c422fe44ecd48a104bd46", size = 197256, upload-time = "2026-06-26T11:14:19.389Z" },
+    { url = "https://files.pythonhosted.org/packages/c8/2b/26b72b68aa01370e00e5540aef54bc5320c10e6b4b234837faae3fab607a/validate_pyproject_schema_store-2026.8.5-py3-none-any.whl", hash = "sha256:97ebeeeb33fbbc4e53f48a67e4eb31f6e4b47691b7bd7755945885574c3da017", size = 204108, upload-time = "2026-08-05T10:48:24.679Z" },
 ]
 
 [package.optional-dependencies]
