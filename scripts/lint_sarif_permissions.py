@@ -7,6 +7,7 @@ checks that either the top-level ``permissions`` or every job's
 ``permissions`` includes ``security-events: write``.  Exits non-zero if any
 workflow is missing the permission (or if the file cannot be read).
 """
+
 import os
 import sys
 from pathlib import Path
@@ -55,7 +56,10 @@ def check_workflow(path: Path) -> bool:
     if not isinstance(jobs, dict):
         if top_ok:
             return True
-        print(f"ERROR: {path} has no jobs and no security-events: write", file=sys.stderr)
+        print(
+            f"ERROR: {path} has no jobs and no security-events: write",
+            file=sys.stderr,
+        )
         return False
 
     if top_ok:
@@ -97,7 +101,10 @@ def main() -> int:
             errors = True
 
     if errors:
-        print("\nOne or more SARIF workflows are missing security-events: write.", file=sys.stderr)
+        print(
+            "\nOne or more SARIF workflows are missing security-events: write.",
+            file=sys.stderr,
+        )
         return 1
     print("All SARIF workflows have security-events: write.")
     return 0

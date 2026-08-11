@@ -14,9 +14,13 @@ concurrency:
 
 jobs:
   check:
-    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-ci.yml@86dae89b637dad27ddba0aaa5f9430e083288365  # main
+    permissions:
+      contents: read
+      security-events: write  # needed by bandit / audit SARIF uploads inside the reusable workflow
+    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-ci.yml@5cd8c1facb02299da618979e7a55f1953f9c075a
     with:
       python-version: "3.14"
+      sync-args: "--locked --group dev --group test"
       cov-package: "robotsix_modules"
       coverage-threshold: "90"
       run-bandit: true
@@ -150,7 +154,7 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           python-version: "3.14"
-      - run: uv run -- zizmor --format sarif . --output zizmor-results.sarif
+      - run: uv run zizmor --format sarif . > zizmor-results.sarif
       - uses: github/codeql-action/upload-sarif@5595ccaf912efad79be6eef63a5619ff05969be3  # v4.37.6
         if: always()
         with:
@@ -174,7 +178,7 @@ jobs:
           sync-args: ""
       - name: Install gitleaks
         run: |
-          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.24.1/gitleaks_8.24.1_linux_x64.tar.gz | tar xz -C /usr/local/bin gitleaks
+          curl -fsSL --retry 3 --retry-delay 5 https://github.com/gitleaks/gitleaks/releases/download/v8.24.1/gitleaks_8.24.1_linux_x64.tar.gz | tar xz -C /usr/local/bin gitleaks
       - run: gitleaks detect --source . --verbose --no-git
 
   validate-pyproject:
