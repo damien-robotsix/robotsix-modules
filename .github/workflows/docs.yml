@@ -15,7 +15,5 @@ concurrency:
 jobs:
   docs:
     permissions:
-      contents: read  # needed to checkout the repo
-      pages: write  # needed to deploy to GitHub Pages
-      id-token: write  # needed for OIDC to deploy to Pages
-    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-docs.yml@86dae89b637dad27ddba0aaa5f9430e083288365  # main
+      contents: write  # needed by mkdocs gh-deploy to push to gh-pages
+    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-docs.yml@5cd8c1facb02299da618979e7a55f1953f9c075a
