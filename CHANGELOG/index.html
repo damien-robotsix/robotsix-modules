@@ -1,0 +1,1576 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Shared JSON-Schema-driven module-taxonomy validation for robotsix projects.">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../schema-reference/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Changelog - robotsix-modules</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#changelog" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="robotsix-modules" class="md-header__button md-logo" aria-label="robotsix-modules" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            robotsix-modules
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Changelog
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/damien-robotsix/robotsix-modules" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="robotsix-modules" class="md-nav__button md-logo" aria-label="robotsix-modules" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    robotsix-modules
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/damien-robotsix/robotsix-modules" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#042-2026-08-09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.4.2 (2026-08-09)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.4.2 (2026-08-09)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bug Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#041-2026-08-09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.4.1 (2026-08-09)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.4.1 (2026-08-09)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bug Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#040-2026-08-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.4.0 (2026-08-08)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.4.0 (2026-08-08)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bug Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reverts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reverts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#030" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.3.0]
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.3.0]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bug Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#miscellaneous" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Miscellaneous
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#000-unreleased" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.0.0 (unreleased)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.0.0 (unreleased)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#added_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#added_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#020" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.2.0]
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.2.0]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#010" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.1.0]
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.1.0]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schema-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schema Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../validation/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CODE_OF_CONDUCT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code of Conduct
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#042-2026-08-09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.4.2 (2026-08-09)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.4.2 (2026-08-09)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bug Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#041-2026-08-09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.4.1 (2026-08-09)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.4.1 (2026-08-09)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bug Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#040-2026-08-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.4.0 (2026-08-08)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.4.0 (2026-08-08)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bug Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reverts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reverts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#030" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.3.0]
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.3.0]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bug Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#miscellaneous" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Miscellaneous
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#000-unreleased" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.0.0 (unreleased)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.0.0 (unreleased)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#added_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#added_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#020" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.2.0]
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.2.0]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#010" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.1.0]
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.1.0]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="changelog">Changelog</h1>
+<p>All notable changes to this project are documented in this file.</p>
+<p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,
+and this project adheres to
+<a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<!-- towncrier release notes start -->
+<h2 id="042-2026-08-09"><a href="https://github.com/damien-robotsix/robotsix-modules/compare/v0.4.1...v0.4.2">0.4.2</a> (2026-08-09)</h2>
+<h3 id="bug-fixes">Bug Fixes</h3>
+<ul>
+<li><strong>ci:</strong> add the required description to the Setup composite action (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/274">#274</a>) (<a href="https://github.com/damien-robotsix/robotsix-modules/commit/bc1f944927a0b468235da89053110ab28e17f17d">bc1f944</a>)</li>
+</ul>
+<h2 id="041-2026-08-09"><a href="https://github.com/damien-robotsix/robotsix-modules/compare/v0.4.0...v0.4.1">0.4.1</a> (2026-08-09)</h2>
+<h3 id="bug-fixes_1">Bug Fixes</h3>
+<ul>
+<li><strong>release:</strong> don't fail lock-sync when the release branch is gone (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/282">#282</a>) (<a href="https://github.com/damien-robotsix/robotsix-modules/commit/8ef1e8343ed82ff5f1d08439ee71fd1f3ee619d8">8ef1e83</a>)</li>
+</ul>
+<h2 id="040-2026-08-08"><a href="https://github.com/damien-robotsix/robotsix-modules/compare/v0.3.0...v0.4.0">0.4.0</a> (2026-08-08)</h2>
+<h3 id="features">Features</h3>
+<ul>
+<li><strong>ci:</strong> wire the shared auto-release workflow (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/277">#277</a>) (<a href="https://github.com/damien-robotsix/robotsix-modules/commit/22ccc44e6b0ec0729b8ef5cc8c49e00fd6b2cd20">22ccc44</a>)</li>
+<li>exempt repo-health paths from the registration check (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/271">#271</a>) (<a href="https://github.com/damien-robotsix/robotsix-modules/commit/9204a1f04df12a1eea2df559ffeed103f0fbaf91">9204a1f</a>)</li>
+<li><strong>release:</strong> adopt release-please, retire towncrier (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/280">#280</a>) (<a href="https://github.com/damien-robotsix/robotsix-modules/commit/7ac18184ec695091ab77425078a342b163764ac2">7ac1818</a>)</li>
+</ul>
+<h3 id="bug-fixes_2">Bug Fixes</h3>
+<ul>
+<li>excluded_paths extends the defaults instead of replacing them (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/272">#272</a>) (<a href="https://github.com/damien-robotsix/robotsix-modules/commit/588627e59d358ce9d06e42dbb7bbab9eb29cd37f">588627e</a>)</li>
+<li>exempt renovate config from the registration check (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/273">#273</a>) (<a href="https://github.com/damien-robotsix/robotsix-modules/commit/26b645ffccbfa795fa15dbfb63930f9936c1994c">26b645f</a>)</li>
+</ul>
+<h3 id="reverts">Reverts</h3>
+<ul>
+<li><strong>ci:</strong> drop auto-release.yml — superseded by release-please (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/278">#278</a>) (<a href="https://github.com/damien-robotsix/robotsix-modules/commit/bf102e022b86f00d48316383c621ceff368aacd7">bf102e0</a>)</li>
+</ul>
+<h2 id="030">[0.3.0]</h2>
+<h3 id="features_1">Features</h3>
+<ul>
+<li><code>check-registration</code> no longer demands that repo-health scaffolding be claimed by
+  a module. CI workflows, linter and packaging configs, build descriptors, licence
+  texts and per-PR changelog fragments are exempt by default, and the new optional
+  <code>excluded_paths</code> key lets a repo replace that set — an empty list restores full
+  coverage. A taxonomy inventories logical modules; on one robotsix repo 61% of
+  tracked files were scaffolding it was obliged to account for, and because
+  towncrier writes one fragment per pull request, every changelog entry had become a
+  taxonomy edit. (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/exclude-repo-health-paths">#exclude-repo-health-paths</a>)</li>
+</ul>
+<h3 id="bug-fixes_3">Bug Fixes</h3>
+<ul>
+<li><code>renovate.json</code> and its <code>.renovaterc</code> variants join the repo-health defaults.
+  Dependency-update automation configures the repository, not a logical module —
+  it was the single remaining unclassified file across the whole fleet. (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/exclude-renovate">#exclude-renovate</a>)</li>
+<li><code>excluded_paths</code> now <strong>extends</strong> the built-in repo-health defaults instead of
+  replacing them, so a repo names only its own extra scaffolding. Replacing forced
+  any repo needing one additional exemption to restate the entire default list.
+  The defaults also gain CODEOWNERS, the JS/TS toolchain configs (<code>tsconfig.json</code>,
+  <code>vite.config.*</code>, <code>vitest.config.*</code> and friends) and <code>docs/modules.yaml</code> itself —
+  a taxonomy describes a repo's modules and is not one of them. (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/exclusions-extend-defaults">#exclusions-extend-defaults</a>)</li>
+<li>Removed the towncrier <code>auto-release.yml</code> added earlier today. It implements a <strong>superseded</strong> convention: <code>changelog-driven-releases.md</code> is marked superseded by <code>release-please.md</code>, the fleet-wide release automation. Left in place it would have fired on Monday and pushed a version bump and <code>v*</code> tag that release-please is meant to own. (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260808T120500Z-revert-auto-release">#20260808T120500Z-revert-auto-release</a>)</li>
+<li>Fix <code>python -m robotsix_modules</code> to forward the exit code from <code>main()</code> via <code>sys.exit()</code>, instead of silently returning 0 on validation errors or parse failures. (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260801T143604Z-fix-python-m-robotsix-modules-always-ex-0f3a">#20260801T143604Z-fix-python-m-robotsix-modules-always-ex-0f3a</a>)</li>
+<li>fix: <code>YamlReadError</code> raised by public <code>load_taxonomy()</code> but missing from top-level <code>__all__</code> and API docs (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260721T170214Z-fix-yamlreaderror-raised-by-public-load-b396">#20260721T170214Z-fix-yamlreaderror-raised-by-public-load-b396</a>)</li>
+</ul>
+<h3 id="changes">Changes</h3>
+<ul>
+<li>Remove <code>exclude-newer = "7 days"</code> from <code>[tool.uv]</code> in <code>pyproject.toml</code> to fix Dependabot resolution failures when package updates are published within the 7-day window (e.g., <code>ruff</code> 0.16.1). The lock file already guarantees reproducibility. (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260803T013815Z-remove-exclude-newer-from-tool-uv-to-fix-8bb5">#20260803T013815Z-remove-exclude-newer-from-tool-uv-to-fix-8bb5</a>)</li>
+</ul>
+<h3 id="removals">Removals</h3>
+<ul>
+<li>Remove unused YamlParseError class from _yaml.py (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260720T075504Z-remove-unused-yamlparseerror-class-from-3ba1">#20260720T075504Z-remove-unused-yamlparseerror-class-from-3ba1</a>)</li>
+</ul>
+<h3 id="documentation">Documentation</h3>
+<ul>
+<li>Sync <code>docs/schema-reference.md</code> "Complete example" with current <code>docs/modules.yaml</code> and add CI check to prevent future drift (<a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260727T093301Z-sync-docs-schema-reference-md-complete-e-3d13">#20260727T093301Z-sync-docs-schema-reference-md-complete-e-3d13</a>)</li>
+</ul>
+<h3 id="miscellaneous">Miscellaneous</h3>
+<ul>
+<li><a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260720T003648Z-add-changelog-fragment-reminder-to-pr-te-fa07">#20260720T003648Z-add-changelog-fragment-reminder-to-pr-te-fa07</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260722T011312Z-classify-changelog-d-gitkeep-assign-to-r-20e4">#20260722T011312Z-classify-changelog-d-gitkeep-assign-to-r-20e4</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260721T012757Z-add-fragment-type-guidance-to-contributi-6e0a">#20260721T012757Z-add-fragment-type-guidance-to-contributi-6e0a</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260803T013815Z-ci-failure-uv-in-update-1501089446-on-ma-8bb5">#20260803T013815Z-ci-failure-uv-in-update-1501089446-on-ma-8bb5</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260721T014605Z-fix-broken-for-loop-indentation-in-ci-fr-93d7">#20260721T014605Z-fix-broken-for-loop-indentation-in-ci-fr-93d7</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260722T020730Z-expose-changelog-md-as-a-changelog-page-35f9">#20260722T020730Z-expose-changelog-md-as-a-changelog-page-35f9</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260725T022916Z-robotsix-modules-remove-dead-internal-pe-d61c">#20260725T022916Z-robotsix-modules-remove-dead-internal-pe-d61c</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260723T025226Z-add-pytest-test-to-validate-docs-schema-a551">#20260723T025226Z-add-pytest-test-to-validate-docs-schema-a551</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260724T034650Z-replace-language-system-hooks-with-langu-58e2">#20260724T034650Z-replace-language-system-hooks-with-langu-58e2</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260724T044051Z-add-defense-in-depth-exception-barrier-t-1429">#20260724T044051Z-add-defense-in-depth-exception-barrier-t-1429</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260725T052200Z-split-uv-dependency-group-separate-test-929c">#20260725T052200Z-split-uv-dependency-group-separate-test-929c</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260725T052200Z-split-uv-dependency-groups">#20260725T052200Z-split-uv-dependency-groups</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260720T075933Z-rename-changelog-fragment-from-misc-md-t-5216">#20260720T075933Z-rename-changelog-fragment-from-misc-md-t-5216</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260706T081436Z-add-towncrier-check-pre-commit-hook-to-p-2862">#20260706T081436Z-add-towncrier-check-pre-commit-hook-to-p-2862</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260706T081436Z-add-towncrier-to-dev-dependencies-and-co-319e">#20260706T081436Z-add-towncrier-to-dev-dependencies-and-co-319e</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260706T081436Z-create-scripts-release-convenience-scrip-fa22">#20260706T081436Z-create-scripts-release-convenience-scrip-fa22</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260706T081436Z-update-contributing-md-release-checklist-699b">#20260706T081436Z-update-contributing-md-release-checklist-699b</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260718T081727Z-robotsix-modules-enable-audit-periodic-w-dd16">#20260718T081727Z-robotsix-modules-enable-audit-periodic-w-dd16</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260718T081727Z-robotsix-modules-enable-copy-paste-perio-2157">#20260718T081727Z-robotsix-modules-enable-copy-paste-perio-2157</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260718T081727Z-robotsix-modules-enable-repo-description-a5f0">#20260718T081727Z-robotsix-modules-enable-repo-description-a5f0</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260718T081728Z-robotsix-modules-enable-state-sync-perio-a9f2">#20260718T081728Z-robotsix-modules-enable-state-sync-perio-a9f2</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260718T084059Z-move-pre-commit-hooks-yaml-from-docs-mod-9ecf">#20260718T084059Z-move-pre-commit-hooks-yaml-from-docs-mod-9ecf</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260718T084100Z-align-pre-commit-mypy-version-with-pypro-d6a7">#20260718T084100Z-align-pre-commit-mypy-version-with-pypro-d6a7</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260719T085054Z-add-uv-malware-check-1-to-ci-uv-sync-ste-41e2">#20260719T085054Z-add-uv-malware-check-1-to-ci-uv-sync-ste-41e2</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260720T085333Z-update-docs-schema-reference-md-complete-06b1">#20260720T085333Z-update-docs-schema-reference-md-complete-06b1</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260722T090359Z-add-strict-markers-to-pytest-config-in-p-5cd1">#20260722T090359Z-add-strict-markers-to-pytest-config-in-p-5cd1</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260722T090359Z-pin-vulture-dev-dependency-with-a-minimu-3dbe">#20260722T090359Z-pin-vulture-dev-dependency-with-a-minimu-3dbe</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260723T090953Z-add-exclude-newer-7-days-to-tool-uv-in-p-e715">#20260723T090953Z-add-exclude-newer-7-days-to-tool-uv-in-p-e715</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260723T090953Z-add-step-security-harden-runner-to-all-c-ae1c">#20260723T090953Z-add-step-security-harden-runner-to-all-c-ae1c</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260723T090953Z-add-uv-lock-check-step-to-ci-to-guard-ag-e076">#20260723T090953Z-add-uv-lock-check-step-to-ci-to-guard-ag-e076</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260723T090953Z-deduplicate-scripts-check-and-scripts-li-ce4e">#20260723T090953Z-deduplicate-scripts-check-and-scripts-li-ce4e</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260723T090953Z-rename-validate-paths-to-validate-schema-4a50">#20260723T090953Z-rename-validate-paths-to-validate-schema-4a50</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260725T092203Z-add-lowest-version-dependency-testing-to-b3bc">#20260725T092203Z-add-lowest-version-dependency-testing-to-b3bc</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260725T092203Z-deduplicate-repeated-argument-definition-8d55">#20260725T092203Z-deduplicate-repeated-argument-definition-8d55</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260726T092701Z-add-uv-audit-sarif-output-and-upload-to-e4b4">#20260726T092701Z-add-uv-audit-sarif-output-and-upload-to-e4b4</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260726T092701Z-split-tests-cli-test-cli-py-into-focused-27a5">#20260726T092701Z-split-tests-cli-test-cli-py-into-focused-27a5</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260728T095148Z-add-step-security-harden-runner-to-lockf-bd99">#20260728T095148Z-add-step-security-harden-runner-to-lockf-bd99</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260723T095819Z-refactor-validate-main-to-eliminate-dupl-b87c">#20260723T095819Z-refactor-validate-main-to-eliminate-dupl-b87c</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260729T102657Z-remove-stale-pydantic-additional-depende-7c75">#20260729T102657Z-remove-stale-pydantic-additional-depende-7c75</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260729T102657Z-update-agent-md-pre-commit-hook-list-to-8f4f">#20260729T102657Z-update-agent-md-pre-commit-hook-list-to-8f4f</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260731T111304Z-resolve-circular-dependency-between-find-2f56">#20260731T111304Z-resolve-circular-dependency-between-find-2f56</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260801T111820Z-create-tests-validation-test-paths-py-an-7d63">#20260801T111820Z-create-tests-validation-test-paths-py-an-7d63</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260805T115222Z-add-version-pins-to-unpinned-dependencie-646b">#20260805T115222Z-add-version-pins-to-unpinned-dependencie-646b</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260805T143001Z-add-version-pins-to-all-5-unpinned-pre-c-27a1">#20260805T143001Z-add-version-pins-to-all-5-unpinned-pre-c-27a1</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260802T152349Z-robotsix-modules-enable-mypy-baseline-pe-df63">#20260802T152349Z-robotsix-modules-enable-mypy-baseline-pe-df63</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260802T152458Z-align-local-pytest-coverage-gate-fail-un-b956">#20260802T152458Z-align-local-pytest-coverage-gate-fail-un-b956</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260801T153054Z-remove-stale-duplicate-changelog-fragmen-650c">#20260801T153054Z-remove-stale-duplicate-changelog-fragmen-650c</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260719T154210Z-robotsix-modules-enable-changelog-autofi-6f3e">#20260719T154210Z-robotsix-modules-enable-changelog-autofi-6f3e</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260803T160731Z-subprocess-test-the-installed-robotsix-m-61fa">#20260803T160731Z-subprocess-test-the-installed-robotsix-m-61fa</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260804T161930Z-robotsix-modules-enable-pin-bump-periodi-8429">#20260804T161930Z-robotsix-modules-enable-pin-bump-periodi-8429</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260805T162502Z-switch-lowest-deps-test-ci-job-to-uv-res-6f48">#20260805T162502Z-switch-lowest-deps-test-ci-job-to-uv-res-6f48</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260805T163115Z-extend-shared-conftest-error-path-helper-f539">#20260805T163115Z-extend-shared-conftest-error-path-helper-f539</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260716T163127Z-robotsix-modules-enable-completeness-che-ca19">#20260716T163127Z-robotsix-modules-enable-completeness-che-ca19</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260806T164607Z-self-test-the-published-validate-module-dc2d">#20260806T164607Z-self-test-the-published-validate-module-dc2d</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260717T165142Z-docs-check-coverage-missing-from-docs-in-3365">#20260717T165142Z-docs-check-coverage-missing-from-docs-in-3365</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260717T165142Z-fix-compute-default-globs-missing-from-t-ae44">#20260717T165142Z-fix-compute-default-globs-missing-from-t-ae44</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260714T165300Z-robotsix-modules-enable-baseline-periodi-4602">#20260714T165300Z-robotsix-modules-enable-baseline-periodi-4602</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260716T165528Z-docs-findingkind-missing-from-mkdocs-api-9c37">#20260716T165528Z-docs-findingkind-missing-from-mkdocs-api-9c37</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260716T165528Z-fix-configstructureerror-is-defined-expo-910c">#20260716T165528Z-fix-configstructureerror-is-defined-expo-910c</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260722T165851Z-fix-yamlconfigerror-defined-but-never-re-de17">#20260722T165851Z-fix-yamlconfigerror-defined-but-never-re-de17</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260719T170034Z-fix-configparseerror-defined-exported-ca-bf2a">#20260719T170034Z-fix-configparseerror-defined-exported-ca-bf2a</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260720T170219Z-fix-add-main-py-to-enable-python-m-robot-5e2b">#20260720T170219Z-fix-add-main-py-to-enable-python-m-robot-5e2b</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260721T172634Z-rename-changelog-fragment-from-misc-md-t-e209">#20260721T172634Z-rename-changelog-fragment-from-misc-md-t-e209</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260714T174225Z-remove-unused-rewrite-in-glob-paths-vers-3619">#20260714T174225Z-remove-unused-rewrite-in-glob-paths-vers-3619</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260802T183654Z-agent-md-ci-invariants-never-let-tool-co-1865">#20260802T183654Z-agent-md-ci-invariants-never-let-tool-co-1865</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260715T192538Z-robotsix-modules-enable-module-curator-p-c827">#20260715T192538Z-robotsix-modules-enable-module-curator-p-c827</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260724T201352Z-robotsix-modules-enable-module-size-peri-52a0">#20260724T201352Z-robotsix-modules-enable-module-size-peri-52a0</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260715T202234Z-classify-changelog-d-assign-changelog-fr-2b25">#20260715T202234Z-classify-changelog-d-assign-changelog-fr-2b25</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260719T232926Z-robotsix-modules-enable-docstring-covera-daa6">#20260719T232926Z-robotsix-modules-enable-docstring-covera-daa6</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260719T232926Z-robotsix-modules-enable-health-periodic-e5eb">#20260719T232926Z-robotsix-modules-enable-health-periodic-e5eb</a>, <a href="https://github.com/damien-robotsix/robotsix-modules/issues/20260719T232926Z-robotsix-modules-enable-survey-periodic-80b2">#20260719T232926Z-robotsix-modules-enable-survey-periodic-80b2</a></li>
+</ul>
+<h2 id="000-unreleased">0.0.0 (unreleased)</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Added version pins to previously unpinned dependencies in <code>pyproject.toml</code> and <code>.pre-commit-config.yaml</code> to prevent supply-chain breakage from unvetted releases</li>
+<li>Remove <code>exclude-newer = "7 days"</code> from <code>[tool.uv]</code> in <code>pyproject.toml</code> to fix Dependabot resolution failures when package updates are published within the 7-day window (e.g., <code>ruff</code> 0.16.1). The lock file already guarantees reproducibility.</li>
+<li>Add <code>mypy_baseline</code> periodic workflow to track mypy error counts over time and detect type regressions.</li>
+<li>Align local coverage threshold with CI: raise <code>[tool.coverage.report] fail_under</code> from 80 to 90 in <code>pyproject.toml</code> and update documentation references in <code>CONTRIBUTING.md</code> accordingly.</li>
+<li>Extract <code>_glob_paths</code>, <code>_has_glob_metacharacters</code>, and <code>compute_default_globs</code>
+  from <code>registration.py</code> into a new private <code>_paths.py</code> module to resolve a
+  circular dependency with <code>_findings.py</code>.</li>
+<li>Update AGENT.md pre-commit hook list to accurately reflect the current
+  <code>.pre-commit-config.yaml</code>: replace <code>detect-secrets</code> with <code>gitleaks</code>, and
+  add missing hooks (<code>zizmor</code>, <code>towncrier check</code>, <code>validate-pyproject</code>,
+  <code>mdformat</code>, <code>markdownlint-cli2</code>, <code>pre-commit-hooks</code> suite).</li>
+<li>Add CI job <code>lowest-deps-test</code> that runs the test suite against the lowest compatible dependency versions (<code>uv sync --resolution lowest</code>), catching minimum-version gaps in declared ranges.</li>
+</ul>
+<h3 id="removed">Removed</h3>
+<ul>
+<li>Deduplicate repeated CLI argument definitions (<code>--verbose</code>, <code>--output-format</code>, <code>--root</code>) across subcommands by extracting them into a shared <code>_add_common_args</code> helper in <code>src/robotsix_modules/cli/__init__.py</code>.</li>
+<li>Remove dead internal periodic config files (<code>state_sync.yaml</code> and <code>security_posture.yaml</code>) that were silently rejected by the mill loader.</li>
+<li>Enable <code>module_size</code> periodic workflow to monitor source/test file sizes and propose split tickets for oversized modules.</li>
+<li>Add exception barrier to <code>main()</code> and <code>validate_main()</code> so unexpected
+  runtime errors produce a user-friendly message and <code>ExitCode.FATAL</code> (2)
+  instead of a raw Python traceback.</li>
+<li>Replace <code>language: system</code> pre-commit hooks (vulture, towncrier-check) with
+  <code>language: python</code> + <code>additional_dependencies</code> for deterministic, isolated
+  environments. Added <code>pre-commit&gt;=4.4.0</code> to dev dependencies.</li>
+<li>Add <code>[tool.uv] exclude-newer = "7 days"</code> to prevent CI from
+  resolving packages published in the last 7 days, closing the
+  window between a malicious upload and its advisory publication.</li>
+<li>Deduplicate <code>scripts/check</code> and <code>scripts/lint</code> by having <code>scripts/check</code> call <code>scripts/lint</code> for the shared toolchain (ruff check, ruff format, mypy, markdownlint, mdformat), keeping only the CI-unique steps (deptry, bandit, uv audit, pytest, check-registration, mkdocs build) directly.</li>
+<li>Extract <code>_emit_results</code> helper in <code>validate_main</code> to eliminate duplicated output-format dispatch logic, reducing nesting depth from 5 to 3.</li>
+<li>Removed unused <code>YamlConfigError</code> class from <code>_yaml.py</code> (the sole subclass <code>YamlReadError</code> now inherits directly from <code>ConfigError</code>).</li>
+<li>Rename <code>_validate_paths</code> → <code>_validate_schema_batch</code> in <code>src/robotsix_modules/cli/__init__.py</code> to clarify that the function runs schema validation (not path validation) across multiple files.</li>
+<li>Pin <code>vulture</code> dev dependency to <code>&gt;=2.16</code> in <code>pyproject.toml</code> to match the version locked in <code>uv.lock</code> and prevent silent breakage on regeneration.</li>
+<li>Add <code>--strict-markers</code> to pytest <code>addopts</code> in <code>pyproject.toml</code> to catch unregistered marker typos.</li>
+<li>Expose CHANGELOG.md as a Changelog page on the MkDocs site via the existing hook pattern (on_pre_build copy, on_post_build remove) and a new nav entry.</li>
+<li>Classify <code>changelog.d/.gitkeep</code> under the <code>root</code> module in <code>docs/modules.yaml</code> so the registration check passes.</li>
+<li>Exported <code>YamlReadError</code> via <code>robotsix_modules.__all__</code> so callers of <code>load_taxonomy()</code> can catch it without importing from the private <code>_yaml</code> module.</li>
+<li>Added fragment-type guidance to CONTRIBUTING.md and PR template, and CI validation
+  to catch unknown fragment types before merge, preventing invisible changelog entries
+  when <code>towncrier build</code> is run for the first release.</li>
+<li>Add <code>__main__.py</code> shim so <code>python -m robotsix_modules</code> works (delegates to <code>cli:main()</code>).</li>
+<li>Updated the "Complete example" in <code>docs/schema-reference.md</code> to match the
+  current <code>docs/modules.yaml</code>: added the <code>root</code> module, moved
+  <code>.pre-commit-hooks.yaml</code> from <code>docs</code> to <code>root</code>, and added <code>_exceptions.py</code>
+  to the <code>validation</code> module paths.</li>
+<li>Removed the unused <code>YamlParseError</code> exception class from <code>_yaml.py</code>, which was never raised or imported anywhere in the codebase.</li>
+<li>Enable <code>survey</code> periodic agent with <code>.robotsix-mill/periodic/survey.yaml</code>.</li>
+<li>Add periodic docstring_coverage agent config to <code>.robotsix-mill/periodic/docstring_coverage.yaml</code>.</li>
+<li>Add <code>.robotsix-mill/periodic/health.yaml</code> to enable the health periodic agent, which inspects the codebase across eight dimensions (test coverage, linting, dependency freshness, CI completeness, documentation, etc.) and proposes draft tickets for newly-discovered gaps.</li>
+<li><code>read_yaml_file</code> now raises <code>ConfigParseError</code> (instead of the internal <code>YamlParseError</code>) when a file contains invalid YAML, matching the public API contract documented in the package docstring.</li>
+<li>Enable the <code>changelog_autofill</code> periodic task to auto-commit changelog entries for PRs with a failing changelog CI check.</li>
+<li>Fixed duplicate <code>run:</code> key in <code>.github/actions/setup/action.yml</code> that caused <code>UV_MALWARE_CHECK</code> env var to be ignored during <code>uv sync</code></li>
+<li>Bump <code>mirrors-mypy</code> pre-commit hook from v2.1.0 to v2.3.0 to align with the
+  <code>mypy&gt;=2.2.0</code> dev dependency, ensuring consistent type-checking across all
+  environments.</li>
+<li>Move <code>.pre-commit-hooks.yaml</code> from the <code>docs</code> module to the <code>root</code> module in <code>docs/modules.yaml</code> (the file is a repo-root pre-commit hook manifest, not documentation).</li>
+<li>Add <code>repo_description_sync</code> periodic workflow to keep the forge description aligned with the README.</li>
+<li>Enable <code>state_sync</code> periodic workflow to cross-reference <code>FindingKind</code> enum members against string-literal reference sites across the codebase.</li>
+<li>Enable <code>audit</code> periodic agent (<code>.robotsix-mill/periodic/audit.yaml</code>)</li>
+<li>Add <code>copy_paste</code> periodic workflow (<code>.robotsix-mill/periodic/copy_paste.yaml</code>) to detect copy-paste duplication across the repository via jscpd.</li>
+<li>Re-export <code>compute_default_globs</code> from the top-level <code>robotsix_modules</code> package and document it in the API reference and quick-start index.</li>
+<li>Add <code>check_coverage</code> to the Public API list in <code>docs/index.md</code></li>
+<li><code>ConfigStructureError</code> is now raised by <code>read_yaml_file</code> when the parsed YAML root is not a mapping (previously <code>YamlParseError</code> was raised for both invalid-YAML and non-mapping cases). Fixed a stale <code>InvalidConfigStructureError</code> docstring reference in <code>load_taxonomy</code>.</li>
+<li>Add <code>FindingKind</code> to <code>docs/validation/api.md</code> members list to ensure it renders in the generated API docs and avoids broken cross-references.</li>
+<li>Enable <code>completeness_check</code> periodic agent to scan internal wiring of the robotsix-modules tool itself.</li>
+<li>Added <code>changelog.d/**</code> to the <code>root</code> module's paths in <code>docs/modules.yaml</code>.</li>
+<li>Enable <code>module_curator</code> periodic agent to curate the reference <code>docs/modules.yaml</code> taxonomy</li>
+<li>Remove Python 3.12 version-portable <code>**</code> glob rewrite workaround from <code>_glob_paths</code>.
+  The project now requires Python &gt;=3.14 where <code>Path.glob("**")</code> natively matches files.</li>
+<li>Enable baseline periodic agents (<code>test_gap</code>, <code>bc_check</code>, <code>security_posture</code>) via <code>.robotsix-mill/periodic/</code> presence files.</li>
+<li>Create <code>changelog.d/</code> directory for towncrier-managed changelog fragments.</li>
+<li>Add <code>towncrier-check</code> pre-commit hook (repo: local) to validate changelog fragments.</li>
+<li>Updated the release checklist in <code>CONTRIBUTING.md</code> to use the towncrier-based
+  workflow: <code>towncrier build --yes</code> to generate the changelog, commit the
+  updated <code>CHANGELOG.md</code> and deleted fragments, and <code>gh release create</code> with
+  draft notes from <code>towncrier build --draft</code>.</li>
+<li>Deduplicate <code>CODE_OF_CONDUCT.md</code>: keep single canonical copy at repo root,
+  remove <code>docs/</code> symlink, and use a MkDocs build-time hook to supply the
+  file during documentation builds.</li>
+<li>Remove all periodic mill workflows from <code>.robotsix-mill/periodic/</code> to pause auto-generated ticket flooding (audit, survey, completeness_check, test_gap, security_posture, and others). Workflows can be restored individually by re-adding their <code>.yaml</code> files.</li>
+<li>Enforce <code>check-registration</code> in CI (new <code>check-registration</code> job in <code>ci.yml</code>) and in the local <code>scripts/check</code> script, closing a gap where unregistered files could silently drift out of sync with <code>docs/modules.yaml</code>.</li>
+<li>Introduce <code>FindingKind(StrEnum)</code> in <code>src/robotsix_modules/validation/_findings.py</code> to replace magic-string finding kinds (<code>"unclassified_file"</code>, <code>"stale_path"</code>, <code>"duplicate_registration"</code>, <code>"path_not_found"</code>, <code>"glob_empty"</code>). All source, test, and README usage sites now reference the enum members instead of raw string literals.</li>
+<li>Register root-level <code>CODE_OF_CONDUCT.md</code>, <code>CONTRIBUTING.md</code>, <code>.robotsix-mill/**</code>, and <code>scripts/**</code> under the <code>root</code> module's path list in <code>docs/modules.yaml</code>, closing remaining <code>unclassified_file</code> findings from <code>check-registration</code>.</li>
+<li>Remove unused <code>RobotsixModulesError</code> import from <code>robotsix_modules.cli</code>.)</li>
+<li>Register <code>src/robotsix_modules/_exceptions.py</code> in the <code>validation</code> module's path list in <code>docs/modules.yaml</code>.</li>
+<li>Confirm <code>docs/CODE_OF_CONDUCT.md</code> is already a symlink (<code>-&gt; ../CODE_OF_CONDUCT.md</code>, created in PR #133); no code change needed to eliminate the byte-identical clone.)</li>
+<li>Revert cosmetic <code>...</code> added by prior attempt to root <code>CONTRIBUTING.md</code>. The
+  core deduplication (<code>docs/CONTRIBUTING.md</code> as symlink to <code>../CONTRIBUTING.md</code>)
+  was already in place from a prior PR; no further changes needed.</li>
+<li>Updated <code>docs/schema-reference.md</code> to document the <code>package</code> field, correct the <code>paths</code> requirement from mandatory to optional (convention globs are synthesised from <code>package</code>), and refresh the complete example to match the current <code>docs/modules.yaml</code>.</li>
+<li>Add <code>.github/workflows/lint-workflows.yml</code> to run actionlint and zizmor on push/PR, using the shared reusable workflow from <code>robotsix-github-workflows</code>.</li>
+<li>Add custom exception hierarchy: <code>RobotsixModulesError</code> base class with typed subclasses <code>GitOperationError</code>, <code>ConfigError</code>, <code>ConfigFileNotFoundError</code>, <code>ConfigParseError</code>, and <code>ConfigStructureError</code>. Git-operation failures now raise <code>GitOperationError</code> instead of bare <code>RuntimeError</code>.</li>
+<li>Remove the retired <code>robotsix-yaml-config</code> dependency. The package now uses
+  PyYAML directly for all YAML I/O via its internal <code>_yaml</code> wrapper, matching
+  the config-standard migration to <code>robotsix-config</code>.</li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Fixed stale docstring in <code>robotsix_modules.validation.schemas</code> package init referencing non-existent <code>robotsix_modules.schemas</code> path.</li>
+<li>Stale GitHub org URLs in <code>CONTRIBUTING.md</code> and <code>.github/ISSUE_TEMPLATE/config.yml</code> replaced <code>robotsix/robotsix-modules</code> → <code>damien-robotsix/robotsix-modules</code>.</li>
+</ul>
+<h3 id="added_1">Added</h3>
+<ul>
+<li>Added <code>towncrier&gt;=25.8.0</code> to dev dependencies and configured <code>[tool.towncrier]</code> for changelog management.</li>
+<li>Add <code>paths</code> globs to the <code>cli</code> module in <code>docs/modules.yaml</code> to properly claim its source, test, and doc files.</li>
+<li>Classify validation subpackage files under the <code>validation</code> module in <code>docs/modules.yaml</code> (11 files now claimed via glob paths).</li>
+<li>Resolve mypy strict-mode errors in test files: add type annotations to conftest helpers, add <code>types-PyYAML</code> dev dependency, and fix TestMigrate type signatures.</li>
+<li>Add coverage check to <code>validate</code> and <code>validate-main</code> subcommands: every tracked file must be covered by at least one module's globs (explicit paths + convention defaults). Previously only <code>check-registration</code> performed this check; now the pre-commit <code>robotsix-modules-validate</code> hook also catches unclassified files.</li>
+<li>Add <code>robotsix-modules migrate</code> CLI subcommand that rewrites a
+  <code>modules.yaml</code> to strip explicit path entries already covered by
+  convention default globs (<code>src/&lt;pkg&gt;/&lt;id&gt;/**</code>, <code>tests/&lt;id&gt;/**</code>,
+  <code>docs/&lt;id&gt;/**</code>). Supports <code>--in-place</code> for file overwrite.
+  YAML comments are not preserved.</li>
+<li>Make module <code>paths</code> optional in <code>modules.yaml</code>: when a top-level
+  <code>package</code> field is set, modules without explicit paths inherit three
+  convention globs (<code>src/&lt;package&gt;/&lt;id&gt;/**</code>, <code>tests/&lt;id&gt;/**</code>,
+  <code>docs/&lt;id&gt;/**</code>).  Add <code>compute_default_globs</code> to the public API.</li>
+<li>Dogfood <code>.pre-commit-hooks.yaml</code> in own <code>.pre-commit-config.yaml</code> via <code>repo: .</code> instead of <code>repo: local</code>.
+  Document the pre-commit hook layout convention in <code>AGENT.md</code> (## Project layout).</li>
+<li>Added <code>.pre-commit-hooks.yaml</code> at repo root enabling remote-repo consumption of the <code>validate-module-taxonomy</code> hook (<code>language: python</code>)</li>
+<li>Updated <code>docs/cli/usage.md</code> — split the pre-commit integration section into two separate code blocks: a remote-repo (recommended) example and the existing local-hook block</li>
+<li>Add <code>.github/workflows/dependabot-auto-merge.yml</code> to auto-merge Dependabot PRs once required checks pass.</li>
+<li>Add robotsix-standards reference link to <code>README.md</code> and <code>AGENT.md</code>.</li>
+<li>Migrate secret scanning from <code>detect-secrets</code> to <code>gitleaks</code> in both pre-commit and CI, and add a minimal <code>.gitleaks.toml</code> configuration.</li>
+<li>Extract <code>RegistrationFinding</code> dataclass and its six helper functions from <code>registration.py</code> into a new <code>validation/_findings.py</code> module for improved cohesion.</li>
+<li>Consolidate duplicate CLI error-path test boilerplate: added shared helpers in <code>tests/conftest.py</code> (<code>run_missing_file_test</code>, <code>run_invalid_yaml_test</code>, <code>run_root_flag_respected_test</code>) and replaced 7 per-class duplicate methods in <code>tests/cli/test_cli.py</code> with 3 parametrized module-level tests.</li>
+<li>Bump bandit[toml] requirement from &gt;=1.8 to &gt;=1.9.4</li>
+<li>Bump pre-commit hook versions: <code>pre-commit-hooks</code> v5.0.0→v6.0.0,
+  <code>ruff</code> v0.15.15→v0.15.19, <code>mirrors-mypy</code> v1.19.1→v2.1.0,
+  <code>zizmor</code> v1.23.1→v1.26.1</li>
+<li>Add <code>detect-secrets</code> CI job to <code>.github/workflows/ci.yml</code> for server-side secret scanning with existing baseline</li>
+<li>Update pinned GitHub Actions to latest versions: <code>actions/checkout</code> to v7.0.0, <code>astral-sh/setup-uv</code> to v8.2.0, <code>github/codeql-action/upload-sarif</code> to v4.36.2, <code>actions/upload-artifact</code> to v7.0.1. Correct misleading version comment on <code>codeql-action/upload-sarif</code>. (mill: Update stale GitHub Actions to latest pinned versions across CI workflows (20260701T092348Z-update-stale-github-actions-to-latest-pi-a566))</li>
+<li>Add <code>security_posture</code> periodic workflow to <code>.robotsix-mill/periodic/</code> for automated security posture review.</li>
+<li>Document CLI JSON output field schemas for <code>validate</code>, <code>check-registration</code>, and <code>validate-paths</code> subcommands in <code>docs/cli/usage.md</code>.</li>
+<li><code>CODE_OF_CONDUCT.md</code>: adopt Contributor Covenant v2.1 with enforcement guidelines and
+  reporting contact (<code>damien.robotsix@gmail.com</code>).</li>
+<li><code>CONTRIBUTING.md</code>: replace informal "License &amp; conduct" section with a formal code of
+  conduct reference and reporting instructions.</li>
+<li><code>README.md</code>: add <code>## Contributing</code> section with Contributor Covenant badge and links
+  to contributing guide and code of conduct.</li>
+<li>Added <code>ExitCode</code> IntEnum (<code>src/robotsix_modules/cli/_exit_codes.py</code>) to replace
+  raw integer exit codes in the CLI, with named members <code>OK</code>, <code>ERRORS</code>, and <code>FATAL</code>.</li>
+<li>Register <code>docs/CODE_OF_CONDUCT.md</code> in the <code>docs</code> module's path list in <code>docs/modules.yaml</code>.</li>
+<li><code>mkdocs.yml</code>: enable <code>strict: true</code> and <code>validation</code> block (omitted files, absolute
+  links, unrecognized links, anchors) so <code>mkdocs build --strict</code> catches broken nav
+  entries, orphaned files, and stale cross-references at build time.</li>
+<li><code>.github/workflows/ci.yml</code>: add <code>mkdocs-build</code> job that runs <code>mkdocs build --strict</code>
+  on every PR.</li>
+<li><code>scripts/check</code>: add <code>mkdocs build --strict</code> step after pytest so local development
+  mirrors the CI docs gate.</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li><code>src/robotsix_modules/validation/registration.py</code>: add explicit <code>check=False</code> to
+  <code>subprocess.run()</code> call and remove unused <code># noqa: S607</code> directive.</li>
+</ul>
+<h3 id="added_2">Added</h3>
+<ul>
+<li>OpenSSF Scorecard workflow (<code>.github/workflows/scorecard.yml</code>) running weekly
+  and on push to <code>main</code>, with SARIF results uploaded to CodeQL for supply-chain
+  security visibility.</li>
+<li>OpenSSF Scorecard badge in <code>README.md</code>.</li>
+<li><code>.github/workflows/ci.yml</code>: add <code>dependency-review</code> job using
+  <code>actions/dependency-review-action@v5</code> with <code>fail-on-severity: moderate</code> to catch
+  vulnerable dependency changes on pull requests.</li>
+<li><code>validate-pyproject</code> pre-commit hook and CI job to validate <code>pyproject.toml</code>
+  against PEP 517/518/621/639/735 JSON Schemas, catching invalid classifier
+  values, malformed dependency specs, and incorrect project metadata fields.</li>
+<li><code>zizmor</code> static analysis for GitHub Actions workflow security: added to
+  pre-commit hooks, CI pipeline (with SARIF upload), and dev dependencies.</li>
+<li><code>validate-pyproject-schema-store[all]</code> as an additional dependency for the
+  <code>validate-pyproject</code> hook and CI job, extending validation to third-party
+  <code>[tool.*]</code> sections (ruff, mypy, pytest, coverage, deptry, bandit).</li>
+<li>Added <code>load_schema</code> to the public API surface of <code>robotsix_modules.validation</code>
+  and <code>robotsix_modules</code> (<code>__all__</code> and top-level re-export).</li>
+<li>Replaced <code>pip-audit</code> with native <code>uv audit</code> for vulnerability scanning and
+  <code>uv export --format cyclonedx1.5</code> for SBOM generation in CI.</li>
+<li>Markdown linting and formatting via <code>.markdownlint-cli2.jsonc</code>, pre-commit
+  hooks (<code>markdownlint-cli2</code>, <code>mdformat</code>), and <code>scripts/lint</code>/<code>scripts/check</code>
+  integration.</li>
+<li><code>.gitignore</code> entries for <code>site/</code>, <code>wheel-env/</code>, <code>sbom.json</code>, <code>.env</code>, and
+  <code>.DS_Store</code> to prevent accidental commits of docs build output, CI artifacts,
+  and OS/environment files.</li>
+</ul>
+<h3 id="fixed_1">Fixed</h3>
+<ul>
+<li>Suppress ruff S607 (<code>start-process-with-partial-path</code>) on intentional <code>git ls-files</code>
+  subprocess call in <code>registration.py</code>.</li>
+<li>Added <code>types: [markdown]</code> filter to the <code>markdownlint-cli2</code> pre-commit hook,
+  preventing it from linting non-Markdown files (Python, YAML, JSON, etc.).</li>
+<li>Added missing <code>docs/cli/**</code> path glob to the <code>cli</code> module in
+  <code>docs/modules.yaml</code>, classifying the previously unclaimed <code>docs/cli/usage.md</code>
+  and completing the per-module layout for the CLI module.</li>
+<li>Added <code>docs</code> dependency group (<code>mkdocs-material</code>, <code>mkdocstrings[python]</code>) to
+  <code>pyproject.toml</code> and updated <code>scripts/docs</code> to use <code>--group docs</code>, fixing a
+  broken local docs preview (<code>uv run mkdocs serve</code> failed without the
+  dependencies).</li>
+<li>Added <code>ignore_errors = true</code> for the <code>vulture_whitelist</code> module in mypy
+  configuration, fixing a type-check failure caused by intentional bare names
+  in the vulture whitelist file.</li>
+<li>CI: fix local-action-resolution failure by adding explicit <code>actions/checkout</code>
+  step before each <code>uses: ./.github/actions/setup</code> call and removing checkout
+  from within the composite action.</li>
+<li>Add empty <code>tracing</code> extra to <code>[project.optional-dependencies]</code> to satisfy
+  reusable workflow's <code>uv sync --extra tracing</code> call.</li>
+</ul>
+<h3 id="changed_1">Changed</h3>
+<ul>
+<li>Refactored <code>validate_main</code> to use a shared <code>_validate_paths</code> generator,
+  reducing nesting depth and eliminating the duplicated <code>for path in args.paths</code>
+  loop.</li>
+<li>Updated dev dependencies: ruff 0.15.16 → 0.15.18, pip-audit 2.10.0 → 2.10.1.</li>
+</ul>
+<h2 id="020">[0.2.0]</h2>
+<h3 id="added_3">Added</h3>
+<ul>
+<li><code>check_registration()</code> – verifies every tracked file is claimed by exactly one
+  module, detecting unclassified files, stale paths, and duplicate
+  registrations.</li>
+<li><code>validate_paths()</code> – checks that every module path entry (literal or glob)
+  resolves to at least one file on disk.</li>
+<li><code>RegistrationFinding</code> and <code>PathFinding</code> frozen-dataclass types for structured
+  findings.</li>
+<li>CLI subcommands: <code>robotsix-modules check-registration</code> and
+  <code>robotsix-modules validate-paths</code>, each with <code>--root</code> flag and exit-code
+  semantics (0/1/2).</li>
+<li>Public API re-exports for the new functions and types from the package root.</li>
+</ul>
+<h2 id="010">[0.1.0]</h2>
+<p>Initial public release.</p>
+<h3 id="added_4">Added</h3>
+<ul>
+<li>JSON-Schema-driven (draft 2020-12) validation for the <code>docs/modules.yaml</code>
+  module-taxonomy file, with the canonical schema bundled in the package.</li>
+<li>CLI (<code>robotsix-modules validate</code>, plus the <code>robotsix-modules-validate</code>
+  pre-commit wrapper entry point) and Python API (<code>validate</code>, <code>validate_file</code>,
+  <code>load_taxonomy</code>, <code>SCHEMA_PATH</code>).</li>
+<li>Test suite with coverage enforced at the 80% threshold in CI.</li>
+<li>Quality and security tooling in CI: Ruff (lint + format), mypy, deptry,
+  bandit, and pip-audit.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
