@@ -7,7 +7,7 @@ permissions:
 
 jobs:
   lint:
-    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/lint-workflows.yml@86dae89b637dad27ddba0aaa5f9430e083288365  # main
+    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/lint-workflows.yml@2d57525b51c301fef15576f9d1e962e1c0f18055  # main
     with:
       run-actionlint: true
       run-zizmor: true

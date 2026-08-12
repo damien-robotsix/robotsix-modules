@@ -18,4 +18,4 @@ jobs:
       contents: read  # needed to checkout the repo
       pages: write  # needed to deploy to GitHub Pages
       id-token: write  # needed for OIDC to deploy to Pages
-    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-docs.yml@86dae89b637dad27ddba0aaa5f9430e083288365  # main
+    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-docs.yml@2d57525b51c301fef15576f9d1e962e1c0f18055  # main
