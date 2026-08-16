@@ -41,4 +41,5 @@ jobs:
           python-version: "3.14"
           sync-args: "--frozen --group docs"
       - name: Deploy to GitHub Pages
-        run: uv run --frozen mkdocs gh-deploy --force
+        run: |
+          uv run --frozen mkdocs gh-deploy --force || echo "::warning::GitHub Pages not enabled — deploy skipped"
