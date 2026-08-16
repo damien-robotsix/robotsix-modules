@@ -9,37 +9,9 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
+  docs:
     permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
-        with:
-          persist-credentials: false
-      - uses: ./.github/actions/setup
-        with:
-          python-version: "3.14"
-          sync-args: "--frozen --group docs"
-      - name: Build site
-        run: uv run --frozen mkdocs build --strict
-
-  deploy:
-    name: Deploy
-    needs: build
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write  # needed by mkdocs gh-deploy to push to gh-pages branch
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
-        with:
-          persist-credentials: false
-      - uses: ./.github/actions/setup
-        with:
-          python-version: "3.14"
-          sync-args: "--frozen --group docs"
-      - name: Deploy to GitHub Pages
-        run: |
-          uv run --frozen mkdocs gh-deploy --force || echo "::warning::GitHub Pages not enabled — deploy skipped"
+      contents: read  # needed to checkout the repo
+      pages: write  # needed to deploy to GitHub Pages
+      id-token: write  # needed for OIDC to deploy to Pages
+    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-docs.yml@2d57525b51c301fef15576f9d1e962e1c0f18055  # main
