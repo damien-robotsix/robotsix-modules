@@ -87,3 +87,51 @@ source = ["robotsix_modules"]
 [tool.coverage.report]
 fail_under = 90
 
+[tool.towncrier]
+package = "robotsix_modules"
+package_dir = "src"
+filename = "CHANGELOG.md"
+directory = "changelog.d"
+issue_format = "[#{issue}](https://github.com/damien-robotsix/robotsix-modules/issues/{issue})"
+title_format = "## [{version}](https://github.com/damien-robotsix/robotsix-modules/compare/v{previous_version}...v{version}) ({project_date})"
+
+[[tool.towncrier.type]]
+directory = "feature"
+name = "Features"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "bugfix"
+name = "Bug Fixes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "change"
+name = "Changes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "deprecation"
+name = "Deprecations"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "removal"
+name = "Removals"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "security"
+name = "Security"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "doc"
+name = "Documentation"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "misc"
+name = "Miscellaneous"
+showcontent = false
+
