@@ -31,7 +31,6 @@ modules:
       - AGENT.md
       - .github/dependabot.yml
       - .github/actions/setup/action.yml
-      - .github/actions/python-setup/action.yml
       - .github/workflows/**
       - .github/workflows/release-please.yml
       - .github/ISSUE_TEMPLATE/**
