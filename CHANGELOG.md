@@ -7,6 +7,13 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- towncrier release notes start -->
+## [0.5.0](https://github.com/damien-robotsix/robotsix-modules/compare/v0.4.2...v0.5.0) (2026-08-22)
+
+
+### Features
+
+* Remove unused `.github/actions/python-setup` composite action (dead near-duplicate of `setup`) (20260821T125015Z-remove-unused-github-actions-python-setu-50de) ([#302](https://github.com/damien-robotsix/robotsix-modules/issues/302)) ([8c13605](https://github.com/damien-robotsix/robotsix-modules/commit/8c13605ac88f0d9153cbd0767630553f7b40fc97))
+
 ## [0.4.2](https://github.com/damien-robotsix/robotsix-modules/compare/v0.4.1...v0.4.2) (2026-08-09)
 
 
