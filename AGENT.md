@@ -50,13 +50,12 @@ Use `robotsix_modules._yaml.read_yaml_file` for any YAML I/O (e.g. reading
 
 The `.pre-commit-config.yaml` runs: `ruff` (lint + format), `mypy` (type
 check), `bandit` (SAST), `gitleaks` (secrets detection), `zizmor` (workflow
-audit), `vulture` (dead code), `towncrier check` (changelog fragments),
-`validate-module-taxonomy` (validates `docs/modules.yaml` against the bundled
-JSON Schema), `validate-pyproject`, `mdformat` + `markdownlint-cli2` (Markdown
-formatting/linting), and the `pre-commit-hooks` suite
-(trailing-whitespace, end-of-file-fixer, check-yaml, check-toml,
-check-merge-conflict, check-added-large-files, detect-private-key, check-json,
-debug-statements).
+audit), `vulture` (dead code), `validate-module-taxonomy` (validates
+`docs/modules.yaml` against the bundled JSON Schema), `validate-pyproject`,
+`mdformat` + `markdownlint-cli2` (Markdown formatting/linting), and the
+`pre-commit-hooks` suite (trailing-whitespace, end-of-file-fixer, check-yaml,
+check-toml, check-merge-conflict, check-added-large-files, detect-private-key,
+check-json, debug-statements).
 
 The CI pipeline (`.github/workflows/ci.yml`) additionally enforces: coverage
 threshold, `check-registration` via a dedicated `check-registration` job,

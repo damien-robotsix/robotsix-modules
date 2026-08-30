@@ -20,12 +20,12 @@ No other top-level keys are permitted (`additionalProperties: false`).
 
 A taxonomy inventories a repository's **logical modules** — their
 descriptions, the files they own, and the dependencies between them. Linter
-configs, CI workflows, licence texts and per-PR changelog fragments are none of
+configs, CI workflows, licence texts and other repo scaffolding are none of
 those: they are repo scaffolding, uniform across the fleet, and they say nothing
 about how the software is decomposed.
 
 `check-registration` therefore skips a built-in set of repo-health paths
-(`.github/**`, `changelog.d/**`, `.pre-commit-config.yaml`, `LICENSE*`, and
+(`.github/**`, `.pre-commit-config.yaml`, `LICENSE*`, and
 similar — see `DEFAULT_EXCLUDED_PATHS`). Setting `excluded_paths` **extends**
 that set, so a repo names only its own extra scaffolding:
 
@@ -37,11 +37,11 @@ Claiming an excluded file is still legal — exclusion relaxes the requirement t
 claim it, it does not forbid doing so. That keeps existing taxonomies that
 already list scaffolding working unchanged.
 
-**Why this exists.** Towncrier writes one fragment file per pull request, so
-without an exemption every changelog entry became a taxonomy edit, and
-"register this fragment in `docs/modules.yaml`" became a recurring ticket class.
-On one robotsix repo, 404 of 658 tracked files (61%) were scaffolding the
-taxonomy was obliged to account for.
+**Why this exists.** Some repos use towncrier-style fragment files (one per pull
+request), so without an exemption every changelog entry became a taxonomy edit,
+and "register this fragment in `docs/modules.yaml`" became a recurring ticket
+class. On one robotsix repo, 404 of 658 tracked files (61%) were scaffolding
+the taxonomy was obliged to account for.
 
 **Minimal skeleton:**
 
@@ -127,8 +127,7 @@ modules:
     paths:
       - README.md
       - CHANGELOG.md
-      - changelog.d/**
-      - changelog.d/.gitkeep
+      - release-please-config.json
       - LICENSE
       - SECURITY.md
       - CODE_OF_CONDUCT.md

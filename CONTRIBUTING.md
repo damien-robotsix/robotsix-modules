@@ -100,60 +100,19 @@ uv run pre-commit run --all-files
 - Open your pull request against the `main` branch. CI runs on every pull
   request, so all checks must pass before a change can be merged.
 
-## Creating a changelog fragment
+## Commit message conventions
 
-Every pull request that changes user-visible behavior (features, bug fixes,
-deprecations, removals, documentation) needs a changelog fragment. The fragment
-is a single file in `changelog.d/` whose filename determines what section of the
-changelog it appears under.
-
-### Filename format
+Commit subjects and PR titles must follow
+[Conventional Commits](https://www.conventionalcommits.org/):
 
 ```
-<TIMESTAMP>-<SHORT-DESCRIPTION>.<TYPE>.md
+<type>: <description>
 ```
 
-- `TIMESTAMP` — current UTC timestamp in `YYYYMMDDTHHMMSSZ` format.
-- `SHORT-DESCRIPTION` — kebab-case slug (e.g. `fix-auth-timeout`).
-- `TYPE` — one of the following:
-
-| Type | Section heading | When to use |
-|------|----------------|-------------|
-| `feature` | Features | New user-facing functionality, new CLI subcommands, new public API surfaces |
-| `bugfix` | Bug Fixes | Fixes for incorrect behavior, crashes, or unexpected errors |
-| `change` | Changes | Modifications to existing behavior that are not strictly bug fixes |
-| `deprecation` | Deprecations | Marking a feature as deprecated |
-| `removal` | Removals | Removing a deprecated feature |
-| `security` | Security | Security-related fixes or improvements |
-| `doc` | Documentation | Changes to documentation only (README, CONTRIBUTING, docstrings) |
-| `misc` | (hidden) | Internal tooling, CI, dependency bumps, refactoring with no user impact |
-
-> **Note:** The `misc` type has `showcontent = false`, meaning its entries do
-> not appear in the rendered changelog. Use it only for internal changes that
-> users don't need to know about.
-
-### Using towncrier create
-
-Instead of manually naming the file, you can use:
-
-```console
-uv run towncrier create changelog.d/PULL_NUMBER.feature.md
-```
-
-Replace `feature` with the correct type from the table above.
-
-### Examples
-
-```
-# New CLI subcommand
-20260721T130000Z-add-migrate-subcommand.feature.md
-
-# Fix crash on empty modules.yaml
-20260721T130000Z-fix-crash-on-empty-yaml.bugfix.md
-
-# Internal refactor with no user impact
-20260721T130000Z-refactor-validate-loop.misc.md
-```
+Use one of: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `ci:`.
+[Release-please](https://github.com/googleapis/release-please) reads these
+commit messages to generate `CHANGELOG.md` automatically — no manual fragment
+files are needed.
 
 ## Releasing a new version
 
@@ -175,32 +134,16 @@ these steps in order:
    > - `README.md` — the `vX.Y.Z` strings in install examples (3 occurrences).
    > - `SECURITY.md` — the `**vX.Y.Z**` supported-version string.
 
-2. Build the changelog entry from the accumulated news fragments with
-   [towncrier](https://towncrier.readthedocs.io/):
+2. Commit the version bump, push to `main`, and confirm CI is green.
 
-   ```console
-   uv run towncrier build --yes --version X.Y.Z
-   ```
+3. [Release-please](https://github.com/googleapis/release-please) will open
+   (or update) a release PR that bumps the version and updates `CHANGELOG.md`
+   from conventional commit messages. Merge that PR when ready.
 
-   This updates `CHANGELOG.md` with the fragments under `changelog.d/` and
-   deletes those fragment files.
-
-3. Commit the updated `CHANGELOG.md` and the deleted fragment files, push to
-   `main`, and confirm CI is green.
-
-4. Create a GitHub Release whose tag follows the `v{version}` convention
-   (version `0.3.0` → tag `v0.3.0`). Use `gh release create` with draft release
-   notes produced by towncrier:
-
-   ```console
-   gh release create v<version> \
-     --title "v<version>" \
-     --notes "$(uv run towncrier build --draft --version X.Y.Z 2>/dev/null | tail -n +6)"
-   ```
-
-5. Publishing the GitHub Release fires `.github/workflows/release.yml`, which
-   calls the `damien-robotsix/robotsix-mill` reusable `python-release.yml`
-   workflow and publishes the package to PyPI via
+4. Merging the release PR creates a GitHub Release automatically. The
+   `v{version}` tag fires `.github/workflows/release.yml`, which calls the
+   `damien-robotsix/robotsix-mill` reusable `python-release.yml` workflow and
+   publishes the package to PyPI via
    [Trusted Publishing](https://docs.pypi.org/trusted-publishers/) — no manual
    `twine` or token step is required. Confirm the `Publish to PyPI` workflow run
    succeeds.
