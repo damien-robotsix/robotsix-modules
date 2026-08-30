@@ -48,14 +48,6 @@ repos:
         language: python
         additional_dependencies: [vulture>=2.16]
         pass_filenames: false
-      - id: towncrier-check
-        name: towncrier check
-        entry: towncrier
-        args: [check]
-        language: python
-        additional_dependencies: [towncrier>=25.8.0]
-        pass_filenames: false
-        always_run: true
   - repo: .
     rev: ""
     hooks:

@@ -538,9 +538,9 @@ class TestRepoHealthExclusions:
     """Scaffolding is exempt from the completeness requirement.
 
     A taxonomy inventories logical modules. Linter configs, CI workflows and
-    per-PR changelog fragments are repo health — they say nothing about how the
-    software is decomposed, and demanding they be claimed turned every
-    towncrier fragment into a taxonomy edit.
+    per-PR changelog fragments (used by some repos) are repo health — they say
+    nothing about how the software is decomposed, and demanding they be claimed
+    turned every fragment file into a taxonomy edit.
     """
 
     def test_scaffolding_is_not_reported_unclassified(self, tmp_path: Path) -> None:
