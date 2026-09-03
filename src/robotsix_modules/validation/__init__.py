@@ -23,6 +23,7 @@ from ._findings import FindingKind, RegistrationFinding
 from .registration import (
     PathFinding,
     check_coverage,
+    check_dependencies,
     check_registration,
     compute_default_globs,
     validate_paths,
@@ -35,6 +36,7 @@ __all__ = [
     "RegistrationFinding",
     "SCHEMA_PATH",
     "check_coverage",
+    "check_dependencies",
     "check_registration",
     "compute_default_globs",
     "load_schema",

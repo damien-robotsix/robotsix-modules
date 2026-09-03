@@ -78,8 +78,9 @@ $defs:
           pattern: "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         description: >-
           Other module `id` values that this module consumes (imports,
-          reads, or otherwise depends on).  Documentation-only for v1;
-          no enforcement is implemented.  Omit or use `[]` when a
-          module has no internal dependencies.
+          reads, or otherwise depends on).  Registration validation
+          checks that each dependency references an existing module
+          `id`.  Omit or use `[]` when a module has no internal
+          dependencies.
     required: [id, description]
     additionalProperties: false

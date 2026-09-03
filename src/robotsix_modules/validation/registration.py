@@ -31,6 +31,7 @@ from ._paths import (
 __all__ = [
     "PathFinding",
     "check_coverage",
+    "check_dependencies",
     "check_registration",
     "compute_default_globs",
     "validate_paths",
@@ -79,7 +80,8 @@ def check_registration(
     Returns:
         A (possibly empty) list of :class:`RegistrationFinding` objects,
         ordered: *unclassified_file* entries first, then *stale_path*
-        entries, then *duplicate_registration* entries.
+        entries, then *duplicate_registration* entries, then
+        *invalid_dependency* entries.
 
     Raises:
         GitOperationError: when *tracked_files* is ``None`` and ``git ls-files``
@@ -93,7 +95,46 @@ def check_registration(
         _find_unclassified(tracked_set, file_to_modules, taxonomy.get("excluded_paths"))
         + _find_stale_paths(taxonomy, repo_root)
         + _find_duplicates(file_to_modules, tracked_set)
+        + check_dependencies(taxonomy)
     )
+
+
+def check_dependencies(
+    taxonomy: dict[str, Any],
+) -> list[RegistrationFinding]:
+    """Validate that module dependencies reference existing module IDs.
+
+    Builds the set of all module ids declared in *taxonomy* and, for each
+    module, checks that every entry in its ``dependencies`` list matches a
+    known module id.
+
+    Args:
+        taxonomy: a parsed ``modules.yaml`` dict.
+
+    Returns:
+        A (possibly empty) list of :class:`RegistrationFinding` objects with
+        ``kind=INVALID_DEPENDENCY`` for any dependency that does not match an
+        existing module id.
+    """
+    module_ids = {m["id"] for m in taxonomy.get("modules", [])}
+    findings: list[RegistrationFinding] = []
+
+    for module in taxonomy.get("modules", []):
+        module_id = module["id"]
+        for dep_id in module.get("dependencies", []):
+            if dep_id not in module_ids:
+                findings.append(
+                    RegistrationFinding(
+                        kind=FindingKind.INVALID_DEPENDENCY,
+                        message=(
+                            f"module '{module_id}': dependency '{dep_id}' "
+                            "does not exist"
+                        ),
+                        module_id=module_id,
+                        dependency_id=dep_id,
+                    )
+                )
+    return findings
 
 
 def check_coverage(
