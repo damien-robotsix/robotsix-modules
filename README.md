@@ -18,13 +18,13 @@ small CLI + Python API to validate it.
 With `uv`:
 
 ```console
-uv add "robotsix-modules @ git+https://github.com/damien-robotsix/robotsix-modules@v0.2.0"
+uv add "robotsix-modules @ git+https://github.com/damien-robotsix/robotsix-modules@v0.4.2" # x-release-please-version
 ```
 
 With `pip`, using the git-URL form:
 
 ```console
-pip install "robotsix-modules @ git+https://github.com/damien-robotsix/robotsix-modules@v0.2.0"
+pip install "robotsix-modules @ git+https://github.com/damien-robotsix/robotsix-modules@v0.4.2" # x-release-please-version
 ```
 
 ## CLI
@@ -47,12 +47,19 @@ output formats, and pre-commit integration — see
 
 ```python
 from robotsix_modules import (
-    validate, validate_file, load_taxonomy, SCHEMA_PATH,
-    check_registration, validate_paths,
-    RegistrationFinding, PathFinding,
+    validate,
+    validate_file,
+    load_taxonomy,
+    SCHEMA_PATH,
+    check_registration,
+    validate_paths,
+    RegistrationFinding,
+    PathFinding,
 )
 
-errors = validate({"modules": [{"id": "foo", "description": "x", "paths": ["src/foo.py"]}]})
+errors = validate(
+    {"modules": [{"id": "foo", "description": "x", "paths": ["src/foo.py"]}]}
+)
 assert errors == []
 
 errors = validate({})

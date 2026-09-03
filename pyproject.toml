@@ -10,7 +10,7 @@ requires-python = ">=3.14"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Damien Robotsix" }]
-dependencies = ["PyYAML>=6", "jsonschema>=4"]
+dependencies = ["PyYAML>=6.0.2", "jsonschema>=4"]
 
 [dependency-groups]
 dev = ["pre-commit>=4.6.2", "ruff>=0.16.3", "mypy>=2.3.0", "deptry>=0.20", "bandit[toml]>=1.9.4", "vulture>=2.16", "validate-pyproject>=0.25", "validate-pyproject-schema-store[all]>=2026.8.8", "zizmor>=1.29.0", "types-PyYAML>=6.0.12"]
