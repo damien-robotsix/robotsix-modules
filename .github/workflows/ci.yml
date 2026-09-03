@@ -337,8 +337,11 @@ jobs:
             --root "$(mktemp -d)" \
             "$WORKSPACE/tests/cli/fixtures/valid_modules.yaml"
       - name: Dogfood — validate the real modules.yaml
-        run: ./wheel-env/bin/robotsix-modules validate \
-          "$WORKSPACE/docs/modules.yaml"
+        # Block scalar on purpose: a single-line `run: cmd \` YAML plain
+        # scalar folds the continuation with a space, turning the `\` into
+        # an escaped-space argument (the CLI then sees a leading-space path).
+        run: |
+          ./wheel-env/bin/robotsix-modules validate "$WORKSPACE/docs/modules.yaml"
 
   sbom:
     name: SBOM + audit

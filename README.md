@@ -47,12 +47,19 @@ output formats, and pre-commit integration — see
 
 ```python
 from robotsix_modules import (
-    validate, validate_file, load_taxonomy, SCHEMA_PATH,
-    check_registration, validate_paths,
-    RegistrationFinding, PathFinding,
+    validate,
+    validate_file,
+    load_taxonomy,
+    SCHEMA_PATH,
+    check_registration,
+    validate_paths,
+    RegistrationFinding,
+    PathFinding,
 )
 
-errors = validate({"modules": [{"id": "foo", "description": "x", "paths": ["src/foo.py"]}]})
+errors = validate(
+    {"modules": [{"id": "foo", "description": "x", "paths": ["src/foo.py"]}]}
+)
 assert errors == []
 
 errors = validate({})
