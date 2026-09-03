@@ -7,6 +7,20 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- towncrier release notes start -->
+## [0.5.0](https://github.com/damien-robotsix/robotsix-modules/compare/v0.4.2...v0.5.0) (2026-09-03)
+
+
+### Features
+
+* Remove unused `.github/actions/python-setup` composite action (dead near-duplicate of `setup`) (20260821T125015Z-remove-unused-github-actions-python-setu-50de) ([#302](https://github.com/damien-robotsix/robotsix-modules/issues/302)) ([8c13605](https://github.com/damien-robotsix/robotsix-modules/commit/8c13605ac88f0d9153cbd0767630553f7b40fc97))
+
+
+### Bug Fixes
+
+* Make check_coverage surface GitOperationError instead of silently returning [] (non-git checkout) (20260903T202041Z-make-check-coverage-surface-gitoperation-f192) ([#319](https://github.com/damien-robotsix/robotsix-modules/issues/319)) ([66d8c27](https://github.com/damien-robotsix/robotsix-modules/commit/66d8c2795e45f69b256e30c85619dbcc3a413f9c))
+* **mill-config:** restore parseable repo settings clobbered by ticket c645 ([#314](https://github.com/damien-robotsix/robotsix-modules/issues/314)) ([db46f91](https://github.com/damien-robotsix/robotsix-modules/commit/db46f913b20d4bde672c2afb57bc35f88ede5005))
+* Reconcile excluded_paths EXTEND contract with REPLACE implementation in _find_unclassified (20260903T203002Z-reconcile-excluded-paths-extend-contract-019d) ([#320](https://github.com/damien-robotsix/robotsix-modules/issues/320)) ([7fd5414](https://github.com/damien-robotsix/robotsix-modules/commit/7fd5414b121df5791790cc37e7e223cc5f3c0eb8))
+
 ## [0.4.2](https://github.com/damien-robotsix/robotsix-modules/compare/v0.4.1...v0.4.2) (2026-08-09)
 
 
