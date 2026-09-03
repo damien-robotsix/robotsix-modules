@@ -104,17 +104,18 @@ dict produced by `dataclasses.asdict` with these fields:
 
 | Field | Type | Always present? | Description |
 |-------|------|-----------------|-------------|
-| `kind` | string | always | One of `"unclassified_file"`, `"stale_path"`, `"duplicate_registration"` |
+| `kind` | string | always | One of `"unclassified_file"`, `"stale_path"`, `"duplicate_registration"`, `"invalid_dependency"` |
 | `message` | string | always | Human-readable one-liner |
 | `file` | string or null | only for `unclassified_file` and `duplicate_registration` | Repo-relative path |
-| `module_id` | string or null | only for `stale_path` and `duplicate_registration` | Module identifier |
+| `module_id` | string or null | only for `stale_path`, `duplicate_registration` and `invalid_dependency` | Module identifier |
 | `other_module_id` | string or null | only for `duplicate_registration` | Second claimant module id |
+| `dependency_id` | string or null | only for `invalid_dependency` | Declared dependency that does not resolve to an existing module |
 
 Example:
 
 ```console
 $ robotsix-modules check-registration docs/modules.yaml --output-format json
-{"findings": [{"kind": "unclassified_file", "message": "File 'orphan.txt' is not claimed by any module", "file": "orphan.txt", "module_id": null, "other_module_id": null}]}
+{"findings": [{"kind": "unclassified_file", "message": "File 'orphan.txt' is not claimed by any module", "file": "orphan.txt", "module_id": null, "other_module_id": null, "dependency_id": null}]}
 ```
 
 ##### `validate-paths`
