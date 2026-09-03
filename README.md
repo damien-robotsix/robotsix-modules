@@ -70,14 +70,25 @@ errors = validate_file("docs/modules.yaml")
 
 ```python
 from pathlib import Path
-from robotsix_modules import check_registration, validate_paths
+from robotsix_modules import check_registration, check_coverage, validate_paths
+from robotsix_modules._exceptions import GitOperationError
 
 taxonomy = load_taxonomy("docs/modules.yaml")
 root = Path(".")
 
-findings = check_registration(taxonomy, root)
-for f in findings:
-    print(f.kind, f.message)
+try:
+    findings = check_registration(taxonomy, root)
+    for f in findings:
+        print(f.kind, f.message)
+except GitOperationError as exc:
+    print(f"git error: {exc}")
+
+try:
+    errors = check_coverage(taxonomy, root)
+    for error in errors:
+        print(error)
+except GitOperationError as exc:
+    print(f"git error: {exc}")
 
 findings = validate_paths(taxonomy, root)
 for f in findings:
@@ -99,7 +110,14 @@ finding = RegistrationFinding(
 - `check_registration(taxonomy, repo_root, *, tracked_files=None)` — verify
   every tracked file is claimed by exactly one module. Returns a list of
   `RegistrationFinding` objects. Uses `git ls-files` by default; pass
-  `tracked_files` to override.
+  `tracked_files` to override. Raises `GitOperationError` when git operations
+  fail (e.g., `git` not installed or *repo_root* is not a git repository).
+- `check_coverage(taxonomy, repo_root, *, tracked_files=None)` — verify every
+  tracked file is covered by at least one module's globs. Returns a list of
+  human-readable error messages for unclassified files. Uses `git ls-files` by
+  default; pass `tracked_files` to override. Raises `GitOperationError` when
+  git operations fail (e.g., `git` not installed or *repo_root* is not a git
+  repository).
 - `validate_paths(taxonomy, repo_root)` — verify every module path entry
   resolves to at least one file on disk. Returns a list of `PathFinding`
   objects.

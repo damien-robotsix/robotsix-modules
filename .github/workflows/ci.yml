@@ -331,10 +331,14 @@ jobs:
         run: |
           ./wheel-env/bin/python -c "import robotsix_modules; print('import ok:', robotsix_modules.__version__)"
           ./wheel-env/bin/robotsix-modules --help
-          # --root at an empty dir scopes the path-coverage check away from
-          # the repo working tree (the fixture only claims fixture paths).
+          # --root at an empty *git* repo scopes the path-coverage check away
+          # from the repo working tree: git ls-files reports no tracked files,
+          # so the fixture's claimed paths are the only coverage surface. A
+          # plain (non-git) temp dir would now raise GitOperationError.
+          coverage_root="$(mktemp -d)"
+          git init -q "$coverage_root"
           ./wheel-env/bin/robotsix-modules validate \
-            --root "$(mktemp -d)" \
+            --root "$coverage_root" \
             "$WORKSPACE/tests/cli/fixtures/valid_modules.yaml"
       - name: Dogfood — validate the real modules.yaml
         # Block scalar on purpose: a single-line `run: cmd \` YAML plain

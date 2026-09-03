@@ -12,7 +12,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from .._exceptions import GitOperationError
 from ._findings import (
     FindingKind,
     RegistrationFinding,
@@ -159,13 +158,14 @@ def check_coverage(
 
     Returns:
         A (possibly empty) list of human-readable error messages, one per
-        unclassified file.  Returns an empty list (graceful no-op) when
-        ``git ls-files`` cannot be run — e.g. in a non-git directory.
+        unclassified file.
+
+    Raises:
+        GitOperationError: when *tracked_files* is ``None`` and ``git ls-files``
+            cannot be run successfully (e.g. git not installed or *repo_root*
+            is not a git repository).
     """
-    try:
-        findings = check_registration(taxonomy, repo_root, tracked_files=tracked_files)
-    except GitOperationError:
-        return []
+    findings = check_registration(taxonomy, repo_root, tracked_files=tracked_files)
     return [f.message for f in findings if f.kind == FindingKind.UNCLASSIFIED_FILE]
 
 

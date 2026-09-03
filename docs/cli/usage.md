@@ -15,8 +15,14 @@ The `robotsix-modules` package provides two CLI entry points:
 $ robotsix-modules validate docs/modules.yaml   # exit 0 when valid, empty output
 $ robotsix-modules validate broken.yaml          # prints "<pointer>: <message>" lines to stderr; exit 1
 $ robotsix-modules validate missing.yaml         # "robotsix-modules: error: file not found: ..."; exit 2
+$ robotsix-modules validate docs/modules.yaml --root /path/to/non-repo  # exit 2; "cannot run coverage check" (requires git repo)
 $ robotsix-modules --version                     # robotsix-modules 0.2.0
 ```
+
+The `validate` subcommand performs both schema validation and coverage checking.
+The coverage check (which verifies all tracked files are claimed by modules)
+requires the `--root` to be a git repository; it will exit with code 2 if git
+operations fail (e.g., not a git repo, git not installed).
 
 ### `check-registration`
 
@@ -26,7 +32,14 @@ $ robotsix-modules check-registration docs/modules.yaml
 
 $ robotsix-modules check-registration docs/modules.yaml --root /path/to/repo
 # exit 1 — prints findings (unclassified files, stale paths, duplicates) to stderr
+
+$ robotsix-modules check-registration docs/modules.yaml --root /path/to/non-repo
+# exit 2 — "git ls-files failed" (requires git repo)
 ```
+
+This subcommand requires a git repository. It uses `git ls-files` to list
+tracked files and will exit with code 2 if the command fails (e.g., not a git
+repo, git not installed).
 
 ### `validate-paths`
 
@@ -152,6 +165,10 @@ error.
 
 Use the wrapper entry point, which accepts one or more positional paths
 (pre-commit passes each matched file separately).
+
+> **Note:** The `validate-module-taxonomy` hook requires your repository to be
+> a git repository and have `git` installed. It will fail (exit 2) if run in a
+> non-git checkout.
 
 ### Remote-repo (recommended)
 

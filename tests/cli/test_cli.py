@@ -62,7 +62,7 @@ def test_invalid_yaml_exit_two(
 
 @pytest.mark.parametrize(
     "subcommand,needs_git",
-    [("validate", False), ("check-registration", True), ("validate-paths", False)],
+    [("validate", True), ("check-registration", True), ("validate-paths", False)],
 )
 def test_root_flag_respected(
     capsys: pytest.CaptureFixture[str],
@@ -119,7 +119,7 @@ def test_validate_main_unexpected_exception_returns_fatal(
 # ---------------------------------------------------------------------------
 
 
-def test_module_entry_valid_yaml_exit_zero(tmp_path: Path) -> None:
+def test_module_entry_valid_yaml_exit_zero(git_repo: Path) -> None:
     """``python -m robotsix_modules validate`` on valid YAML exits 0."""
     proc = subprocess.run(
         [
@@ -129,7 +129,7 @@ def test_module_entry_valid_yaml_exit_zero(tmp_path: Path) -> None:
             "validate",
             VALID,
             "--root",
-            str(tmp_path),
+            str(git_repo),
         ],
         capture_output=True,
         text=True,
@@ -177,11 +177,11 @@ def _resolve_script(name: str) -> str:
 # -- robotsix-modules -------------------------------------------------------
 
 
-def test_script_modules_valid_yaml_exit_zero(tmp_path: Path) -> None:
+def test_script_modules_valid_yaml_exit_zero(git_repo: Path) -> None:
     """``robotsix-modules validate`` on valid YAML exits 0."""
     script = _resolve_script("robotsix-modules")
     proc = subprocess.run(
-        [script, "validate", VALID, "--root", str(tmp_path)],
+        [script, "validate", VALID, "--root", str(git_repo)],
         capture_output=True,
         text=True,
     )
@@ -217,11 +217,11 @@ def test_script_modules_invalid_yaml_exit_nonzero(tmp_path: Path) -> None:
 # -- robotsix-modules-validate ----------------------------------------------
 
 
-def test_script_validate_valid_yaml_exit_zero(tmp_path: Path) -> None:
+def test_script_validate_valid_yaml_exit_zero(git_repo: Path) -> None:
     """``robotsix-modules-validate`` on valid YAML exits 0."""
     script = _resolve_script("robotsix-modules-validate")
     proc = subprocess.run(
-        [script, VALID, "--root", str(tmp_path)],
+        [script, VALID, "--root", str(git_repo)],
         capture_output=True,
         text=True,
     )
