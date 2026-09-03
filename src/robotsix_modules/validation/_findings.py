@@ -198,7 +198,9 @@ def _find_unclassified(
     the change non-breaking for taxonomies that already list scaffolding.
     """
     patterns = (
-        DEFAULT_EXCLUDED_PATHS if excluded_paths is None else tuple(excluded_paths)
+        DEFAULT_EXCLUDED_PATHS
+        if excluded_paths is None
+        else DEFAULT_EXCLUDED_PATHS + tuple(excluded_paths)
     )
     findings: list[RegistrationFinding] = []
     unclassified = sorted(

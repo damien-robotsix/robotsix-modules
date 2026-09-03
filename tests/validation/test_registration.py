@@ -571,8 +571,14 @@ class TestRepoHealthExclusions:
         unclassified = [f for f in findings if f.kind == FindingKind.UNCLASSIFIED_FILE]
         assert [f.file for f in unclassified] == ["src/orphan/stray.py"]
 
-    def test_taxonomy_can_replace_the_defaults(self, tmp_path: Path) -> None:
-        """An explicit list REPLACES the defaults rather than extending them."""
+    def test_taxonomy_extends_the_defaults(self, tmp_path: Path) -> None:
+        """An explicit list EXTENDS the defaults rather than replacing them.
+
+        Regression for the reconciled contract: a default-scaffolding file
+        (``.pre-commit-config.yaml``) AND a custom ``excluded_paths`` entry
+        (``vendor/**``) are both exempt in the same run — the repo names only
+        its extra scaffolding and inherits the rest.
+        """
         taxonomy = {**SINGLE_MODULE_TAXONOMY, "excluded_paths": ["vendor/**"]}
         _stage(tmp_path, "vendor/lib.js", ".pre-commit-config.yaml")
         findings = check_registration(
@@ -583,20 +589,23 @@ class TestRepoHealthExclusions:
         unclassified = [
             f.file for f in findings if f.kind == FindingKind.UNCLASSIFIED_FILE
         ]
-        # vendor/ is now exempt; the default scaffolding exemption is gone.
-        assert unclassified == [".pre-commit-config.yaml"]
+        # vendor/ AND the default scaffolding exemption are both in force.
+        assert unclassified == []
 
-    def test_empty_list_restores_full_coverage(self, tmp_path: Path) -> None:
-        """A repo that wants every file claimed can opt back in."""
+    def test_empty_list_still_inherits_defaults(self, tmp_path: Path) -> None:
+        """An empty list adds nothing but still inherits the built-in defaults."""
         taxonomy = {**SINGLE_MODULE_TAXONOMY, "excluded_paths": []}
-        _stage(tmp_path, "LICENSE", "src/example/mod.py")
+        _stage(tmp_path, "LICENSE", "src/orphan/stray.py", "src/example/mod.py")
         findings = check_registration(
-            taxonomy, tmp_path, tracked_files=["LICENSE", "src/example/mod.py"]
+            taxonomy,
+            tmp_path,
+            tracked_files=["LICENSE", "src/orphan/stray.py", "src/example/mod.py"],
         )
         unclassified = [
             f.file for f in findings if f.kind == FindingKind.UNCLASSIFIED_FILE
         ]
-        assert unclassified == ["LICENSE"]
+        # LICENSE stays exempt via the defaults; a real orphan is still reported.
+        assert unclassified == ["src/orphan/stray.py"]
 
     def test_nested_scaffolding_matches_across_separators(self, tmp_path: Path) -> None:
         """`**` must cross directory separators, as it does in module paths."""
