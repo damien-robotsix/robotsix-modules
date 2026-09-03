@@ -163,7 +163,17 @@ def _validate_one(
 
     logger.info("validating %s", path)
     schema_errors = validate(taxonomy, schema=schema)
-    coverage_errors = check_coverage(taxonomy, Path(root))
+
+    # The coverage check presupposes a structurally valid taxonomy; skip it when
+    # schema validation already found problems with the file.
+    if not schema_errors:
+        try:
+            coverage_errors = check_coverage(taxonomy, Path(root))
+        except GitOperationError as exc:
+            logger.error("cannot run coverage check in %s: %s", root, exc)
+            return ExitCode.FATAL
+    else:
+        coverage_errors = []
 
     all_errors = schema_errors + coverage_errors
 
@@ -417,12 +427,22 @@ def validate_main(argv: list[str] | None = None) -> ExitCode:
             _emit_results(errors, args.output_format, all_errors)
 
         # Supplement schema validation with a coverage check (once, not per-path).
-        if exit_code != ExitCode.FATAL:
+        # The coverage check presupposes a structurally valid taxonomy, so it
+        # only runs when schema validation found no problems.
+        if exit_code == ExitCode.OK:
             coverage_errors: list[str] = []
             for path in args.paths:
                 taxonomy = _safe_load_yaml(path)
                 if taxonomy is not None:
-                    coverage_errors.extend(check_coverage(taxonomy, Path(args.root)))
+                    try:
+                        coverage_errors.extend(
+                            check_coverage(taxonomy, Path(args.root))
+                        )
+                    except GitOperationError as exc:
+                        logger.error(
+                            "cannot run coverage check in %s: %s", args.root, exc
+                        )
+                        exit_code = ExitCode.FATAL
                     break  # only need one valid taxonomy for coverage
             if coverage_errors:
                 exit_code = ExitCode.ERRORS

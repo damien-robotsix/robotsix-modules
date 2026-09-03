@@ -71,11 +71,11 @@ class TestValidate:
         err_substrs: list[str],
         out_empty: bool,
         err_empty: bool,
-        tmp_path: Path,
+        git_repo: Path,
     ) -> None:
-        # Isolate coverage check: use a non-git temp dir so check_coverage
-        # gracefully returns [] rather than scanning the real repo.
-        args = list(args) + ["--root", str(tmp_path)]
+        # Isolate coverage check: run inside a git repo so check_coverage
+        # reports no errors rather than scanning the real repo.
+        args = list(args) + ["--root", str(git_repo)]
         code = main(args)
         captured = capsys.readouterr()
         assert code == exit_code
@@ -134,10 +134,10 @@ class TestValidate:
         file_path: str,
         exit_code: ExitCode,
         expect_errors: bool,
-        tmp_path: Path,
+        git_repo: Path,
     ) -> None:
         code = main(
-            ["validate", file_path, "--output-format", "json", "--root", str(tmp_path)]
+            ["validate", file_path, "--output-format", "json", "--root", str(git_repo)]
         )
         captured = capsys.readouterr()
         assert code == exit_code
@@ -168,6 +168,18 @@ class TestValidate:
         assert "file not found" in captured.err
         assert captured.out == ""
 
+    def test_validate_non_git_root_exit_two(
+        self,
+        capsys: pytest.CaptureFixture[str],
+        tmp_path: Path,
+    ) -> None:
+        """validate in a non-git --root exits FATAL, not a silent pass."""
+        code = main(["validate", VALID, "--root", str(tmp_path)])
+        captured = capsys.readouterr()
+        assert code == ExitCode.FATAL
+        assert "cannot run coverage check" in captured.err
+        assert "git ls-files failed" in captured.err
+
 
 # ===================================================================
 # validate_main  (robotsix-modules-validate)
@@ -196,9 +208,9 @@ class TestValidateMain:
         exit_code: ExitCode,
         err_substrs: list[str],
         err_empty: bool,
-        tmp_path: Path,
+        git_repo: Path,
     ) -> None:
-        code = validate_main([*args, "--root", str(tmp_path)])
+        code = validate_main([*args, "--root", str(git_repo)])
         captured = capsys.readouterr()
         assert code == exit_code
         if err_empty:
@@ -242,9 +254,9 @@ class TestValidateMain:
         args: list[str],
         exit_code: ExitCode,
         expect_errors: bool,
-        tmp_path: Path,
+        git_repo: Path,
     ) -> None:
-        code = validate_main([*args, "--root", str(tmp_path)])
+        code = validate_main([*args, "--root", str(git_repo)])
         captured = capsys.readouterr()
         assert code == exit_code
         payload = json.loads(captured.out)
@@ -307,6 +319,18 @@ class TestValidateMain:
         captured = capsys.readouterr()
         assert code == ExitCode.FATAL
         assert "invalid YAML in schema" in captured.err
+
+    def test_validate_main_non_git_root_exit_two(
+        self,
+        capsys: pytest.CaptureFixture[str],
+        tmp_path: Path,
+    ) -> None:
+        """validate_main in a non-git --root exits FATAL, not a silent pass."""
+        code = validate_main([VALID, "--root", str(tmp_path)])
+        captured = capsys.readouterr()
+        assert code == ExitCode.FATAL
+        assert "cannot run coverage check" in captured.err
+        assert "git ls-files failed" in captured.err
 
 
 # ===================================================================

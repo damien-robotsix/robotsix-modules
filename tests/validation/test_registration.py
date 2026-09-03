@@ -487,13 +487,13 @@ def test_check_coverage_unclassified(tmp_path: Path) -> None:
     assert "not claimed" in errors[0].lower()
 
 
-def test_check_coverage_non_git_graceful(tmp_path: Path) -> None:
-    """Non-git directory → graceful no-op, returns []."""
-    errors = check_coverage(
-        {"modules": [{"id": "x", "description": "x", "paths": ["src/x/**"]}]},
-        tmp_path,
-    )
-    assert errors == []
+def test_check_coverage_non_git_raises(tmp_path: Path) -> None:
+    """Non-git directory → GitOperationError propagates (like check_registration)."""
+    with pytest.raises(GitOperationError):
+        check_coverage(
+            {"modules": [{"id": "x", "description": "x", "paths": ["src/x/**"]}]},
+            tmp_path,
+        )
 
 
 def test_check_coverage_ignores_stale_and_duplicates(tmp_path: Path) -> None:
