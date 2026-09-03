@@ -12,6 +12,7 @@ from robotsix_modules._yaml import read_yaml_file
 from robotsix_modules.validation import FindingKind
 from robotsix_modules.validation.registration import (
     check_coverage,
+    check_dependencies,
     check_registration,
     validate_paths,
 )
@@ -626,3 +627,79 @@ class TestRepoHealthExclusions:
         assert [
             f for f in findings if f.kind == FindingKind.DUPLICATE_REGISTRATION
         ] == []
+
+
+# ---------------------------------------------------------------------------
+# check_dependencies
+# ---------------------------------------------------------------------------
+
+
+def test_valid_dependencies() -> None:
+    """All declared dependencies exist — no findings."""
+    taxonomy = {
+        "modules": [
+            {"id": "foo", "description": "x", "dependencies": ["bar"]},
+            {"id": "bar", "description": "y"},
+        ]
+    }
+    assert check_dependencies(taxonomy) == []
+
+
+def test_missing_dependency() -> None:
+    """Declared dependency doesn't exist — findings."""
+    taxonomy = {
+        "modules": [
+            {"id": "foo", "description": "x", "dependencies": ["nonexistent"]},
+        ]
+    }
+    findings = check_dependencies(taxonomy)
+    assert len(findings) == 1
+    assert findings[0].kind == FindingKind.INVALID_DEPENDENCY
+    assert findings[0].module_id == "foo"
+    assert findings[0].dependency_id == "nonexistent"
+    assert "nonexistent" in findings[0].message
+
+
+def test_multiple_missing_dependencies() -> None:
+    """Multiple missing dependencies detected."""
+    taxonomy = {
+        "modules": [
+            {"id": "foo", "description": "x", "dependencies": ["bar", "baz"]},
+            {"id": "qux", "description": "y"},
+        ]
+    }
+    findings = check_dependencies(taxonomy)
+    assert len(findings) == 2
+    assert all(f.kind == FindingKind.INVALID_DEPENDENCY for f in findings)
+
+
+def test_no_dependencies() -> None:
+    """Modules without dependencies field — no findings."""
+    taxonomy = {
+        "modules": [
+            {"id": "foo", "description": "x"},
+        ]
+    }
+    assert check_dependencies(taxonomy) == []
+
+
+def test_check_registration_reports_invalid_dependency(tmp_path: Path) -> None:
+    """check_registration surfaces invalid_dependency findings in its output."""
+    taxonomy = {
+        "modules": [
+            {
+                "id": "example",
+                "description": "x",
+                "paths": ["src/example/**"],
+                "dependencies": ["missing"],
+            }
+        ]
+    }
+    (tmp_path / "src" / "example").mkdir(parents=True)
+    (tmp_path / "src" / "example" / "foo.py").touch()
+    findings = check_registration(
+        taxonomy, tmp_path, tracked_files=["src/example/foo.py"]
+    )
+    dep_findings = [f for f in findings if f.kind == FindingKind.INVALID_DEPENDENCY]
+    assert len(dep_findings) == 1
+    assert dep_findings[0].dependency_id == "missing"

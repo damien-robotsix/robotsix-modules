@@ -9,4 +9,5 @@ kind
 file
 other_module_id
 module_id
+dependency_id
 path

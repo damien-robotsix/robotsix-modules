@@ -38,6 +38,7 @@ class FindingKind(StrEnum):
     DUPLICATE_REGISTRATION = "duplicate_registration"
     PATH_NOT_FOUND = "path_not_found"
     GLOB_EMPTY = "glob_empty"
+    INVALID_DEPENDENCY = "invalid_dependency"
 
 
 @dataclass(frozen=True)
@@ -49,10 +50,12 @@ class RegistrationFinding:
         message: human-readable one-liner suitable for CLI output.
         file: repo-relative path (set for ``unclassified_file`` and
             ``duplicate_registration``).
-        module_id: module id (set for ``stale_path`` and
-            ``duplicate_registration``).
+        module_id: module id (set for ``stale_path``,
+            ``duplicate_registration`` and ``invalid_dependency``).
         other_module_id: second claimant (set for ``duplicate_registration``
             only).
+        dependency_id: the declared dependency id that does not resolve to an
+            existing module (set for ``invalid_dependency`` only).
     """
 
     kind: FindingKind
@@ -60,6 +63,7 @@ class RegistrationFinding:
     file: str | None = None
     module_id: str | None = None
     other_module_id: str | None = None
+    dependency_id: str | None = None
 
 
 # ---------------------------------------------------------------------------

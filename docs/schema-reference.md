@@ -104,8 +104,10 @@ Other module `id` values that this module consumes (imports, reads, or otherwise
 depends on). Each dependency ID must satisfy the same kebab-case pattern as
 `id`.
 
-Documentation-only for v1; no enforcement is implemented. Omit or use `[]` when
-a module has no internal dependencies.
+Registration validation (`check_registration` / `check_dependencies`) reports an
+`invalid_dependency` finding for any dependency that does not reference an
+existing module `id`. Omit or use `[]` when a module has no internal
+dependencies.
 
 ## Complete example
 
