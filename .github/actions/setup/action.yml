@@ -15,6 +15,11 @@ runs:
     - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
       with:
         enable-cache: true
+        # Jobs that pass sync-args: "" (e.g. gitleaks, lockfile-check) run no
+        # uv command that populates the cache, so the cache dir is never
+        # created. Without this, the post-step `uv cache prune --ci` fails with
+        # "Cache path ... does not exist on disk".
+        ignore-nothing-to-cache: true
         python-version: ${{ inputs.python-version }}
     - if: ${{ inputs.sync-args != '' }}
       shell: bash
