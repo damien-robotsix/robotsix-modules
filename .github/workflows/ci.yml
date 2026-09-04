@@ -140,7 +140,7 @@ jobs:
       - name: Install gitleaks (integrity via Go checksum DB)
         run: go install github.com/gitleaks/gitleaks/v8@v8.30.1
       - name: Gitleaks secrets scan
-        run: "$(go env GOBIN)/gitleaks" detect --source . --verbose --no-git
+        run: '"$(go env GOPATH)/bin/gitleaks" detect --source . --verbose --no-git'
 
   validate-pyproject:
     name: Validate pyproject.toml
