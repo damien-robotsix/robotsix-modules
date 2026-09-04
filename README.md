@@ -18,13 +18,13 @@ small CLI + Python API to validate it.
 With `uv`:
 
 ```console
-uv add "robotsix-modules @ git+https://github.com/damien-robotsix/robotsix-modules@v0.4.2" # x-release-please-version
+uv add "robotsix-modules @ git+https://github.com/damien-robotsix/robotsix-modules@v0.5.0" # x-release-please-version
 ```
 
 With `pip`, using the git-URL form:
 
 ```console
-pip install "robotsix-modules @ git+https://github.com/damien-robotsix/robotsix-modules@v0.4.2" # x-release-please-version
+pip install "robotsix-modules @ git+https://github.com/damien-robotsix/robotsix-modules@v0.5.0" # x-release-please-version
 ```
 
 ## CLI
