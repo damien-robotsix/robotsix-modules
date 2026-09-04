@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "robotsix-modules"
-version = "0.5.0"
+version = "0.5.1"
 description = "Shared JSON-Schema-driven module-taxonomy validation for robotsix projects."
 requires-python = ">=3.14"
 license = "MIT"
