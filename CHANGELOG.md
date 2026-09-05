@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1](https://github.com/damien-robotsix/robotsix-modules/compare/v0.5.0...v0.5.1) (2026-09-04)
+
+
+### Documentation
+
+* Remove stale towncrier-era changelog-fragment checkbox from PR template and dead anchors (20260904T131804Z-remove-stale-towncrier-era-changelog-fra-be3c) ([#322](https://github.com/damien-robotsix/robotsix-modules/issues/322)) ([a5ecf20](https://github.com/damien-robotsix/robotsix-modules/commit/a5ecf203e06042853b132a39244c9c9adadee446))
+
 ## [0.5.0](https://github.com/damien-robotsix/robotsix-modules/compare/v0.4.2...v0.5.0) (2026-09-03)
 
 
