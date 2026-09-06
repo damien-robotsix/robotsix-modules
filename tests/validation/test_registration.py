@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import subprocess
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -31,7 +32,7 @@ _MISSING = object()
 
 
 def _assert_finding(
-    findings: list,
+    findings: list[Any],
     idx: int = 0,
     *,
     kind: str | None = None,

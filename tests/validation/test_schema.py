@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 from robotsix_modules import SCHEMA_PATH, validate
 from robotsix_modules._yaml import read_yaml_file
@@ -102,8 +103,8 @@ def test_schema_reference_doc_matches_schema() -> None:
     doc = doc_path.read_text(encoding="utf-8")
 
     # ── Collect all schema field names ──────────────────────────────────
-    top_props: dict[str, dict] = schema["properties"]
-    module_props: dict[str, dict] = schema["$defs"]["module"]["properties"]
+    top_props: dict[str, dict[str, Any]] = schema["properties"]
+    module_props: dict[str, dict[str, Any]] = schema["$defs"]["module"]["properties"]
     top_required: list[str] = schema.get("required", [])
     module_required: list[str] = schema["$defs"]["module"].get("required", [])
 
