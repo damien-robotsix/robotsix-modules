@@ -112,7 +112,12 @@ jobs:
       - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
-      - run: uv run zizmor --format sarif . > zizmor-results.sarif
+      # Collect only workflows/composite-actions/dependabot: zizmor cannot
+      # parse the AGENT.md-mandated `repo: .` (rev: "") dogfood entry in
+      # .pre-commit-config.yaml and aborts the whole audit ("no audit was
+      # performed") when it is collected. Scoping keeps the full GitHub
+      # Actions security audit intact.
+      - run: uv run zizmor --collect=workflows,actions,dependabot --format sarif . > zizmor-results.sarif
       - uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938  # v4.37.9
         if: always()
         with:
