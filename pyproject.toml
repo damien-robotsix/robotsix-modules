@@ -44,6 +44,14 @@ addopts = ["--strict-markers"]
 target-version = "py314"
 line-length = 88
 
+[tool.ruff.format]
+# Markdown code examples use pytest-examples' `#>` output-annotation
+# convention (see tests/test_examples.py). The standalone formatter would
+# rewrite `#>` to `# >`, breaking those doctest markers, so it is excluded
+# from Markdown. pytest-examples' `eval_example.lint()` still enforces ruff
+# formatting on the example bodies, so formatting coverage is preserved.
+exclude = ["*.md"]
+
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "S"]
 
