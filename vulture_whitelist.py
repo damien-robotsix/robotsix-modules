@@ -1,13 +1,18 @@
-# ruff: noqa: B018
-# vulture whitelist — mark false positives below as bare expressions
+# vulture whitelist — reference names below to mark them as intentionally used.
+# The names are passed to a no-op function so the module is never executed but
+# vulture and CodeQL both treat the references as real uses.
 
-# console_scripts entry point (pyproject.toml [project.scripts])
-validate_main  # codeql[py/ineffectual-statement]
 
-# dataclass fields — vulture can't distinguish from unused variables
-kind  # codeql[py/ineffectual-statement]
-file  # codeql[py/ineffectual-statement]
-other_module_id  # codeql[py/ineffectual-statement]
-module_id  # codeql[py/ineffectual-statement]
-dependency_id  # codeql[py/ineffectual-statement]
-path  # codeql[py/ineffectual-statement]
+def _keep(*_names: object) -> None:
+    """No-op: keep referenced names alive for vulture/CodeQL."""
+
+
+_keep(
+    validate_main,  # console_scripts entry point (pyproject.toml [project.scripts])
+    kind,  # dataclass field
+    file,  # dataclass field
+    other_module_id,  # dataclass field
+    module_id,  # dataclass field
+    dependency_id,  # dataclass field
+    path,  # dataclass field
+)
