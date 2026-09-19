@@ -199,6 +199,7 @@ modules:
       and shared test fixtures.
     paths:
       - tests/conftest.py
+      - tests/test_examples.py
 ```
 
 ## Validation
@@ -211,11 +212,10 @@ robotsix-modules validate path/to/modules.yaml
 
 Or in Python:
 
-```python
+```py
 from robotsix_modules import validate_file
 
-errors = validate_file("path/to/modules.yaml")
-if errors:
-    for e in errors:
-        print(e)
+errors = validate_file("docs/modules.yaml")
+print(errors)
+#> []
 ```

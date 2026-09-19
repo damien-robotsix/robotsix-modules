@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: $/.github/actions/setup
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
           sync-args: "--resolution lowest-direct --group dev --group test"
@@ -53,7 +53,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: $/.github/actions/setup
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
           sync-args: ""
@@ -71,7 +71,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: $/.github/actions/setup
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
           sync-args: ""
@@ -90,7 +90,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: $/.github/actions/setup
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
       - run: uv run vulture src/ vulture_whitelist.py
@@ -109,10 +109,15 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: $/.github/actions/setup
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
-      - run: uv run zizmor --format sarif . > zizmor-results.sarif
+      # Collect only workflows/composite-actions/dependabot: zizmor cannot
+      # parse the AGENT.md-mandated `repo: .` (rev: "") dogfood entry in
+      # .pre-commit-config.yaml and aborts the whole audit ("no audit was
+      # performed") when it is collected. Scoping keeps the full GitHub
+      # Actions security audit intact.
+      - run: uv run zizmor --collect=workflows,actions,dependabot --format sarif . > zizmor-results.sarif
       - uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938  # v4.37.9
         if: always()
         with:
@@ -130,7 +135,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: $/.github/actions/setup
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
           sync-args: ""
@@ -155,10 +160,27 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: $/.github/actions/setup
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
       - run: uv run validate-pyproject
+
+  doc-examples:
+    name: Documentation examples
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1  # v2.21.1
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
+        with:
+          python-version: "3.14"
+      - name: Test documentation examples
+        run: uv run pytest tests/test_examples.py
 
   mkdocs-build:
     name: MkDocs build
@@ -171,7 +193,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: $/.github/actions/setup
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
           sync-args: "--locked --group docs"
@@ -188,7 +210,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: $/.github/actions/setup
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
       - name: Check version consistency
@@ -217,7 +239,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: $/.github/actions/setup
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
       - run: uv run robotsix-modules check-registration docs/modules.yaml --root .
@@ -233,7 +255,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: $/.github/actions/setup
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
       - name: Check schema-reference example matches modules.yaml
@@ -321,7 +343,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: $/.github/actions/setup
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
           sync-args: ""
@@ -368,7 +390,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: $/.github/actions/setup
+      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
         with:
           python-version: "3.14"
           sync-args: "--locked"

@@ -83,3 +83,4 @@ modules:
       and shared test fixtures.
     paths:
       - tests/conftest.py
+      - tests/test_examples.py
