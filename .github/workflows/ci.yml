@@ -118,7 +118,7 @@ jobs:
       # performed") when it is collected. Scoping keeps the full GitHub
       # Actions security audit intact.
       - run: uv run zizmor --collect=workflows,actions,dependabot --format sarif . > zizmor-results.sarif
-      - uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938  # v4.37.9
+      - uses: github/codeql-action/upload-sarif@b96794f015dfd88f77b49b1c93e0fa7110f94c63  # v4.38.0
         if: always()
         with:
           sarif_file: zizmor-results.sarif
@@ -395,7 +395,7 @@ jobs:
           python-version: "3.14"
           sync-args: "--locked"
       - run: uv audit --output-format sarif > uv-audit.sarif
-      - uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938  # v4.37.9
+      - uses: github/codeql-action/upload-sarif@b96794f015dfd88f77b49b1c93e0fa7110f94c63  # v4.38.0
         if: always()
         with:
           sarif_file: uv-audit.sarif
