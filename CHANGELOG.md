@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.2](https://github.com/damien-robotsix/robotsix-modules/compare/v0.5.1...v0.5.2) (2026-09-22)
+
+
+### Bug Fixes
+
+* ci_fix: out-of-scope CI failure — CodeQL code-scanning, Zizmor workflow audit (20260918T194847Z-ci-fix-out-of-scope-ci-failure-codeql-co-2b23) ([#334](https://github.com/damien-robotsix/robotsix-modules/issues/334)) ([9a004e7](https://github.com/damien-robotsix/robotsix-modules/commit/9a004e71b8895163d694570d1a0e62ccf7028aab))
+
 ## [0.5.1](https://github.com/damien-robotsix/robotsix-modules/compare/v0.5.0...v0.5.1) (2026-09-04)
 
 
