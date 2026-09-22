@@ -45,62 +45,63 @@ output formats, and pre-commit integration — see
 
 ## Python API
 
-```python
-from robotsix_modules import (
-    validate,
-    validate_file,
-    load_taxonomy,
-    SCHEMA_PATH,
-    check_registration,
-    validate_paths,
-    RegistrationFinding,
-    PathFinding,
-)
+```py
+from robotsix_modules import validate, validate_file
 
 errors = validate(
     {"modules": [{"id": "foo", "description": "x", "paths": ["src/foo.py"]}]}
 )
-assert errors == []
+print(errors)
+#> []
 
 errors = validate({})
-assert errors  # ["modules: 'modules' is a required property"]
+print(errors)
+#> ["<root>: 'modules' is a required property"]
 
 errors = validate_file("docs/modules.yaml")
+print(errors)
+#> []
 ```
 
-```python
+```py
 from pathlib import Path
-from robotsix_modules import check_registration, check_coverage, validate_paths
+
+from robotsix_modules import (
+    check_coverage,
+    check_registration,
+    load_taxonomy,
+    validate_paths,
+)
 from robotsix_modules._exceptions import GitOperationError
 
 taxonomy = load_taxonomy("docs/modules.yaml")
 root = Path(".")
 
 try:
-    findings = check_registration(taxonomy, root)
-    for f in findings:
-        print(f.kind, f.message)
+    registration_findings = check_registration(taxonomy, root)
+    coverage_errors = check_coverage(taxonomy, root)
+    path_findings = validate_paths(taxonomy, root)
 except GitOperationError as exc:
     print(f"git error: {exc}")
-
-try:
-    errors = check_coverage(taxonomy, root)
-    for error in errors:
+else:
+    for finding in registration_findings:
+        print(finding.kind, finding.message)
+    for error in coverage_errors:
         print(error)
-except GitOperationError as exc:
-    print(f"git error: {exc}")
-
-findings = validate_paths(taxonomy, root)
-for f in findings:
-    print(f.kind, f.module_id, f.path, f.message)
+    for finding in path_findings:
+        print(finding.kind, finding.module_id, finding.path, finding.message)
 ```
 
-```python
+```py
+from robotsix_modules import FindingKind, RegistrationFinding
+
 finding = RegistrationFinding(
     kind=FindingKind.UNCLASSIFIED_FILE,
     message="File 'src/orphan.py' is not claimed by any module",
     file="src/orphan.py",
 )
+print(finding.kind.value)
+#> unclassified_file
 ```
 
 - `load_taxonomy(path)` — load a `modules.yaml` and return a dict.

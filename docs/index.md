@@ -12,14 +12,13 @@ taxonomy files.
 
 ## Quick start
 
-```python
+```py
 from robotsix_modules import load_taxonomy, validate
 
-taxonomy = load_taxonomy("modules.yaml")
+taxonomy = load_taxonomy("docs/modules.yaml")
 errors = validate(taxonomy)
-if errors:
-    for e in errors:
-        print(e)
+print(errors)
+#> []
 ```
 
 ## Public API
