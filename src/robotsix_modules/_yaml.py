@@ -42,3 +42,34 @@ def read_yaml_file(path: Path) -> dict[str, Any]:
             f"expected a YAML mapping at the document root, got {type(result).__name__}"
         )
     return result
+
+
+class YamlWriteError(ConfigError):
+    """Raised when a file cannot be written."""
+
+
+def dump_yaml(data: dict[str, Any]) -> str:
+    """Serialize *data* to a YAML string using the canonical dump options.
+
+    Centralizing the ``yaml.dump`` options here keeps serialization
+    consistent across every write site in the package, so in-place and
+    stdout output can never silently drift apart.
+    """
+    return yaml.dump(
+        data,
+        default_flow_style=False,
+        sort_keys=False,
+        allow_unicode=True,
+    )
+
+
+def write_yaml_file(path: Path, data: dict[str, Any]) -> None:
+    """Serialize *data* via :func:`dump_yaml` and write it to *path*.
+
+    Raises:
+        YamlWriteError: file cannot be written.
+    """
+    try:
+        path.write_text(dump_yaml(data), encoding="utf-8")
+    except OSError as exc:
+        raise YamlWriteError(str(exc)) from exc

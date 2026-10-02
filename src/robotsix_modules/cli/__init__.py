@@ -21,7 +21,7 @@ from robotsix_modules._exceptions import (
 from robotsix_modules._yaml import (
     YamlReadError as _YamlReadError,
 )
-from robotsix_modules._yaml import read_yaml_file
+from robotsix_modules._yaml import dump_yaml, read_yaml_file, write_yaml_file
 from robotsix_modules.cli._exit_codes import ExitCode
 from robotsix_modules.validation import (
     check_coverage,
@@ -190,8 +190,6 @@ def _validate_one(
 
 def _migrate_one(path: str, *, in_place: bool) -> ExitCode:
     """Migrate *path* to convention-first format. Return exit code."""
-    import yaml
-
     from robotsix_modules.validation.registration import compute_default_globs
 
     taxonomy = _safe_load_yaml(path)
@@ -201,13 +199,7 @@ def _migrate_one(path: str, *, in_place: bool) -> ExitCode:
     package: str | None = taxonomy.get("package")
     if package is None:
         logger.warning("no 'package' field in %s — nothing to migrate", path)
-        output = yaml.dump(
-            taxonomy,
-            default_flow_style=False,
-            sort_keys=False,
-            allow_unicode=True,
-        )
-        print(output, end="")
+        print(dump_yaml(taxonomy), end="")
         return ExitCode.OK
 
     for module_entry in taxonomy.get("modules", []):
@@ -219,17 +211,11 @@ def _migrate_one(path: str, *, in_place: bool) -> ExitCode:
         elif remaining != existing:
             module_entry["paths"] = remaining
 
-    output = yaml.dump(
-        taxonomy,
-        default_flow_style=False,
-        sort_keys=False,
-        allow_unicode=True,
-    )
     if in_place:
-        Path(path).write_text(output, encoding="utf-8")
+        write_yaml_file(Path(path), taxonomy)
         print(f"Wrote simplified taxonomy to {path}", file=sys.stderr)
     else:
-        print(output, end="")
+        print(dump_yaml(taxonomy), end="")
     return ExitCode.OK
 
 
