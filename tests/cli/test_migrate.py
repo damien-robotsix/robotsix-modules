@@ -9,6 +9,7 @@ from typing import Any
 import pytest
 from conftest import run_missing_file_test
 
+from robotsix_modules._yaml import read_yaml_file, write_yaml_file
 from robotsix_modules.cli import main
 from robotsix_modules.cli._exit_codes import ExitCode
 
@@ -27,20 +28,13 @@ class TestMigrate:
         *,
         filename: str = "modules.yaml",
     ) -> Path:
-        import yaml
-
         p = tmp_path / filename
-        p.write_text(
-            yaml.dump(body, default_flow_style=False, sort_keys=False),
-            encoding="utf-8",
-        )
+        write_yaml_file(p, dict(body))
         return p
 
     @staticmethod
     def _load_yaml(path: str | Path) -> Any:
-        import yaml
-
-        return yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+        return read_yaml_file(Path(path))
 
     # ------------------------------------------------------------------
     # sentinels for parametrized path assertions
