@@ -116,7 +116,7 @@ files are needed.
 
 ## Releasing a new version
 
-Releases are cut by maintainers and published to PyPI automatically. Follow
+Releases are cut by maintainers via release-please (no PyPI publish). Follow
 these steps in order:
 
 1. Bump the `version` field under `[project]` in `pyproject.toml`, following
@@ -140,17 +140,11 @@ these steps in order:
    (or update) a release PR that bumps the version and updates `CHANGELOG.md`
    from conventional commit messages. Merge that PR when ready.
 
-4. Merging the release PR creates a GitHub Release automatically. The
-   `v{version}` tag fires `.github/workflows/release.yml`, which calls the
-   `damien-robotsix/robotsix-mill` reusable `python-release.yml` workflow and
-   publishes the package to PyPI via
-   [Trusted Publishing](https://docs.pypi.org/trusted-publishers/) — no manual
-   `twine` or token step is required. Confirm the `Publish to PyPI` workflow run
-   succeeds.
-
-> **Install contract:** The PyPI artifact is installable via a plain
-> `pip install robotsix-modules`. All runtime dependencies are published
-> to PyPI.
+4. Merging the release PR creates a GitHub Release and the `v{version}` tag
+   automatically. The package is **not** published to PyPI: the fleet
+   standards (`distribution-packaging.md`) prohibit publishing to public
+   registries, and consumers pin this repository by git revision
+   (`uv.lock` `source = { git = ... }`).
 
 ## Dependabot
 

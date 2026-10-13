@@ -12,8 +12,9 @@ small CLI + Python API to validate it.
 
 ## Install
 
-> **Note:** The package can be installed via `pip install robotsix-modules`
-> from PyPI. All runtime dependencies are published to PyPI.
+> **Note:** The package is not published to PyPI (the fleet standards prohibit
+> public registries); install it from a git revision, e.g.
+> `pip install git+https://github.com/damien-robotsix/robotsix-modules@<rev>`.
 
 With `uv`:
 
