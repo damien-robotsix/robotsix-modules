@@ -214,6 +214,24 @@ def test_script_modules_invalid_yaml_exit_nonzero(tmp_path: Path) -> None:
     assert "invalid YAML" in proc.stderr
 
 
+@pytest.mark.parametrize(
+    "subcommand",
+    ["validate", "check-registration", "validate-paths", "migrate"],
+)
+def test_script_modules_subcommand_help_valid(subcommand: str) -> None:
+    """``robotsix-modules <subcommand> --help`` is valid and non-empty."""
+    script = _resolve_script("robotsix-modules")
+    proc = subprocess.run(
+        [script, subcommand, "--help"],
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 0, f"help failed: {proc.stderr}"
+    assert proc.stdout, "help output is empty"
+    assert len(proc.stdout) > 20, "help text suspiciously short"
+    assert subcommand in proc.stdout
+
+
 # -- robotsix-modules-validate ----------------------------------------------
 
 
