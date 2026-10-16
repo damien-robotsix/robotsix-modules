@@ -270,3 +270,17 @@ def test_script_validate_invalid_yaml_exit_nonzero(tmp_path: Path) -> None:
     )
     assert proc.returncode != 0, f"returncode={proc.returncode}, stderr: {proc.stderr}"
     assert "invalid YAML" in proc.stderr
+
+
+def test_script_validate_help_valid() -> None:
+    """``robotsix-modules-validate --help`` is valid and non-empty."""
+    script = _resolve_script("robotsix-modules-validate")
+    proc = subprocess.run(
+        [script, "--help"],
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 0, f"help failed: {proc.stderr}"
+    assert proc.stdout, "help output is empty"
+    assert len(proc.stdout) > 20, "help text suspiciously short"
+    assert "robotsix-modules-validate" in proc.stdout
