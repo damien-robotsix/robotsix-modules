@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.4](https://github.com/damien-robotsix/robotsix-modules/compare/v0.5.3...v0.5.4) (2026-10-28)
+
+
+### Bug Fixes
+
+* ci_fix: out-of-scope CI failure — SBOM + audit, security / Security, check / Tests (20261028T111207Z-ci-fix-out-of-scope-ci-failure-sbom-audi-aa80) ([#355](https://github.com/damien-robotsix/robotsix-modules/issues/355)) ([5b80613](https://github.com/damien-robotsix/robotsix-modules/commit/5b806133d6c381b6db5d5526e9539d212f3cc625))
+
 ## [0.5.3](https://github.com/damien-robotsix/robotsix-modules/compare/v0.5.2...v0.5.3) (2026-10-13)
 
 
