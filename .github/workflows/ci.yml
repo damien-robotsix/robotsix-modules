@@ -60,24 +60,13 @@ jobs:
       - run: uv lock --check
 
   dependency-review:
-    name: Dependency review
-    runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2  # v2.22.2
-        with:
-          egress-policy: audit
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
-        with:
-          python-version: "3.14"
-          sync-args: ""
-      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
-        with:
-          fail-on-severity: moderate
+    permissions:
+      contents: read
+      pull-requests: write  # documented exception: shared workflow posts the PR summary comment
+    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/dependency-review.yml@47523e8aa2d34d41da060d29b57f75ab262cb840  # v1.4.0
+    with:
+      fail-on-severity: moderate
 
   vulture:
     name: Vulture dead code scan
