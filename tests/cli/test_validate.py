@@ -177,6 +177,7 @@ class TestValidate:
         code = main(["validate", VALID, "--root", str(tmp_path)])
         captured = capsys.readouterr()
         assert code == ExitCode.FATAL
+        assert ExitCode.FATAL.value == 2
         assert "cannot run coverage check" in captured.err
         assert "git ls-files failed" in captured.err
 
