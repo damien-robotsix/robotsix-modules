@@ -10,4 +10,6 @@ class ExitCode(IntEnum):
 
     OK = 0  # All checks passed
     ERRORS = 1  # Validation/path/registration errors found
-    FATAL = 2  # Taxonomy or schema file could not be loaded
+    # Taxonomy/schema file could not be loaded, or a git operation failed
+    # (e.g. non-git --root)
+    FATAL = 2
