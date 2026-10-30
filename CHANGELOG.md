@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.5](https://github.com/damien-robotsix/robotsix-modules/compare/v0.5.4...v0.5.5) (2026-10-30)
+
+
+### Documentation
+
+* Align ExitCode.FATAL docstring with documented git-error exit code (20261030T160140Z-align-exitcode-fatal-docstring-with-docu-fee6) ([#358](https://github.com/damien-robotsix/robotsix-modules/issues/358)) ([709d21d](https://github.com/damien-robotsix/robotsix-modules/commit/709d21dbcebc9ddec663f7d04a3d0829a43ef2bb))
+
 ## [0.5.4](https://github.com/damien-robotsix/robotsix-modules/compare/v0.5.3...v0.5.4) (2026-10-28)
 
 

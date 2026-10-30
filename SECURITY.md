@@ -4,7 +4,7 @@
 
 ### Package versions
 
-Only the latest release (currently **v0.5.4**) receives security patches. Older <!-- x-release-please-version -->
+Only the latest release (currently **v0.5.5**) receives security patches. Older <!-- x-release-please-version -->
 releases are not supported — if you discover a vulnerability in an earlier
 version, please upgrade to the latest release first and verify the issue still
 reproduces.
