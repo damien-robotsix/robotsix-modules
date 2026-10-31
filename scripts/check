@@ -1,18 +1,35 @@
 #!/usr/bin/env bash
+# Single local entrypoint mirroring the CI gates in .github/workflows/ci.yml.
+# Gates run in order and stop at the first failure with a non-zero exit code.
+# Keep GATES in sync with ci.yml — this list is the one place to edit locally.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-echo "=== lint ==="
-"$(dirname "$0")/lint"
-echo "=== deptry ==="
-uv run deptry .
-echo "=== bandit ==="
-uv run bandit -c pyproject.toml -r src/
-echo "=== uv audit ==="
-uv audit
-echo "=== pytest ==="
-uv run pytest --cov --cov-report=xml --cov-report=term-missing
-echo "=== check-registration ==="
-uv run robotsix-modules check-registration docs/modules.yaml --root .
-echo "=== mkdocs build --strict ==="
-uv run --group docs mkdocs build --strict
+
+GATES=(
+  "ruff check|uv run ruff check ."
+  "ruff format --check|uv run ruff format --check ."
+  "mypy|uv run mypy src tests"
+  "deptry|uv run deptry ."
+  "vulture|uv run vulture src/ vulture_whitelist.py"
+  "check-registration|uv run robotsix-modules check-registration docs/modules.yaml --root ."
+  "schema-reference sync|uv run python scripts/check_schema_reference_sync.py"
+  "pytest|uv run pytest --cov --cov-report=xml --cov-report=term-missing"
+  "bandit|uv run bandit -c pyproject.toml -r src/"
+  "uv audit|uv audit"
+  "markdownlint|uv run --with pre-commit pre-commit run markdownlint-cli2 --all-files -- --fix"
+  "mdformat|uv run --with pre-commit pre-commit run mdformat --all-files"
+  "mkdocs build --strict|uv run --group docs mkdocs build --strict"
+)
+
+for gate in "${GATES[@]}"; do
+  name="${gate%%|*}"
+  cmd="${gate#*|}"
+  echo "=== ${name} ==="
+  # Word-splitting of $cmd is intentional: gate commands contain no globs.
+  # shellcheck disable=SC2086
+  if ! ${cmd}; then
+    echo "FAILED: gate '${name}' (${cmd})" >&2
+    exit 1
+  fi
+done
 echo "=== all checks passed ==="
