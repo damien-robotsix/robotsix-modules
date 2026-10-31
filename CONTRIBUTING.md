@@ -62,16 +62,24 @@ for any behavior you introduce.
 
 ## Linting, formatting, and static checks
 
-For a quick run of the lint and type-check gates, use the convenience scripts:
+The single command that runs every CI gate locally is:
 
 ```console
-scripts/lint       # ruff + mypy
-scripts/check      # full CI gate: lint, type-check, deptry, bandit, uv audit, pytest
+scripts/check
 ```
 
-These are thin wrappers around the `uv run ...` commands below. CI gates every
-change on the following commands. Run them locally to make sure your change
-passes before pushing:
+It runs, in order, `ruff check`, `ruff format --check`, `mypy`, `deptry`,
+`vulture`, `check-registration` on `docs/modules.yaml`, the schema-reference
+sync check (`scripts/check_schema_reference_sync.py`, also used by CI), and
+`pytest`, followed by `bandit`, `uv audit`, the Markdown linters and
+`mkdocs build --strict`. It stops at the first failing gate, names it, and exits
+non-zero. The gate list lives in the `GATES` array in `scripts/check` — keep it
+in sync with `.github/workflows/ci.yml`.
+
+For a quick run of only the lint, type-check and Markdown gates, use
+`scripts/lint`.
+
+The individual commands CI gates every change on include:
 
 ```console
 uv run ruff check .

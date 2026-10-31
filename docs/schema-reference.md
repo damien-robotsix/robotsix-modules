@@ -130,6 +130,7 @@ modules:
       - README.md
       - CHANGELOG.md
       - release-please-config.json
+      - .release-please-manifest.json
       - LICENSE
       - SECURITY.md
       - CODE_OF_CONDUCT.md
@@ -148,6 +149,7 @@ modules:
       - .github/dependabot.yml
       - .github/actions/setup/action.yml
       - .github/workflows/**
+      - .github/workflows/release-please.yml
       - .github/ISSUE_TEMPLATE/**
       - .github/PULL_REQUEST_TEMPLATE.md
       - .robotsix-mill/**
