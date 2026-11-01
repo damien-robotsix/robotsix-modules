@@ -56,8 +56,8 @@ parser or call `yaml.dump` directly.
 ## CI invariants
 
 The `.pre-commit-config.yaml` runs: `ruff` (lint + format), `mypy` (type
-check), `bandit` (SAST), `gitleaks` (secrets detection), `zizmor` (workflow
-audit), `vulture` (dead code), `validate-module-taxonomy` (validates
+check), `bandit` (SAST), `detect-secrets` (secrets detection), `zizmor`
+(workflow audit), `vulture` (dead code), `validate-module-taxonomy` (validates
 `docs/modules.yaml` against the bundled JSON Schema), `validate-pyproject`,
 `mdformat` + `markdownlint-cli2` (Markdown formatting/linting), and the
 `pre-commit-hooks` suite (trailing-whitespace, end-of-file-fixer, check-yaml,
