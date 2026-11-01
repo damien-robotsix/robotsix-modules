@@ -17,13 +17,17 @@ jobs:
     permissions:
       contents: read
       security-events: write  # needed by bandit / audit SARIF uploads inside the reusable workflow
-    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-ci.yml@f6219bfc4b1d44b8d574a7ea022882a2edba1c6c
+    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-ci.yml@86a722f2938c1dda343bbf8d3c5989613cbf1794  # v1.5.0
     with:
       python-version: "3.14"
       cov-package: "robotsix_modules"
       coverage-threshold: "90"
       run-bandit: true
       mypy-advisory: false
+      check-lock: true
+      audit-sarif: true
+      run-vulture: true
+      vulture-args: "src/ vulture_whitelist.py"
 
   lowest-deps-test:
     name: Lowest compatible dependency test
@@ -399,4 +403,4 @@ jobs:
     permissions:
       contents: read
       security-events: write  # needed by bandit / audit SARIF uploads inside the reusable workflow
-    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-security.yml@f6219bfc4b1d44b8d574a7ea022882a2edba1c6c  # main
+    uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-security.yml@86a722f2938c1dda343bbf8d3c5989613cbf1794  # v1.5.0
