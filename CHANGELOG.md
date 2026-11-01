@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0](https://github.com/damien-robotsix/robotsix-modules/compare/v0.5.4...v0.6.0) (2026-11-01)
+
+
+### Features
+
+* Add a single local check entrypoint that mirrors CI's test-job gates (20261031T085512Z-add-a-single-local-check-entrypoint-that-13fd) ([#361](https://github.com/damien-robotsix/robotsix-modules/issues/361)) ([d84617c](https://github.com/damien-robotsix/robotsix-modules/commit/d84617c297130783d422d4044bb4ad96992d0dac))
+
+
+### Documentation
+
+* Align ExitCode.FATAL docstring with documented git-error exit code (20261030T160140Z-align-exitcode-fatal-docstring-with-docu-fee6) ([#358](https://github.com/damien-robotsix/robotsix-modules/issues/358)) ([709d21d](https://github.com/damien-robotsix/robotsix-modules/commit/709d21dbcebc9ddec663f7d04a3d0829a43ef2bb))
+
 ## [0.5.4](https://github.com/damien-robotsix/robotsix-modules/compare/v0.5.3...v0.5.4) (2026-10-28)
 
 
