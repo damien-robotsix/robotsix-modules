@@ -32,6 +32,7 @@ jobs:
   lowest-deps-test:
     name: Lowest compatible dependency test
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2  # v2.22.2
@@ -58,6 +59,7 @@ jobs:
   gitleaks:
     name: Gitleaks secrets scan
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2  # v2.22.2
@@ -83,6 +85,7 @@ jobs:
   validate-pyproject:
     name: Validate pyproject.toml
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2  # v2.22.2
@@ -99,6 +102,7 @@ jobs:
   doc-examples:
     name: Documentation examples
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2  # v2.22.2
@@ -116,6 +120,7 @@ jobs:
   mkdocs-build:
     name: MkDocs build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2  # v2.22.2
@@ -133,6 +138,7 @@ jobs:
   version-check:
     name: Version consistency check
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2  # v2.22.2
@@ -162,6 +168,7 @@ jobs:
   check-registration:
     name: Check module registration
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2  # v2.22.2
@@ -178,6 +185,7 @@ jobs:
   schema-reference-sync:
     name: Schema-reference example sync check
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2  # v2.22.2
@@ -196,6 +204,7 @@ jobs:
   wheel-install:
     name: Wheel install smoketest
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       WORKSPACE: ${{ github.workspace }}
     steps:
@@ -240,6 +249,7 @@ jobs:
   sbom:
     name: SBOM
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: [check]
     if: always()
     steps:
