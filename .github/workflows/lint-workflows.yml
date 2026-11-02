@@ -11,3 +11,4 @@ jobs:
     with:
       run-actionlint: true
       run-zizmor: true
+      sarif-workflows: "codeql.yml python-ci.yml python-security.yml"

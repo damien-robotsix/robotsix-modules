@@ -46,23 +46,6 @@ jobs:
           sync-args: "--resolution lowest-direct --group dev --group test"
       - run: uv run pytest
 
-  lockfile-check:
-    name: Lockfile check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2  # v2.22.2
-        with:
-          egress-policy: audit
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
-        with:
-          python-version: "3.14"
-          sync-args: ""
-      - run: uv lock --check
-
   dependency-review:
     if: github.event_name == 'pull_request'
     permissions:
@@ -71,51 +54,6 @@ jobs:
     uses: damien-robotsix/robotsix-github-workflows/.github/workflows/dependency-review.yml@47523e8aa2d34d41da060d29b57f75ab262cb840  # v1.4.0
     with:
       fail-on-severity: moderate
-
-  vulture:
-    name: Vulture dead code scan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2  # v2.22.2
-        with:
-          egress-policy: audit
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
-        with:
-          python-version: "3.14"
-      - run: uv run vulture src/ vulture_whitelist.py
-
-  zizmor:
-    name: Zizmor workflow audit
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write  # needed for SARIF upload
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2  # v2.22.2
-        with:
-          egress-policy: audit
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
-        with:
-          python-version: "3.14"
-      # Collect only workflows/composite-actions/dependabot: zizmor cannot
-      # parse the AGENT.md-mandated `repo: .` (rev: "") dogfood entry in
-      # .pre-commit-config.yaml and aborts the whole audit ("no audit was
-      # performed") when it is collected. Scoping keeps the full GitHub
-      # Actions security audit intact.
-      - run: uv run zizmor --collect=workflows,actions,dependabot --format sarif . > zizmor-results.sarif
-      - uses: github/codeql-action/upload-sarif@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee  # v4.39.0
-        if: always()
-        with:
-          sarif_file: zizmor-results.sarif
-          category: zizmor
 
   gitleaks:
     name: Gitleaks secrets scan
@@ -300,11 +238,8 @@ jobs:
           ./wheel-env/bin/robotsix-modules validate "$WORKSPACE/docs/modules.yaml"
 
   sbom:
-    name: SBOM + audit
+    name: SBOM
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write  # needed for SARIF upload
     needs: [check]
     if: always()
     steps:
@@ -319,12 +254,6 @@ jobs:
         with:
           python-version: "3.14"
           sync-args: "--locked"
-      - run: uv audit --output-format sarif > uv-audit.sarif
-      - uses: github/codeql-action/upload-sarif@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee  # v4.39.0
-        if: always()
-        with:
-          sarif_file: uv-audit.sarif
-          category: uv-audit
       - run: uv export --format cyclonedx1.5 --output-file sbom.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
