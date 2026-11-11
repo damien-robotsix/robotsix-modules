@@ -27,7 +27,8 @@ def test_dump_yaml_block_style_and_unicode() -> None:
     data = {"name": "café", "items": ["a", "b"]}
     output = dump_yaml(data)
     assert "café" in output  # allow_unicode=True — not escaped
-    assert "{" not in output and "[" not in output  # default_flow_style=False
+    assert "{" not in output  # default_flow_style=False
+    assert "[" not in output
 
 
 def test_dump_yaml_is_stable_round_trip(tmp_path: Path) -> None:

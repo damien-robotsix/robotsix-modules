@@ -24,7 +24,7 @@ from ._findings import (
 from ._paths import (
     _glob_paths,
     _has_glob_metacharacters,
-    compute_default_globs,  # noqa: F401  # re-exported
+    compute_default_globs,  # re-exported
 )
 
 __all__ = [

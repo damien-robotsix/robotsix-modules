@@ -11,5 +11,5 @@ class ExitCode(IntEnum):
     OK = 0  # All checks passed
     ERRORS = 1  # Validation/path/registration errors found
     # Taxonomy/schema file could not be loaded, or a git operation failed
-    # (e.g. non-git --root)
+    # (e.g. non-git --root)  # noqa: ERA001
     FATAL = 2

@@ -54,6 +54,7 @@ except Exception:
     __version__ = "0.0.0.dev0"  # fallback for uninstalled / dev context
 
 __all__ = [
+    "SCHEMA_PATH",
     "ConfigError",
     "ConfigFileNotFoundError",
     "ConfigParseError",
@@ -63,7 +64,6 @@ __all__ = [
     "PathFinding",
     "RegistrationFinding",
     "RobotsixModulesError",
-    "SCHEMA_PATH",
     "YamlReadError",
     "__version__",
     "check_coverage",

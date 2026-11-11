@@ -44,10 +44,10 @@ class ConfigStructureError(ConfigError):
 
 
 __all__ = [
-    "RobotsixModulesError",
-    "GitOperationError",
     "ConfigError",
     "ConfigFileNotFoundError",
     "ConfigParseError",
     "ConfigStructureError",
+    "GitOperationError",
+    "RobotsixModulesError",
 ]

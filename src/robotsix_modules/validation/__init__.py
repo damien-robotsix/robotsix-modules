@@ -31,10 +31,10 @@ from .registration import (
 from .schema import SCHEMA_PATH, load_schema
 
 __all__ = [
+    "SCHEMA_PATH",
     "FindingKind",
     "PathFinding",
     "RegistrationFinding",
-    "SCHEMA_PATH",
     "check_coverage",
     "check_dependencies",
     "check_registration",

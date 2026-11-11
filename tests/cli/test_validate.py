@@ -75,7 +75,7 @@ class TestValidate:
     ) -> None:
         # Isolate coverage check: run inside a git repo so check_coverage
         # reports no errors rather than scanning the real repo.
-        args = list(args) + ["--root", str(git_repo)]
+        args = [*args, "--root", str(git_repo)]
         code = main(args)
         captured = capsys.readouterr()
         assert code == exit_code
@@ -183,7 +183,7 @@ class TestValidate:
 
 
 # ===================================================================
-# validate_main  (robotsix-modules-validate)
+# validate_main  (robotsix-modules-validate)  # noqa: ERA001
 # ===================================================================
 
 
