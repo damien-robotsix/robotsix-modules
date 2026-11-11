@@ -13,7 +13,7 @@ import pytest
 
 pytest.importorskip("pytest_examples")
 
-from pytest_examples import (  # noqa: E402
+from pytest_examples import (
     CodeExample,
     EvalExample,
     find_examples,
