@@ -22,7 +22,7 @@ modules:
       - mkdocs_hooks.py
       - uv.lock
       - .gitignore
-      - .gitleaks.toml
+      - .secrets.baseline
       - .markdownlint-cli2.jsonc
       - .pre-commit-config.yaml
       - .pre-commit-hooks.yaml
