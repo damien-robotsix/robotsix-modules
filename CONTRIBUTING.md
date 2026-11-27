@@ -70,8 +70,9 @@ scripts/check
 
 It runs, in order, `ruff check`, `ruff format --check`, `mypy`, `deptry`,
 `vulture`, `check-registration` on `docs/modules.yaml`, the schema-reference
-sync check (`scripts/check_schema_reference_sync.py`, also used by CI), and
-`pytest`, followed by `bandit`, `uv audit`, the Markdown linters and
+sync check (`scripts/check_schema_reference_sync.py`, also used by CI), the
+version-consistency check (`scripts/check_version_consistency.py`, also used by
+CI), and `pytest`, followed by `bandit`, `uv audit`, the Markdown linters and
 `mkdocs build --strict`. It stops at the first failing gate, names it, and exits
 non-zero. The gate list lives in the `GATES` array in `scripts/check` — keep it
 in sync with `.github/workflows/ci.yml`.
@@ -139,7 +140,7 @@ these steps in order:
    > The following files still require **manual** version-string updates; the CI
    > version-consistency job enforces them:
    >
-   > - `README.md` — the `vX.Y.Z` strings in install examples (3 occurrences).
+   > - `README.md` — the `vX.Y.Z` strings in install examples (2 occurrences).
    > - `SECURITY.md` — the `**vX.Y.Z**` supported-version string.
 
 2. Commit the version bump, push to `main`, and confirm CI is green.

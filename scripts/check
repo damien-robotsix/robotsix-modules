@@ -13,6 +13,7 @@ GATES=(
   "vulture|uv run vulture src/ vulture_whitelist.py"
   "check-registration|uv run robotsix-modules check-registration docs/modules.yaml --root ."
   "schema-reference sync|uv run python scripts/check_schema_reference_sync.py"
+  "version consistency|uv run python scripts/check_version_consistency.py"
   "pytest|uv run pytest --cov --cov-report=xml --cov-report=term-missing"
   "bandit|uv run bandit -c pyproject.toml -r src/"
   "uv audit|uv audit"
