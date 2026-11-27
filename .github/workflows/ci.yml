@@ -151,19 +151,8 @@ jobs:
         with:
           python-version: "3.14"
       - name: Check version consistency
-        run: |
-          PYPROJECT=$(uv run python -c "from tomllib import load; print(load(open('pyproject.toml','rb'))['project']['version'])")
-          CHANGELOG=$(grep -oP '^## \[\K[^\]]+' CHANGELOG.md | head -1)
-          README_VER=$(grep -oP 'v\d+\.\d+\.\d+' README.md | head -3 | sort -u)
-          SECURITY_VER=$(grep -oP '\*\*v\d+\.\d+\.\d+\*\*' SECURITY.md | grep -oP '\d+\.\d+\.\d+')
-          if [ "$PYPROJECT" != "$CHANGELOG" ] || echo "$README_VER" | grep -qvF "$PYPROJECT" || [ "$PYPROJECT" != "$SECURITY_VER" ]; then
-            echo "Version mismatch detected"
-            echo "  pyproject.toml:   $PYPROJECT"
-            echo "  CHANGELOG.md:     $CHANGELOG"
-            echo "  README.md:        $README_VER"
-            echo "  SECURITY.md:      $SECURITY_VER"
-            exit 1
-          fi
+        # Shared with scripts/check so local and CI run the same comparison.
+        run: uv run python scripts/check_version_consistency.py
 
   check-registration:
     name: Check module registration
