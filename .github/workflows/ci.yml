@@ -56,32 +56,6 @@ jobs:
     with:
       fail-on-severity: moderate
 
-  gitleaks:
-    name: Gitleaks secrets scan
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2  # v2.22.2
-        with:
-          egress-policy: audit
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: ./.github/actions/setup  # zizmor: ignore[self-repository]
-        with:
-          python-version: "3.14"
-          sync-args: ""
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e  # v7.0.0
-        with:
-          go-version: "1.24"  # gitleaks v8.30.1 requires Go 1.24
-      - name: Install gitleaks (integrity via Go checksum DB)
-        # gitleaks v8.30.1's go.mod declares module github.com/zricethezav/gitleaks/v8,
-        # so Go rejects the github.com/gitleaks/gitleaks/v8 import path.
-        run: go install github.com/zricethezav/gitleaks/v8@v8.30.1
-      - name: Gitleaks secrets scan
-        run: '"$(go env GOPATH)/bin/gitleaks" detect --source . --verbose --no-git'
-
   validate-pyproject:
     name: Validate pyproject.toml
     runs-on: ubuntu-latest
@@ -275,3 +249,9 @@ jobs:
       contents: read
       security-events: write  # needed by bandit / audit SARIF uploads inside the reusable workflow
     uses: damien-robotsix/robotsix-github-workflows/.github/workflows/python-security.yml@86a722f2938c1dda343bbf8d3c5989613cbf1794  # v1.5.0
+    with:
+      # TruffleHog is the single CI secret scanner (robotsix-standards
+      # security-posture): scan only the PR diff on pull requests and report
+      # verified and unknown findings.
+      trufflehog-pr-diff: true
+      trufflehog-extra-args: "--results=verified,unknown"
